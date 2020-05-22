@@ -1,0 +1,3 @@
+上传到bintray gradlew clean build bintrayUpload -PbintrayUser=ooftf -PbintrayKey=d79eba09134352bdccbfcce0241dcf5ca8d6bf56 -PdryRun=false
+
+bintrayKey=d79eba09134352bdccbfcce0241dcf5ca8d6bf56
