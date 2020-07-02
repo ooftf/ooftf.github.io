@@ -7,7 +7,7 @@
 * [invoke约定](https://www.jianshu.com/p/e802954a0695)
 * 扩展函数
 * inline内联
-
+* [函数库](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/util/Standard.kt)
 
 
 ## init
