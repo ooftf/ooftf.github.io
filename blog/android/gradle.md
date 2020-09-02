@@ -12,11 +12,13 @@ configurations.all {
         force "com.android.support:support-annotations:${supportVersion}"
     }
 }
+## 排除指定引用
 dependencies {
     implementation('some-library') {
         exclude group: 'com.example.imgtools', module: 'native'
     }
 }
+## 在所有库中排除指定引用
 android.testVariants.all { variant ->
     variant.getCompileConfiguration().exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     variant.getRuntimeConfiguration().exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
