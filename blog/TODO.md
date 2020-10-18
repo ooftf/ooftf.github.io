@@ -5,5 +5,5 @@
 
 
 
-#  Tranform API + ASM  可以做AOP
+#  Transform API + ASM  可以做AOP
 #  annotationProcessor + javapoet  可以根据注解生成一些辅助类
