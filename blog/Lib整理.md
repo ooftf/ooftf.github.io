@@ -1,18 +1,18 @@
-|名称|Maven|描述|
-|---|---|---|
-|[HiHttp](https://github.com/ooftf/HiHttp)|[ ![Download](https://api.bintray.com/packages/ooftf/maven/hi-http/images/download.svg) ](https://bintray.com/ooftf/maven/hi-http/_latestVersion)||
-|[basic](https://github.com/ooftf/basic)|[ ![Download](https://api.bintray.com/packages/ooftf/maven/basic/images/download.svg) ](https://bintray.com/ooftf/maven/basic/_latestVersion)||
-|[master-widget-dialog]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-dialog/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-dialog/_latestVersion)||
-|[master-widget-toolbar]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-toolbar/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-toolbar/_latestVersion)||
-|[master-widget-statelayout]()|[ ![master-widget-statelayout](https://api.bintray.com/packages/ooftf/maven/master-widget-statelayout/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-statelayout/_latestVersion)||
-|[arch-frame-mvvm]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/arch-frame-mvvm/images/download.svg) ](https://bintray.com/ooftf/maven/arch-frame-mvvm/_latestVersion)||
-|[JLog]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/JLog/images/download.svg) ](https://bintray.com/ooftf/maven/JLog/_latestVersion)||
-|[autoregister]()|||
-|[dataBinging-extensions]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/dataBinging-extensions/images/download.svg) ](https://bintray.com/ooftf/maven/dataBinging-extensions/_latestVersion)||
-|[http-ui-mapping]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/http-ui-mapping/images/download.svg) ](https://bintray.com/ooftf/maven/http-ui-mapping/_latestVersion)||
-|[master-widget-kv-layout]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-kv-layout/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-kv-layout/_latestVersion)||
-|[okhttp-monitor]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/okhttp-monitor/images/download.svg) ](https://bintray.com/ooftf/maven/okhttp-monitor/_latestVersion)||
-|[publish-bintray]()|[ ![Download](https://api.bintray.com/packages/ooftf/maven/publish-bintray/images/download.svg) ](https://bintray.com/ooftf/maven/publish-bintray/_latestVersion)||
-|[]()|||
-|[]()|||
+|名称|引用|Maven|描述|
+|---|---|---|---|
+|[HiHttp](https://github.com/ooftf/HiHttp)|implementation 'com.ooftf:hi-http:4.2.4-beta1'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/hi-http/images/download.svg) ](https://bintray.com/ooftf/maven/hi-http/_latestVersion)||
+|[basic](https://github.com/ooftf/basic)|implementation 'com.ooftf:basic:0.0.4'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/basic/images/download.svg) ](https://bintray.com/ooftf/maven/basic/_latestVersion)||
+|[master-widget-dialog](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:master-widget-dialog:1.1.0'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-dialog/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-dialog/_latestVersion)||
+|[master-widget-toolbar](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:master-widget-toolbar:1.1.4'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-toolbar/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-toolbar/_latestVersion)||
+|[master-widget-statelayout](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:master-widget-statelayout:1.1.1'|[ ![master-widget-statelayout](https://api.bintray.com/packages/ooftf/maven/master-widget-statelayout/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-statelayout/_latestVersion)||
+|[arch-frame-mvvm](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:arch-frame-mvvm:0.0.4'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/arch-frame-mvvm/images/download.svg) ](https://bintray.com/ooftf/maven/arch-frame-mvvm/_latestVersion)||
+|[JLog](https://github.com/ooftf/JLog)|implementation 'com.ooftf:JLog:1.0.0'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/JLog/images/download.svg) ](https://bintray.com/ooftf/maven/JLog/_latestVersion)||
+|[autoregister](https://github.com/ooftf/AutoRegister)|implementation 'com.ooftf:autoregister:1.4.3'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/autoregister/images/download.svg) ](https://bintray.com/ooftf/maven/autoregister/_latestVersion)||
+|[dataBinging-extensions](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:dataBinging-extensions:1.0.2'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/dataBinging-extensions/images/download.svg) ](https://bintray.com/ooftf/maven/dataBinging-extensions/_latestVersion)||
+|[http-ui-mapping](https://github.com/ooftf/http-ui-mapping)|implementation 'com.ooftf:http-ui-mapping:1.3.0'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/http-ui-mapping/images/download.svg) ](https://bintray.com/ooftf/maven/http-ui-mapping/_latestVersion)||
+|[master-widget-kv-layout](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:master-widget-kv-layout:0.0.1'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-widget-kv-layout/images/download.svg) ](https://bintray.com/ooftf/maven/master-widget-kv-layout/_latestVersion)||
+|[okhttp-monitor](https://github.com/ooftf/okhttp-monitor)|implementation 'com.ooftf:okhttp-monitor:0.0.6'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/okhttp-monitor/images/download.svg) ](https://bintray.com/ooftf/maven/okhttp-monitor/_latestVersion)||
+|[publish-bintray](https://github.com/ooftf/publish-plugin)|implementation 'com.ooftf:publish-bintray:0.0.1'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/publish-bintray/images/download.svg) ](https://bintray.com/ooftf/maven/publish-bintray/_latestVersion)||
+|[OperationEditText](https://github.com/ooftf/OperationEditText)| implementation 'com.github.ooftf:OperationEditText:x.z.y'|[![](https://jitpack.io/v/ooftf/OperationEditText.svg)](https://jitpack.io/#ooftf/OperationEditText)||
+|[]()||||
 
