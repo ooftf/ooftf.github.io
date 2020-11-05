@@ -15,4 +15,4 @@
 |[publish-bintray](https://github.com/ooftf/publish-plugin)|implementation 'com.ooftf:publish-bintray:0.0.1'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/publish-bintray/images/download.svg) ](https://bintray.com/ooftf/maven/publish-bintray/_latestVersion)||
 |[OperationEditText](https://github.com/ooftf/OperationEditText)| implementation 'com.github.ooftf:OperationEditText:x.z.y'|[![](https://jitpack.io/v/ooftf/OperationEditText.svg)](https://jitpack.io/#ooftf/OperationEditText)||
 |[master-unit-activity-manager](https://github.com/ooftf/master-widget)|implementation 'com.ooftf:master-unit-activity-manager:x.z.y'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/master-unit-activity-manager/images/download.svg) ](https://bintray.com/ooftf/maven/master-unit-activity-manager/_latestVersion)||
-
+|[GsonLiveDatAdapter](https://github.com/ooftf/GsonLiveDatAdapter)|implementation 'com.ooftf:gson-livedata-adapter:0.0.1'|[ ![Download](https://api.bintray.com/packages/ooftf/maven/gson-livedata-adapter/images/download.svg) ](https://bintray.com/ooftf/maven/gson-livedata-adapter/_latestVersion)||
