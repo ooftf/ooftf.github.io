@@ -12,3 +12,8 @@ SDK中针对所有的路径(/test/1 /test/2)进行分组，分组只有在分组
 # 只需要在主项目中添加  apply plugin: 'com.alibaba.arouter'   //应该是，没有得到官方回复
 # proguard 
     在使用注解Autowired生成服务的时候，需要添加@keep
+
+
+# 传递List或者Map类型参数
+* 用withObject传递参数
+* 在接收处使用List或者Map 不能用ArrayList或者HashMap
