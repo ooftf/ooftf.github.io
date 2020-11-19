@@ -28,3 +28,12 @@ exclude 在pom文件中不会起作用，只是在本项目中起作用，如果
 transitive = false
 
 publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementation也不用releaseImplementation
+
+## 查看更多错误信息
+    gradlew build --info --stacktrace --debug --scan
+
+
+##
+ kotlinOptions {
+        jvmTarget = '1.8'
+    }
