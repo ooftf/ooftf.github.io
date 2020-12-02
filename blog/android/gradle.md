@@ -17,8 +17,12 @@ dependencies {
     implementation('some-library') {
         exclude group: 'com.example.imgtools', module: 'native'
     }
+    implementation('com.a.b:cc-dd:1.0.0') {
+            exclude group: 'com.abc.def', module: 'yyy'
+        }
 }
-## 在所有库中排除指定引用
+## 在所有库中排除指定引用   (待验证)
+在app 的build.gradle 跟节点使用
 android.testVariants.all { variant ->
     variant.getCompileConfiguration().exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     variant.getRuntimeConfiguration().exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
