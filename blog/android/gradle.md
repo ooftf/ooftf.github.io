@@ -41,3 +41,12 @@ publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementat
  kotlinOptions {
         jvmTarget = '1.8'
     }
+    
+##  Didn't find class "androidx.core.app.CoreComponentFactory"
+ compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
