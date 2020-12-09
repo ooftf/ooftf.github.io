@@ -12,6 +12,16 @@ configurations.all {
         force "com.android.support:support-annotations:${supportVersion}"
     }
 }
+
+app module的build.gradle下添加以下代码
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'com.squareup.okhttp3'
+                && details.requested.name == 'okhttp') {
+            details.useVersion "3.12.1"
+        }
+    }
+}
 ## 排除指定引用
 dependencies {
     implementation('some-library') {
@@ -28,6 +38,7 @@ android.testVariants.all { variant ->
     variant.getRuntimeConfiguration().exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
 }
 exclude 在pom文件中不会起作用，只是在本项目中起作用，如果打包成maven依赖，exclude不起作用
+
 
 transitive = false
 
