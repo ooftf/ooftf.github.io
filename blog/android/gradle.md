@@ -61,3 +61,8 @@ publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementat
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    
+##  dataBinding
+    buildFeatures {
+           dataBinding true
+       }    
