@@ -22,6 +22,15 @@ configurations.all {
         }
     }
 }
+
+configurations.all {
+
+    resolutionStrategy {
+        force 'com.google.code.gson:gson:2.8.5'
+        force 'com.github.bumptech.glide:glide:4.11.0'
+        force "androidx.appcompat:appcompat:1.2.0"
+    }
+}
 ## 排除指定引用
 dependencies {
     implementation('some-library') {
@@ -54,7 +63,7 @@ publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementat
     }
     
 ##  Didn't find class "androidx.core.app.CoreComponentFactory"
- compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
