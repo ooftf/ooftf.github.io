@@ -75,3 +75,12 @@ publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementat
     buildFeatures {
            dataBinding true
        }    
+       
+       
+## 关闭Javadoc
+    在project build.gradle中添加
+    allprojects {
+        tasks.withType(Javadoc).all {
+            enabled = false
+        }
+    }       
