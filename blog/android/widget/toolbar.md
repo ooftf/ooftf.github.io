@@ -17,3 +17,7 @@ setPopupTheme(R.style.ThemeOverlay_Toolbar_PopupMenu);
 设置PopupTheme
 修改 OptionMenu 文字颜色,不会修改ItemMenu字体颜色 <item name="android:textColor">@color/black</item>
 ```
+
+
+## 解决toolbar左边距问题
+    toolbar.setContentInsetsAbsolute(0, 0)
