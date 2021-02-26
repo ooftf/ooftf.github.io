@@ -14,3 +14,6 @@
   * 如果想要透明背景就要把<item name="android:backgroundDimEnabled">false</item> 设置为false
 # show Dialog后状态栏变成黑色
 如果把 getWindow().getAttributes() 的宽高 都设置成MATCH_PARENT 就会导致状态栏变成黑色
+
+
+# dialog 内使用viewpager+fragment  应该要用DialogFragment
