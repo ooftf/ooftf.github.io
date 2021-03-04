@@ -20,7 +20,6 @@
 比如Android打包过程的混淆就是依靠Transform API技术来完成的  
 ![图片](https://oscimg.oschina.net/oscnet/86f8adb0-8713-4349-b2f7-384fcf81a64b.png)
 
-
 [推荐文章,Transform API+ASM完成代码织入](https://my.oschina.net/u/4568043/blog/4521743)  
 ##### 相关框架
 * [lancet](https://github.com/eleme/lancet)
@@ -33,6 +32,9 @@
 Hunter
 ByteBuddy
 #### 相关文章
-
+## Javassist API
 [【Android】函数插桩（Gradle + ASM）](https://www.jianshu.com/p/16ed4d233fd1)  
 [AOP 的利器：ASM 3.0 介绍](https://developer.ibm.com/zh/articles/j-lo-asm30/)
+
+## Javassist相比于ASM
+* **Javassist**API比**ASM**友好，**ASM**性能是**Javassist**的五倍左右
