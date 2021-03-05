@@ -8,7 +8,7 @@
 * 扩展函数
 * inline内联
 * [函数库](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/util/Standard.kt)
-
+* 协变和逆变
 
 ## init
     是在构造方法之后自动调用
