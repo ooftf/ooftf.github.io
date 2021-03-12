@@ -27,7 +27,10 @@
 * [AutoRegister](https://github.com/luckybilly/AutoRegister)
 #### ASM
     Transfrom API获取到class文件后通过ASM框架完成字节码的修改
-
+[JVM 指令](https://blog.csdn.net/tanggao1314/article/details/53260891)
+[ASM 指令](https://www.jianshu.com/p/d8c2ada6e82f)
+[ASM 实操](https://segmentfault.com/a/1190000022403863)
+[ASM 实操](https://blog.csdn.net/fedorafrog/article/details/104538652/)
 ### 相关库
 Hunter
 ByteBuddy
@@ -38,3 +41,5 @@ ByteBuddy
 
 ## Javassist相比于ASM
 * **Javassist**API比**ASM**友好，**ASM**性能是**Javassist**的五倍左右
+
+
