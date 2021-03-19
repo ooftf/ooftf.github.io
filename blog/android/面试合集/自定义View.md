@@ -66,5 +66,93 @@
 ## 滑动冲突
 ###  常见的滑动冲突
 * 外部滑动方向和内部滑动方向不一致
+  根据滑动是水平滑动还是数值华东判断到底是由谁来拦截事件，最简单的是通过水平和竖直方向移动的距离来判断
+  1. 外部拦截法
+     重写父容器的onInterceptTouchEvent在内部做响应的拦截即可参考《Android开发探索艺术》408页
+     伪代码如下
+     ```java
+         public boolean onInterceptTouchEvent(MotionEvent event) {
+            boolean intercepted = false;
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                intercepted = false;
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                if (父容器需要当前点击事件) {
+                    intercepted = true;
+                } else {
+                    intercepted = false;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_UP: {
+                intercepted = false;
+                break;
+            }
+            default:
+                break;
+              }
+              mLastXIntercept = x;
+              mLastYIntercept = y;
+              return intercepted;
+          }
+     ```
+  2. 内部拦截法
+     重写子元素的dispatchTouchEvent方法（思考：为什么不是onTouchEvent方法）配合requestDisallowInterceptTouchEvent
+     伪代码如下
+     ```java
+        public boolean dispatchTouchEvent(MotionEvent event) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                parent.requestDisallowInterceptTouchEvent(true);
+                    break;
+                }
+                case MotionEvent.ACTION_MOVE: {
+                    int deltaX = x - mLastX;
+                    int deltaY = y - mLastY;
+                    if (父容器需要此类点击事件)) {
+                        parent.requestDisallowInterceptTouchEvent(false);
+                    }
+                    break;
+                }
+                case MotionEvent.ACTION_UP: {
+                    break;
+                }
+                default:
+                    break;
+                }
+
+                mLastX = x;
+                mLastY = y;
+                return super.dispatchTouchEvent(event);
+            }
+     ```
 * 外部滑动方向和内部滑动方向一直
 * 上面两种情况叠加嵌套
+## 自定 View onMeasure onLayout onDraw
+一般分为四种
+1. 继承View重写onDraw方法
+    采用这种方式需要自己支持wrap_content 并且padding也需要自己处理
+    如果由线程或者动画要及时停止，参考View.OnDetachedFromWindow
+2. 继承ViewGroup派生特殊的Layout
+   需要适合的处理ViewGroup的 onMeasure onLayout 这两个过程
+   需要考虑自己的padding和子View的margin和显隐状态
+   一般LinearLayout等空间是默认不开启绘画功能的，所以在onDraw是无法进行绘制的，需要调用setWillNotDraw进行设置
+3. 继承特定的View(比如TextView)
+4. 继承特定的ViewGroup (比如LinearLayout)
+### 自定义属性（不用写了，应该都知道）
+如何获取到系统属性？
+----------
+参考KvLayout
+
+
+
+
+
+
