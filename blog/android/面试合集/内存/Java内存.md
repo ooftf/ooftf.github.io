@@ -33,8 +33,19 @@ https://blog.csdn.net/singwhatiwanna/article/details/111713858?spm=1001.2014.300
     3.显示调用System.gc() ，包括RMI等的定时触发;
     4.YGC时的悲观策略；
     5.dump live的内存信息时(jmap –dump:live)。
+### GC Root  两个版本
+来自LeakCanary文档
+* Local variables, which belong to the stack of a thread.
+* Instances of active Java threads.
+* System Classes, which never unload.
+* Native references, which are controlled by native code.
+出自sun公司java团队员工书籍
+* Temporary variables on the stack (of any thread)
+* Static variables (from any class)
+* Special references from JNI native code。
 ### 资料
 [Java对象循环引用，Java gc 如何回收](https://blog.csdn.net/leonardo9029/article/details/50241115)
 [GC算法](https://www.cnblogs.com/feng9exe/p/7268524.html)
+
 
 
