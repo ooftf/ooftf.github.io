@@ -84,3 +84,8 @@ publishDebugPublicationToMavenLocal,publishToMavenLocal即不用debugImplementat
             enabled = false
         }
     }       
+
+## 不使用缓存版本
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
