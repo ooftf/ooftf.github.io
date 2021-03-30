@@ -49,6 +49,8 @@
     git push -u origin --tags
 ### 通过命令行修改远程地址
     git remote set-url origin https://gitee.com/jouypub/json.git
+### 通过命令Https 修改为SSH
+    git remote set-url origin git@github.com:ooftf/algorithm.git
 ### 从一个git仓库迁移到另外一个git仓库
     https://blog.csdn.net/nathan1987_/article/details/78529357
 ## submodule 相关

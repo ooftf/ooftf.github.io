@@ -23,7 +23,14 @@ https://blog.csdn.net/singwhatiwanna/article/details/111713858?spm=1001.2014.300
 * 如何判定为垃圾
 * 如何进行回收
 * 垃圾回收是如何减少空间碎片和提高效率
-* * 什么时候会触发GC
+* 什么时候会触发GC
+* 什么时候对象从年轻代转移到老年代
+    经历15此回收（15这个值可改变）
+    大对象（字符串与数组），即超过了设定的值的对象，直接在老年代中分配
+    首先根据 TargetSurvivorRatio 指定的比例，乘以 survivor 一个区的大小，得出目标晋升空间大小。然后将分代对象大小，按照分代年龄从小到大相加，直到大于目标晋升空间大小。之后，将得出的这个分代年龄以上的对象全部晋升。
+* 为什么新生代内存需要有两个Survivor区
+  减少内存碎片化 [为什么新生代内存需要有两个Survivor区](https://blog.csdn.net/antony9118/article/details/51425581)
+* Minor GC 和Full GC
 ### GC时机 (?)
     YGC（Minor GC）的时机:
     edn空间不足
@@ -43,6 +50,7 @@ https://blog.csdn.net/singwhatiwanna/article/details/111713858?spm=1001.2014.300
 * Temporary variables on the stack (of any thread)
 * Static variables (from any class)
 * Special references from JNI native code。
+
 ### 资料
 [Java对象循环引用，Java gc 如何回收](https://blog.csdn.net/leonardo9029/article/details/50241115)
 [GC算法](https://www.cnblogs.com/feng9exe/p/7268524.html)
