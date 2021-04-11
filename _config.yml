@@ -1,11 +1,15 @@
 title: ooftf的博客
-description: 记录日常学习
-url: "https://ooftf.github.io/"
-page_excerpts: true
 author:
   name: ooftf
   email: join-tmallfe@list.alibaba-inc.com
   github: tmallfe
   bio: keep calm and carry on!
+description: 记录日常学习
+url: "https://ooftf.github.io/"
+page_excerpts: true
+show_excerpts: false
 markdown: kramdown
 theme: jekyll-theme-slate
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
