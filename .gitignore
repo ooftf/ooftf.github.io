@@ -1,2 +1,7 @@
-# Created by .ignore support plugin (hsz.mobi)
-/.idea/
+*.gem
+.bundle
+.DS_Store
+.sass-cache
+_site
+Gemfile.lock
+.jekyll-cache

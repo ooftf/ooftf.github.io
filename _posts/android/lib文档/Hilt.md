@@ -1,0 +1,15 @@
+# Hilt
+[Hilt 官方文档](https://developer.android.com/codelabs/android-hilt#0)  
+[依赖注入DI文档](https://developer.android.com/training/dependency-injection)  
+[dagger hilt 官方文档](https://dagger.dev/hilt/gradle-setup.html)  
+构建并验证依赖关系图，确保没有未满足的依赖关系且没有依赖循环。
+
+### Activity 需要向ViewModel传参Id
+![viewModel](../../../images/viewModel.png)  
+![activity](../../../images/activity.png)  
+这种方式实质不是单独为ViewModel所提供的，为的是一些构造数据里面有String 等非特定类型参数的时候用Assisted 来解决
+
+### Inject 接口
+![AnalyticsService](../../../images/AnlyticsService.png)  
+![AnalyticsServiceImpl](../../../images/AnalyticsServiceImpl.png)  
+![AnalyticsModule](../../../images/AnalyticsModule.png)
