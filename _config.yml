@@ -1,137 +1,15 @@
-name: "I'd Rather Be Writing"
-title: "I'd Rather Be Writing"
-tagline: "Technical writing blog focusing on the latest trends, news, and other topics in the field of technical communication."
-description: "Technical writing, technical communication, API documentation, trends, and other topics are covered here."
-url: https://idratherbewriting.com
-media: https://s3.us-west-1.wasabisys.com/idbwmedia.com/
-logo: https://s3.us-west-1.wasabisys.com/idbwmedia.com/images/idratherbewriting-site-logo.png
-timezone: America/Los_Angeles
-lang: en_US
+title: Mathematics for Machine Learning
+email: feedback@mml-book.com
+description: >- # this means to ignore newlines until "baseurl:"
+  Companion webpage to the book "Mathematics for Machine Learning".
+  Copyright 2020 by Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong. Published by Cambridge University Press.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://mml-book.com" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: ""
+github_username:  ooftf
 
-author:
-  twitter: tomjohnson
-feedback_email: tomjoht@gmail.com
-facebook:
-  app_id: 247143161970549
-  publisher: 3968842976464
-twitter:
-  username: tomjohnson
-  card: summary
-webmaster_verifications:
-  google: i1qwK1LFgKEQHUtpm8o7OOOeK9i54NUQwKR4vXRqlFs
-  bing: 352636FE6BAFC693A6938983FC6A227E
-social:
-  name: Tom Johnson
-  links:
-    - "https://twitter.com/tomjohnson"
-    - "https://www.facebook.com/tomidbw"
-    - "https://www.linkedin.com/in/tomjoht/"
-    - "https://github.com/tomjoht"
-
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-modernist
 plugins:
-  - jekyll-commonmark
-  - jekyll-mentions
-  - jekyll-paginate
-  - jekyll-redirect-from
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-markdown: CommonMark
-
-paginate: 15
-
-collections:
-  restapicourse:
-    output: true
-  publishingapidocs:
-    output: true
-  voiceovertechniques:
-    output: true
-  visualcommunication:
-    output: true
-  podcasts:
-    output: true
-  youngadultnovel:
-    output: true
-  user_centered_doc:
-    output: true
-
-defaults:
-  - scope:
-      path: ""
-      type: pages
-    values:
-      layout: page
-      comments: true
-      search: true
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-      comments: true
-      search: true
-      author: '<a href="/aboutme/">Tom Johnson</a>'
-  - scope:
-      path: ""
-      type: tooltips_demo
-    values:
-      layout: page
-      search: true
-  - scope:
-      path: ""
-      type: restapicourse
-    values:
-      layout: page_restapicourse
-      comments: true
-      search: true
-  - scope:
-      path: ""
-      type: podcasts
-    values:
-      layout: itunes
-  - scope:
-      path: ""
-      type: visualcommunication
-    values:
-      layout: page_visualcommunication
-      comments: true
-      search: true
-  - scope:
-      path: ""
-      type: youngadultnovel
-    values:
-      layout: page_yanovel
-  - scope:
-      path: ""
-      type: user_centered_doc
-    values:
-      layout: page_user_centered_doc
-      comments: true
-      search: true
-
-sidebar_accordion: true
-show_audience_label: true
-format: web
-output: web
-target: web
-
-## itunes feed settings
-podcast_url: https://www.idratherbewriting.com
-podcast_album_art: https://s3.us-west-1.wasabisys.com/idbwmedia.com/images/idratherbewritinglogo.png
-podcast_title: I'd Rather Be Writing Podcast
-podcast_owner: Tom Johnson
-podcast_email: tomjoht@gmail.com
-podcast_category: Technology
-podcast_explicit: "no"
-podcast_author: Tom Johnson
-podcast_subtitle: "Technical writing trends, innovations, and news. Content original from idratherbewriting.com. Hosted by Tom Johnson."
-podcast_description: >-
-  Topics and issues for technical writers. Improve your technical communication role. Empower users with better documentation.
-podcast_summary: >-
-  A technical writing podcast about the latest trends and practices in the field of technical communication. Technical
-  communication includes topics like technical writing (software help), information architecture, usability, API documentation,
-  information design, web design, illustration, DITA, structured authoring, visual communication, and more. If you're a technical
-  writer or interested in technical writing, this is the one of few podcasts in this niche. I also have a blog at
-  https://idratherbewriting.com where the podcasts and other blog topics are published.
-disable_disk_cache: true
+  - jekyll-feed
