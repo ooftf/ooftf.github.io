@@ -1,8 +1,11 @@
 # Site settings
 title:          Tale
 description:    "Minimal Jekyll theme for storytellers"
-baseurl:        "/tale"
+# baseurl:        "/tale"
 url:            "https://chesterhow.github.io"
+
+# Google Analytics
+google_analytics: UA—XXXXXXXX-X
 
 # Author
 author:
@@ -12,11 +15,27 @@ author:
 
 # Build settings
 markdown:       kramdown
-remote_theme: chesterhow/tale
+include:
+  - _pages
 
-permalink:    /:year-:month-:day/:title
-paginate:     5
+# Assets
+sass:
+  sass_dir:     _sass
+  style:        compressed
 
+# Gems
 plugins:
+  - jekyll-feed
   - jekyll-paginate
-  - jekyll-remote-theme
+  - jekyll-seo-tag
+  # - jemoji #Uncomment this to allow emoji in your post
+
+# Permalinks
+permalink:      /:year-:month-:day/:title
+paginate:       5
+
+# Excludes
+exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
+
+# Disqus (Set to your disqus id)
+disqus:         jekyll-tale
