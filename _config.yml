@@ -7,7 +7,7 @@ author:
 description: 记录日常学习
 url: "https://ooftf.github.io/"
 page_excerpts: true
-show_excerpts: false
+show_excerpts: true
 markdown: kramdown
 theme: jekyll-theme-slate
 plugins:
