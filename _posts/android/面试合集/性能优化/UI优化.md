@@ -1,3 +1,9 @@
+---
+layout: post
+author: "ooftf"
+tags: Android
+---
+
 # UI优化
 ### 在系统框架下优化
     布局优化、使用代码创建、View缓存等。我们希望减少甚至省下渲染流水线里的某个耗时阶段
