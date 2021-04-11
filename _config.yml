@@ -10,6 +10,3 @@ page_excerpts: true
 show_excerpts: true
 markdown: kramdown
 theme: jekyll-theme-slate
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
