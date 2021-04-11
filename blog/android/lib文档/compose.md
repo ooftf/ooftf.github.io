@@ -19,9 +19,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     }
 }
 ```
-[Compose Google 使用文档](https://developer.android.google.cn/jetpack/compose?hl=zh_cn)
+[Compose Google 官方网站](https://developer.android.google.cn/jetpack/compose?hl=zh_cn)
 
 [组件重组策略](https://developer.android.google.cn/jetpack/compose/lifecycle?hl=zh_cn)
+[示例应用](https://github.com/android/compose-samples)
 ### Compose中添加AndroidView
 ```kotlin
 @Composable
