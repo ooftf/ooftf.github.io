@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Welcome to Jekyll!"
-page_excerpts: true
 ---
 
 # Welcome
