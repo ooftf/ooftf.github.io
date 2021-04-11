@@ -3,7 +3,6 @@ layout: post
 title: 天猫前端的双11
 categories: [双11]
 tags: [双11]
-fullview: true
 ---
 [中文文档](https://github.com/alibaba/ARouter/blob/master/README_CN.md)
 ## path  只要需要两级，不然会报一些莫名其妙的错误比如  Javac
