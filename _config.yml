@@ -1,8 +1,24 @@
-title: 科学上网
-description: 左耳朵
-google_analytics:
-show_downloads: true
-theme: jekyll-theme-cayman
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: 天猫前端
 
-gems:
-  - jekyll-mentions
+title: 天猫前端
+description: 天猫前端
+url: "http://tmallfe.github.io"
+
+author:
+  name: 天猫前端
+  email: join-tmallfe@list.alibaba-inc.com
+  github: tmallfe
+  bio: keep calm and carry on!
+
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+BASE_PATH:
+
+markdown: kramdown
