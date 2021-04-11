@@ -1,17 +1,14 @@
 # Site settings
-title:          Tale
+title:          OOFTF
 description:    "Minimal Jekyll theme for storytellers"
 # baseurl:        "/tale"
-url:            "https://chesterhow.github.io"
-
-# Google Analytics
-google_analytics: UA—XXXXXXXX-X
+url:            "https://ooftf.github.io/"
 
 # Author
 author:
-  name:         Chester How
+  name:         ooftf
   url:          https://chester.how
-  email:        chesterhow@gmail.com
+  email:        994749769@qq.com
 
 # Build settings
 markdown:       kramdown
