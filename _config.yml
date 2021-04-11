@@ -1,10 +1,3 @@
-defaults:
-  -
-    scope:
-      path: "" # empty string for all files
-    values:
-      title: 天猫前端
-
 title: 天猫前端
 description: 天猫前端
 url: "https://ooftf.github.io/"
@@ -14,11 +7,4 @@ author:
   email: join-tmallfe@list.alibaba-inc.com
   github: tmallfe
   bio: keep calm and carry on!
-
-rss_path: feed.xml
-categories_path: categories.html
-tags_path: tags.html
-
-BASE_PATH:
-
 markdown: kramdown
