@@ -1,35 +1,54 @@
 ---
-name: Bug report
+name: Bug Report
 about: Create a report to help us improve
-title: 'Bug:'
-labels: ''
-assignees: ''
-
 ---
 
-<!-- Prefer English -->
+<!-- NOTE: Please maintain all sections, otherwise the issue will be automatically closed :) -->
 
-**Description**
+## Checklist
+<!-- Please complete the following list of tasks, and then check it by change the "[ ]" to "[x]" -->
+- [ ] I have read the [tutorials](https://chirpy.cotes.info/categories/tutorial/) and know the correct effect of the functional design.
+- [ ] There are no similar reports on existing issues (including closed ones).
+- [ ] I found the bug on the latest code of `master` branch.
 
-[Description of the bug]
+## Describe the bug
+<!-- A clear and concise description of what the bug is. -->
 
-**Steps to Reproduce**
+### To Reproduce
 
-1. [First Step]
-2. [Second Step]
-3. [and so on...]
+Steps to reproduce the behavior:
+<!--
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+-->
 
-**Expected behavior**
+### Expected behavior
+<!-- A clear and concise description of what you expected to happen. -->
 
-[What you expected to happen]
+### Screenshots
+<!-- If applicable, add screenshots to help explain your problem. -->
 
-**Screenshots (If Necessary)**
+### Software
+<!-- Please complete the following information -->
+- Ruby version: <!-- by running: `ruby -v` -->
+- Gem version: <!-- by running: `gem -v`-->
+- Bundler version: <!-- by running: `bundle -v`-->
+- Jekyll version: <!-- by running: `bundle list | grep " jekyll "` -->
 
-[Screenshots to help explain your problem.]
+### Desktop
+<!-- If necessary, uncomment and fill in the following list:
+- OS: [e.g. macOS 10.15.6]
+- Browser: [e.g. Chrome 85.0.4183.83 (64-bit)]
+-->
 
-**Environment (If Necessary)**
+### Smartphone
+<!-- If necessary, uncomment and fill in the following list:
+- Device: [e.g. iPhone 6]
+- OS: [e.g. iOS 13.6.1]
+- Browser: [e.g. Chrome 22]
+-->
 
-- OS: [e.g. Github Pages, Windows 10, macOS 10.13, Linux(CentOS 7.5), iOS 11, Android 8(Pixel 2)]
-- Ruby: [e.g. Github Pages, 2.4.0p0]
-- Jekyll: [e.g. Github Pages, 3.7.3]
-- Browser: [e.g. Chrome, Safari, Edge, Firefox]
+### Additional context
+<!-- Add any other context about the problem here. -->

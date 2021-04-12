@@ -1,61 +1,30 @@
 {
-  "name": "jekyll-text-theme",
-  "version": "2.2.6",
-  "author": "Tian Qi",
-  "license": "MIT",
-  "keywords": [
-    "jekyll",
-    "jekyll-theme",
-    "jekyll-template"
-  ],
-  "homepage": "https://github.com/kitian616/jekyll-TeXt-theme",
-  "description": "A super customizable Jekyll theme for personal site, team site, blog, project, documentation, etc.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kitian616/jekyll-TeXt-theme.git"
-  },
-  "bugs": {
-    "url": "https://github.com/kitian616/jekyll-TeXt-theme/issues"
+  "name": "jekyll-theme-chirpy",
+  "version": "3.3.2",
+  "description": "A minimal, sidebar, responsive web design Jekyll theme that focuses on text presentation.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
   },
   "scripts": {
-    "build": "cross-env JEKYLL_ENV=production bundle exec jekyll build",
-    "serve": "bundle exec jekyll serve -H 0.0.0.0",
-    "Gemfile.lock": "docker run --rm -v \"$PWD\":/usr/src/app -w /usr/src/app ruby:2.6 bundle install",
-    "docker-dev:build-image": "docker-compose -f ./docker/docker-compose.build-image.yml build",
-    "docker-dev:default": "docker-compose -f ./docker/docker-compose.default.yml up",
-    "docker-dev:dev": "docker-compose -f ./docker/docker-compose.dev.yml up",
-    "docker-dev:demo-dev": "docker-compose -f ./docker/docker-compose.demo.yml up",
-    "docker-dev:demo-beta": "cross-env JEKYLL_ENV=beta docker-compose -f ./docker/docker-compose.demo.yml up",
-    "docker-dev:demo-prod": "cross-env JEKYLL_ENV=production docker-compose -f ./docker/docker-compose.demo.yml up",
-    "docker-prod:build": "cross-env JEKYLL_ENV=production docker-compose -f ./docker/docker-compose.prod.yml build",
-    "docker-prod:serve": "cross-env JEKYLL_ENV=production docker-compose -f ./docker/docker-compose.prod.yml up",
-    "default": "bundle exec jekyll serve -H 0.0.0.0 -t",
-    "dev": "bundle exec jekyll serve -H 0.0.0.0 -t --config ./docs/_config.dev.yml",
-    "demo-dev": "bundle exec jekyll serve -H 0.0.0.0 -t --config ./docs/_config.yml",
-    "demo-beta": "cross-env JEKYLL_ENV=beta bundle exec jekyll serve -H 0.0.0.0 -t --config ./docs/_config.yml",
-    "demo-prod": "cross-env JEKYLL_ENV=production bundle exec jekyll serve -H 0.0.0.0 -t --config ./docs/_config.yml",
-    "eslint": "eslint \"_includes/**/*.js\"",
-    "eslint-fix": "eslint \"_includes/**/*.js\" --fix",
-    "stylelint": "stylelint --syntax scss \"_sass/**/*.scss\"",
-    "stylelint-fix": "stylelint --syntax scss \"_sass/**/*.scss\" --fix",
-    "gem-build": "rm -fv jekyll-text-theme-*.gem && gem build jekyll-text-theme.gemspec",
-    "gem-push": "gem push jekyll-text-theme-*.gem"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "cross-env": "^7.0.0",
-    "eslint": "^6.8.0",
-    "husky": "^4.2.1",
-    "stylelint": "^13.0.0",
-    "stylelint-config-recommended-scss": "^4.2.0",
-    "stylelint-config-standard": "^19.0.0",
-    "stylelint-order": "^4.0.0",
-    "stylelint-scss": "^3.14.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cotes2020/jekyll-theme-chirpy.git"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+  "author": "Cotes Chung",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cotes2020/jekyll-theme-chirpy/issues"
+  },
+  "homepage": "https://github.com/cotes2020/jekyll-theme-chirpy#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-insert": "^0.5.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
   }
 }
