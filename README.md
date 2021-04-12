@@ -1,72 +1,97 @@
-<p align="right">
-    <a href="https://badge.fury.io/rb/just-the-docs"><img src="https://badge.fury.io/rb/just-the-docs.svg" alt="Gem version"></a> <a href="https://github.com/pmarsceill/just-the-docs/actions?query=workflow%3A%22Master+branch+CI%22"><img src="https://github.com/pmarsceill/just-the-docs/workflows/Master%20branch%20CI/badge.svg" alt="Build status"></a>
-</p>
-<br><br>
-<p align="center">
-    <h1 align="center">Just the Docs</h1>
-    <p align="center">A modern, highly customizable, and responsive Jekyll theme for documentation with built-in search.<br>Easily hosted on GitHub Pages with few dependencies.</p>
-    <p align="center"><strong><a href="https://pmarsceill.github.io/just-the-docs/">See it in action!</a></strong></p>
-    <br><br><br>
-</p>
+![](_assets/images/documentation/chalk-intro@2x.png)
 
-![jtd](https://user-images.githubusercontent.com/896475/47384541-89053c80-d6d5-11e8-98dc-dba16e192de9.gif)
+Chalk is a high quality, completely customizable, performant and 100% free blog template for Jekyll.
 
-## Installation
+## Overview
 
-Add this line to your Jekyll site's Gemfile:
+Features:
+  - About page.
+  - Automatic RSS feed.
+  - Automatic sitemap.
+  - Automatic time to read post indicator.
+  - Cross browser support (supports all modern browsers).
+  - Custom 404 page.
+  - Custom code highlighting.
+  - Customizable pagination.
+  - Dark and Light theme.
+  - Easy setup and deploying.
+  - Enlarge images on click.
+  - Filter on tags.
+  - Optional tag navigation.
+  - Frequently updated with new versions.
+  - Many social media links supported.
+  - Media embed for videos.
+  - PageSpeed optimized.
+  - Proper sharing links for posts on Facebook, Twitter and Google Plus.
+  - SEO optimized.
+  - Support for local fonts.
+  - Support for emoji's.
 
-```ruby
-gem "just-the-docs"
-```
+Integrations
+  - [Disqus](https://disqus.com/)
+  - [Google Analytics](https://analytics.google.com/analytics/web/)
+  - [Google Fonts](https://fonts.google.com/)
+  - [SVG Icons](https://icomoon.io/)
 
-And add this line to your Jekyll site's `_config.yml`:
-
-```yaml
-theme: just-the-docs
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install just-the-docs
-
-Alternatively, you can run it inside Docker while developing your site
-
-    $ docker-compose up
+Used tools
+  - [Autoprefixer](https://github.com/postcss/autoprefixer)
+  - [Circle CI](https://circleci.com/)
+  - [Html-proofer](https://github.com/gjtorikian/html-proofer)
+  - [Jekyll](https://jekyllrb.com/)
+  - [Jekyll Assets](https://github.com/jekyll/jekyll-assets)
+  - [Jekyll Sitemap](https://github.com/jekyll/jekyll-sitemap)
+  - [HTML5 Boilerplate](https://html5boilerplate.com/) (Influenced by)
+  - [Kickster](https://kickster.nielsenramon.com/)
+  - [Retina.js](https://imulus.github.io/retinajs/)
+  - [STACSS](https://stacss.nielsenramon.com/)
+  - [Travis](https://travis-ci.org/)
+  - [Yarn](https://yarnpkg.com)
+  - [Zooming](https://github.com/kingdido999/zooming/)
 
 ## Usage
 
-[View the documentation](https://pmarsceill.github.io/just-the-docs/) for usage information.
+### Installation
 
-## Contributing
+If you haven't installed the following tools then go ahead and do so (make sure you have [Homebrew](https://brew.sh/) installed):
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/pmarsceill/just-the-docs. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+    brew install ruby
+    brew install npm
 
-### Submitting code changes:
+On windows, install Ruby and Node with the installers found here:
 
-- Open a [Pull Request](https://github.com/pmarsceill/just-the-docs/pulls)
-- Ensure all CI tests pass
-- Await code review
-- Bump the version number in `just-the-docs.gemspec` and `package.json` according to [semantic versioning](https://semver.org/).
+  - [Ruby](https://rubyinstaller.org/)
+  - [Node.js](https://nodejs.org/en/download/)
 
-### Design and development principles of this theme:
+Next setup your environment:
 
-1. As few dependencies as possible
-2. No build script needed
-3. First class mobile experience
-4. Make the content shine
+    npm run setup
 
-## Development
+### Development
 
-To set up your environment to develop this theme, run `bundle install`.
+Run Jekyll:
 
-Your theme is set up just like a normal Jekyll site! To test your theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme. Add pages, documents, data, etc. like normal to test your theme's contents. As you make modifications to your theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
+    npm run local
 
-When the theme is released, only the files in `_layouts`, `_includes`, and `_sass` tracked with Git will be released.
+## Deploy to GitHub Pages
+
+Before you deploy, commit your changes to any working branch except the `gh-pages` one and run the following command:
+
+    npm run publish
+
+**Important note**: Chalk does not support the standard way of Jekyll hosting on GitHub Pages. You need to deploy your working branch (can be any branch, for xxx.github.io users: use another branch than `master`) with the `npm run publish` command. Reason for this is because Chalk uses Jekyll plugins that aren't supported by GitHub pages. The `npm run publish` command will automatically build the entire project, then push it to the `gh-pages` branch of your repo. The script creates that branch for you so no need to create it yourself. Also, if you are developing a **project site**, you must set the `baseurl` in `_config.yml` to the name of your repository.
+
+You can find more info on how to use the `gh-pages` branch and a custom domain [here](https://help.github.com/articles/quick-start-setting-up-a-custom-domain/).
+
+[View this](https://github.com/nielsenramon/kickster#automated-deployment-with-circle-ci) for more info about automated deployment with Circle CI.
 
 ## License
 
-The theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+MIT License
+
+## Contributing
+
+1. Fork it (https://github.com/[my-github-username]/chalk/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
