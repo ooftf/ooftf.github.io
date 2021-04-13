@@ -12,7 +12,6 @@ defaults:
       path: "" # an empty string here means all files in the project
     values:
       header-style: "text"
-      nav-style: "invert"
 # Publish posts or collection documents with a future date.
 future: true
 
