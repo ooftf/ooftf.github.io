@@ -5,6 +5,7 @@
 * 透明系统 UI 样式
 * 新的 Chromium WebView 采用更新版本的 JavaScript引擎 (V8),支持使用 Chrome DevTools进行远程调试
 * Android 4.4 中已引入处于实验阶段的 ART 运行时
+
 ### Lollipop Android 5.0 API 21
 * [Material Design](https://developer.android.com/about/versions/lollipop#Material)
 * 新增悬浮通知
