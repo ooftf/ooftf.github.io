@@ -67,7 +67,6 @@ kramdown:
 
 # Netease settings
 netease_comment: false
-header-style: text
 
 
 # Analytics settings
