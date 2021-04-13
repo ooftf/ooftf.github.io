@@ -3,15 +3,37 @@ layout: post
 author: "ooftf"
 tags: Android
 ---
+# 四大组件
+1. Activity
+2. Service
+3. BroadcastReceiver
+4. ContentProvider
 
-# Activity
+* Android的四大组件中除了BroadcastReceiver意外，其他三种组件都必须在AndroidManifest中注册
+* 显示Intent可以分为显示Intent和饮食Intent，显示Intent明确的指向一个Activity组件，隐式Intent则指向零个或多个目标Activity
+* service有两种状态：启动状态和绑定状态。
+* Service本身是运行在主线程中的，因此好事的后台计算需要在单独的线程中去完成
+* BroadcastReceiver两种注册方式：静态注射和动态注册。静态注册是指在AndroidManifest中注册广播，这种广播在应用安装时会被系统解析，此种形式的广播不需要应用启动就可以收到相应的广播；动态注册广播需要通过Context。registerReceiver()来实现的，ing且在不需要的时候要通过Context.unRegisterReceiver()来解除广播
+* ContentProvider内部的 inset、delete、update、query方法需要处理好线程同步，应为这几个方法实在Binder线程池中被调用的，
+* ContentProvider不需要手动停止
+
+
+## Activity
 ![生命周期](http://hi.csdn.net/attachment/201109/1/0_1314838777He6C.gif)
 [生命周期](https://blog.csdn.net/xiajun2356033/article/details/78741121)
+* onCreate
+* setContentView
+* LifecycleObserver onCreate
+* onStart
+* onPostCreate
+* activeCou
+* onResume
+* 
 --------------------------------------------------------------------
-### Activity启动流程
-### 从点击图标到Activity展示过程
-### 启动模式
-##### singleInstance
+#### Activity启动流程
+#### 从点击图标到Activity展示过程
+#### 启动模式
+###### singleInstance
 **字面上理解为单一实例。  它具备所有singleTask的特点，唯一不同的是，它是存在于另一个任务栈中。上面的三种模式都存在于同一个任务栈中，
 而这种模式则是存在于另一个任务栈中。举个例子，上面的启动模式都存在于地球上，而这种模式存在于火星上。
 整个Android系统就是个宇宙。**
