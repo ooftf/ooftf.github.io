@@ -1,6 +1,7 @@
 ---
 layout: post
 author: "ooftf"
+header-style: text
 tags:
     - Android
     - Optimization
