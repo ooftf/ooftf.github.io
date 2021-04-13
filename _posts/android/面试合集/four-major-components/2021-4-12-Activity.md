@@ -28,7 +28,7 @@ tags: Android
 * onPostCreate
 * activeCou
 * onResume
-* 
+
 --------------------------------------------------------------------
 #### Activity启动流程
 #### 从点击图标到Activity展示过程
