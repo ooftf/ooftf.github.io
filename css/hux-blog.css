@@ -1492,7 +1492,7 @@ img::-moz-selection {
 }
 @media only screen and (min-width: 768px) {
   #tag-heading {
-    padding: 70px 0;
+    padding: 55px 0;
   }
 }
 #tag_cloud {
