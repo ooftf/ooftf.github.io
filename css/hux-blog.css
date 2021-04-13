@@ -1654,7 +1654,7 @@ img::-moz-selection {
   position: fixed;
   left: 0;
   top: 0;
-  padding-bottom: 300px;
+  padding-bottom: 150px;
   width: 100%;
   height: 100%;
   display: -webkit-box;
