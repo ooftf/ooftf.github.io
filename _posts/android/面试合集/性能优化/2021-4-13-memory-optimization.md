@@ -1,7 +1,9 @@
 ---
 layout: post
 author: "ooftf"
-tags: Android
+tags:
+    - Android
+    - Optimization
 ---
 
 # 内存优化
