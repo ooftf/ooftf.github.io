@@ -1488,7 +1488,7 @@ img::-moz-selection {
   }
 }
 #tag-heading {
-  padding: 70px 0 60px;
+  padding: 140px 0 120px;
 }
 @media only screen and (min-width: 768px) {
   #tag-heading {
