@@ -59,11 +59,11 @@ kramdown:
 
 
 # Disqus settings
-disqus_username: hux
+# disqus_username: hux
 
 # Netease settings
 netease_comment: false
-
+header-style: text
 
 
 # Analytics settings
@@ -71,8 +71,8 @@ netease_comment: false
 # ba_track_id: [your track id]
 
 # Google Analytics
-ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
-ga_domain: huangxuan.me
+# ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
+# ga_domain: huangxuan.me
 
 
 
