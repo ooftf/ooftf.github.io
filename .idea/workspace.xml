@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/_posts/2021-4-11-TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2021-4-11-TODO.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_posts/2021-4-11-my-lib.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2021-4-11-my-lib.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="ProjectId" id="1iucPzXczgjWdRDbCi5YoUziWRc" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="compactDirectories" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="D:/Program/Android/Sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/img" />
+    <property name="settings.editor.selected.configurable" value="yiiguxing.plugin.translate" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\img" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\blog\android\面试合集\res" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\_posts\android\面试合集\four-major-components" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\blog\android\面试合集" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\blog\android\面试合集\内存" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\blog\android\面试合集\性能优化" />
+      <recent name="F:\Workspaces\StudioProjects\ooftf.github.io\blog\os" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+    </configuration>
+    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\99474\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="" />
+      <created>1602760897793</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1602760897793</updated>
+    </task>
+    <task id="LOCAL-00077" summary="sync">
+      <created>1618303318728</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1618303318728</updated>
+    </task>
+    <task id="LOCAL-00078" summary="sync">
+      <created>1618303624793</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1618303624793</updated>
+    </task>
+    <task id="LOCAL-00079" summary="sync">
+      <created>1618303883156</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1618303883156</updated>
+    </task>
+    <task id="LOCAL-00080" summary="sync">
+      <created>1618304018926</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304018926</updated>
+    </task>
+    <task id="LOCAL-00081" summary="sync">
+      <created>1618304169605</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304169605</updated>
+    </task>
+    <task id="LOCAL-00082" summary="sync">
+      <created>1618304245620</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304245620</updated>
+    </task>
+    <task id="LOCAL-00083" summary="sync">
+      <created>1618304426388</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304426388</updated>
+    </task>
+    <task id="LOCAL-00084" summary="sync">
+      <created>1618304678760</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304678760</updated>
+    </task>
+    <task id="LOCAL-00085" summary="sync">
+      <created>1618304813793</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304813793</updated>
+    </task>
+    <task id="LOCAL-00086" summary="sync">
+      <created>1618304923304</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1618304923304</updated>
+    </task>
+    <task id="LOCAL-00087" summary="sync">
+      <created>1618305378613</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1618305378613</updated>
+    </task>
+    <task id="LOCAL-00088" summary="sync">
+      <created>1618306329447</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1618306329447</updated>
+    </task>
+    <task id="LOCAL-00089" summary="sync">
+      <created>1618306492503</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1618306492503</updated>
+    </task>
+    <task id="LOCAL-00090" summary="sync">
+      <created>1618307378867</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1618307378867</updated>
+    </task>
+    <task id="LOCAL-00091" summary="sync">
+      <created>1618307901610</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1618307901610</updated>
+    </task>
+    <task id="LOCAL-00092" summary="sync">
+      <created>1618308275182</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1618308275182</updated>
+    </task>
+    <task id="LOCAL-00093" summary="sync">
+      <created>1618308587826</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1618308587826</updated>
+    </task>
+    <task id="LOCAL-00094" summary="sync">
+      <created>1618309187369</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1618309187369</updated>
+    </task>
+    <task id="LOCAL-00095" summary="sync">
+      <created>1618309355478</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1618309355478</updated>
+    </task>
+    <task id="LOCAL-00096" summary="sync">
+      <created>1618309566698</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1618309566698</updated>
+    </task>
+    <task id="LOCAL-00097" summary="sync">
+      <created>1618309769882</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1618309769882</updated>
+    </task>
+    <task id="LOCAL-00098" summary="sync">
+      <created>1618310305186</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1618310305186</updated>
+    </task>
+    <task id="LOCAL-00099" summary="sync">
+      <created>1618310354799</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1618310354799</updated>
+    </task>
+    <task id="LOCAL-00100" summary="sync">
+      <created>1618310668568</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1618310668568</updated>
+    </task>
+    <task id="LOCAL-00101" summary="sync">
+      <created>1618310793315</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1618310793315</updated>
+    </task>
+    <task id="LOCAL-00102" summary="sync">
+      <created>1618311095321</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1618311095321</updated>
+    </task>
+    <task id="LOCAL-00103" summary="sync">
+      <created>1618388038496</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1618388038496</updated>
+    </task>
+    <task id="LOCAL-00104" summary="sync">
+      <created>1618389095691</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1618389095691</updated>
+    </task>
+    <task id="LOCAL-00105" summary="sync">
+      <created>1618390950692</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1618390950692</updated>
+    </task>
+    <task id="LOCAL-00106" summary="sync">
+      <created>1618390980807</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1618390980807</updated>
+    </task>
+    <task id="LOCAL-00107" summary="sync">
+      <created>1618391155842</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1618391155843</updated>
+    </task>
+    <task id="LOCAL-00108" summary="sync">
+      <created>1618394781089</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1618394781089</updated>
+    </task>
+    <task id="LOCAL-00109" summary="sync">
+      <created>1618456301899</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1618456301899</updated>
+    </task>
+    <task id="LOCAL-00110" summary="sync">
+      <created>1618457874596</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1618457874596</updated>
+    </task>
+    <task id="LOCAL-00111" summary="sync">
+      <created>1618457935259</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1618457935259</updated>
+    </task>
+    <task id="LOCAL-00112" summary="sync">
+      <created>1618458023739</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1618458023739</updated>
+    </task>
+    <task id="LOCAL-00113" summary="sync">
+      <created>1618458240635</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1618458240635</updated>
+    </task>
+    <task id="LOCAL-00114" summary="sync">
+      <created>1618458641713</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1618458641713</updated>
+    </task>
+    <task id="LOCAL-00115" summary="sync">
+      <created>1618459154889</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1618459154889</updated>
+    </task>
+    <task id="LOCAL-00116" summary="sync">
+      <created>1618459274283</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1618459274283</updated>
+    </task>
+    <task id="LOCAL-00117" summary="去除多语言选项">
+      <created>1618459356896</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1618459356896</updated>
+    </task>
+    <task id="LOCAL-00118" summary="ui 优化">
+      <created>1618467002426</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1618467002426</updated>
+    </task>
+    <task id="LOCAL-00119" summary="ui 优化">
+      <created>1618467169038</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1618467169038</updated>
+    </task>
+    <task id="LOCAL-00120" summary="top">
+      <created>1618467523091</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1618467523091</updated>
+    </task>
+    <task id="LOCAL-00121" summary="top">
+      <created>1618468002834</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1618468002834</updated>
+    </task>
+    <task id="LOCAL-00122" summary="top">
+      <created>1618468261991</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1618468261991</updated>
+    </task>
+    <task id="LOCAL-00123" summary="top">
+      <created>1618468714929</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1618468714929</updated>
+    </task>
+    <task id="LOCAL-00124" summary="top">
+      <created>1618469142945</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1618469142945</updated>
+    </task>
+    <task id="LOCAL-00125" summary="置顶功能">
+      <created>1618469559729</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1618469559729</updated>
+    </task>
+    <option name="localTasksCounter" value="126" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="..." />
+    <MESSAGE value="lib文档" />
+    <MESSAGE value="RecyclerView.md" />
+    <MESSAGE value="修改lib文档" />
+    <MESSAGE value="更改主题" />
+    <MESSAGE value="优化" />
+    <MESSAGE value="优化文档" />
+    <MESSAGE value="AVC" />
+    <MESSAGE value="sync" />
+    <MESSAGE value="去除多语言选项" />
+    <MESSAGE value="ui 优化" />
+    <MESSAGE value="top" />
+    <MESSAGE value="置顶功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="置顶功能" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="410" y="166" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1615889630773">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="410" y="166" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1615889630773" />
+    <state x="579" y="304" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1618457455462">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="579" y="304" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1618457455462" />
+    <state x="462" y="34" key="CommitChangelistDialog2" timestamp="1618469558844">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="462" y="34" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1618469558844" />
+    <state x="184" y="85" key="DiffContextDialog" timestamp="1618387939924">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="184" y="85" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1618387939924" />
+    <state x="517" y="0" key="MarkdownNavigator.PasteImageDialog" timestamp="1617959800843">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="517" y="0" key="MarkdownNavigator.PasteImageDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1617959800843" />
+    <state x="184" y="85" key="MergeDialog" timestamp="1618278281999">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="184" y="85" key="MergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1618278281999" />
+    <state x="605" y="153" key="RollbackChangesDialog" timestamp="1618308515806">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="605" y="153" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1618308515806" />
+    <state x="381" y="78" key="SettingsEditor" timestamp="1615268776893">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="381" y="78" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1615268776893" />
+    <state x="800" y="418" key="VCS.ChangelistChooser" timestamp="1618223746295">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="800" y="418" key="VCS.ChangelistChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1618223746295" />
+    <state x="452" y="188" key="Vcs.Push.Dialog.v2" timestamp="1618469561112">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="452" y="188" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1618469561112" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1618309349076">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1618309349076" />
+    <state x="696" y="136" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1618293169683">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="696" y="136" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1618293169683" />
+    <state x="695" y="414" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1618452486562">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="695" y="414" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1618452486562" />
+    <state x="940" y="390" width="757" height="650" key="find.popup" timestamp="1618467970446">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="940" y="390" width="757" height="650" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1618467970446" />
+    <state width="754" height="599" key="javadoc.popup" timestamp="1618213362839">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="754" height="599" key="javadoc.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1618213362839" />
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1618364532407">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1618364532407" />
+  </component>
+</project>

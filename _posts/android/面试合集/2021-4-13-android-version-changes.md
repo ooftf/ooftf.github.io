@@ -1,3 +1,9 @@
+---
+layout: post
+author: "ooftf"
+tags: Android
+top: true
+---
 # [版本变化](https://developer.android.com/about/versions)
 ### KitKat Android 4.4
 * **全屏沉浸模式**

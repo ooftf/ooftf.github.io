@@ -1,0 +1,84 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><p align=\"right\">\r\n    <a href=\"https://badge.fury.io/rb/just-the-docs\"><img src=\"https://badge.fury.io/rb/just-the-docs.svg\" alt=\"Gem version\"></a> <a href=\"https://github.com/pmarsceill/just-the-docs/actions?query=workflow%3A%22Master+branch+CI%22\"><img src=\"https://github.com/pmarsceill/just-the-docs/workflows/Master%20branch%20CI/badge.svg\" alt=\"Build status\"></a>\r\n</p>\r\n<br><br>\r\n<p align=\"center\">\r\n    <h1 align=\"center\">Just the Docs</h1>\r\n    <p align=\"center\">A modern, highly customizable, and responsive Jekyll theme for documentation with built-in search.<br>Easily hosted on GitHub Pages with few dependencies.</p>\r\n    <p align=\"center\"><strong><a href=\"https://pmarsceill.github.io/just-the-docs/\">See it in action!</a></strong></p>\r\n    <br><br><br>\r\n</p>\r\n\r\n![jtd](https://user-images.githubusercontent.com/896475/47384541-89053c80-d6d5-11e8-98dc-dba16e192de9.gif)\r\n\r\n## Installation\r\n\r\nAdd this line to your Jekyll site's Gemfile:\r\n\r\n```ruby\r\ngem \"just-the-docs\"\r\n```\r\n\r\nAnd add this line to your Jekyll site's `_config.yml`:\r\n\r\n```yaml\r\ntheme: just-the-docs\r\n```\r\n\r\nAnd then execute:\r\n\r\n    $ bundle\r\n\r\nOr install it yourself as:\r\n\r\n    $ gem install just-the-docs\r\n\r\nAlternatively, you can run it inside Docker while developing your site\r\n\r\n    $ docker-compose up\r\n\r\n## Usage\r\n\r\n[View the documentation](https://pmarsceill.github.io/just-the-docs/) for usage information.\r\n\r\n## Contributing\r\n\r\nBug reports and pull requests are welcome on GitHub at https://github.com/pmarsceill/just-the-docs. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.\r\n\r\n### Submitting code changes:\r\n\r\n- Open a [Pull Request](https://github.com/pmarsceill/just-the-docs/pulls)\r\n- Ensure all CI tests pass\r\n- Await code review\r\n- Bump the version number in `just-the-docs.gemspec` and `package.json` according to [semantic versioning](https://semver.org/).\r\n\r\n### Design and development principles of this theme:\r\n\r\n1. As few dependencies as possible\r\n2. No build script needed\r\n3. First class mobile experience\r\n4. Make the content shine\r\n\r\n## Development\r\n\r\nTo set up your environment to develop this theme, run `bundle install`.\r\n\r\nYour theme is set up just like a normal Jekyll site! To test your theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme. Add pages, documents, data, etc. like normal to test your theme's contents. As you make modifications to your theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.\r\n\r\nWhen the theme is released, only the files in `_layouts`, `_includes`, and `_sass` tracked with Git will be released.\r\n\r\n## License\r\n\r\nThe theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- README.md	(revision 235147ea55cfc41832ab286b1b9231f449a9b846)
++++ README.md	(date 1618276809364)
+@@ -1,72 +1,1 @@
+-<p align="right">
+-    <a href="https://badge.fury.io/rb/just-the-docs"><img src="https://badge.fury.io/rb/just-the-docs.svg" alt="Gem version"></a> <a href="https://github.com/pmarsceill/just-the-docs/actions?query=workflow%3A%22Master+branch+CI%22"><img src="https://github.com/pmarsceill/just-the-docs/workflows/Master%20branch%20CI/badge.svg" alt="Build status"></a>
+-</p>
+-<br><br>
+-<p align="center">
+-    <h1 align="center">Just the Docs</h1>
+-    <p align="center">A modern, highly customizable, and responsive Jekyll theme for documentation with built-in search.<br>Easily hosted on GitHub Pages with few dependencies.</p>
+-    <p align="center"><strong><a href="https://pmarsceill.github.io/just-the-docs/">See it in action!</a></strong></p>
+-    <br><br><br>
+-</p>
+-
+-![jtd](https://user-images.githubusercontent.com/896475/47384541-89053c80-d6d5-11e8-98dc-dba16e192de9.gif)
+-
+-## Installation
+-
+-Add this line to your Jekyll site's Gemfile:
+-
+-```ruby
+-gem "just-the-docs"
+-```
+-
+-And add this line to your Jekyll site's `_config.yml`:
+-
+-```yaml
+-theme: just-the-docs
+-```
+-
+-And then execute:
+-
+-    $ bundle
+-
+-Or install it yourself as:
+-
+-    $ gem install just-the-docs
+-
+-Alternatively, you can run it inside Docker while developing your site
+-
+-    $ docker-compose up
+-
+-## Usage
+-
+-[View the documentation](https://pmarsceill.github.io/just-the-docs/) for usage information.
+-
+-## Contributing
+-
+-Bug reports and pull requests are welcome on GitHub at https://github.com/pmarsceill/just-the-docs. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+-
+-### Submitting code changes:
+-
+-- Open a [Pull Request](https://github.com/pmarsceill/just-the-docs/pulls)
+-- Ensure all CI tests pass
+-- Await code review
+-- Bump the version number in `just-the-docs.gemspec` and `package.json` according to [semantic versioning](https://semver.org/).
+-
+-### Design and development principles of this theme:
+-
+-1. As few dependencies as possible
+-2. No build script needed
+-3. First class mobile experience
+-4. Make the content shine
+-
+-## Development
+-
+-To set up your environment to develop this theme, run `bundle install`.
+-
+-Your theme is set up just like a normal Jekyll site! To test your theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using your theme. Add pages, documents, data, etc. like normal to test your theme's contents. As you make modifications to your theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
+-
+-When the theme is released, only the files in `_layouts`, `_includes`, and `_sass` tracked with Git will be released.
+-
+-## License
+-
+-The theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
++## [github-pages](https://ooftf.github.io/)
+\ No newline at end of file
