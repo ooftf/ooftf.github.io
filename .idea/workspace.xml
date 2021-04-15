@@ -22,10 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/_posts/2021-4-11-TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2021-4-11-TODO.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_posts/2021-4-11-my-lib.md" beforeDir="false" afterPath="$PROJECT_DIR$/_posts/2021-4-11-my-lib.md" afterDir="false" />
-    </list>
+    <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
