@@ -56,7 +56,7 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 ## Service
 * service 有两种状态：启动状态和绑定状态。
 * Service 本身是运行在主线程中的，因此好事的后台计算需要在单独的线程中去完成
-* 
+
 #### IntentService
 * 内部实现是由HandlerThread + Handler方式实现。
 * 在子线程中处理任务。
