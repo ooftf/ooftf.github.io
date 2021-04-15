@@ -4,7 +4,36 @@ header-style: pic
 description: "「美好的事情即将发生」"
 ---
 
+{% for post in site.posts %}
+{% if post.top == true %}
+<div class="post-preview">
+    <a href="{{ post.url | prepend: site.baseurl }}">
+        <h2 class="post-title">
+            [置顶] {{ post.title }}
+        </h2>
+        {% if post.subtitle %}
+        <h3 class="post-subtitle">
+            {{ post.subtitle }}
+        </h3>
+        {% endif %}
+        <div class="post-content-preview">
+            {% if post.lang == 'en' %}
+            {{ post.content | strip_html | truncate:300 }}
+            {% else %}
+            {{ post.content | strip_html | truncate:200 }}
+            {% endif %}
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
+    </p>
+</div>
+<hr>
+{% endif %}
+{% endfor %}
+
 {% for post in paginator.posts %}
+{% if post.top != true %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
         <h2 class="post-title">
@@ -17,9 +46,9 @@ description: "「美好的事情即将发生」"
         {% endif %}
         <div class="post-content-preview">
             {% if post.lang == 'en' %}
-                {{ post.content | strip_html | truncate:300 }}
+            {{ post.content | strip_html | truncate:300 }}
             {% else %}
-                {{ post.content | strip_html | truncate:200 }}
+            {{ post.content | strip_html | truncate:200 }}
             {% endif %}
         </div>
     </a>
@@ -28,8 +57,8 @@ description: "「美好的事情即将发生」"
     </p>
 </div>
 <hr>
+{% endif %}
 {% endfor %}
-
 <!-- Pager -->
 {% if paginator.total_pages > 1 %}
 <ul class="pager">
