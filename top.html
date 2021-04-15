@@ -2,6 +2,7 @@
 layout: page
 title: "TOP"
 description: "专心写作"
+header-style: pic
 ---
 
 {% for post in site.posts %}
@@ -32,7 +33,7 @@ description: "专心写作"
 {% endif %}
 {% endfor %}
 
-{% for post in paginator.posts %}
+{% for post in site.posts %}
 {% if post.top != true %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
@@ -59,7 +60,7 @@ description: "专心写作"
 <hr>
 {% endif %}
 {% endfor %}
-
+{{paginator.total_pages}}
 <!-- Pager -->
 {% if paginator.total_pages > 1 %}
 <ul class="pager">
