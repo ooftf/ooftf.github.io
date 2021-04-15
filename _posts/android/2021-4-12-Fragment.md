@@ -3,6 +3,7 @@ layout: post
 author: "ooftf"
 tags: Android
 ---
+![Fragment生命周期](https://upload-images.jianshu.io/upload_images/1688279-0424d62f50035b43.png?imageMogr2/auto-orient/strip|imageView2/2/w/317/format/webp)
 ### 为什么出出现fragment重叠现象:
     因为activity内存回收的时候，fragment被FragmentManager保存了下来，当再次创建Activity的时候，原来被保存下来的fragment默认为显示状态
     解决方式：
