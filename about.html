@@ -12,7 +12,10 @@ header-style: pic
     {% capture about_zh %}{% post 2021-4-11-my-lib.md %}{% endcapture %}
     {{ about_zh | markdownify }}
 </div>
-
+<div class="zh post-container">
+    {% capture about_zh %}{% post 2021-4-11-the-third-party.md %}{% endcapture %}
+    {{ about_zh | markdownify }}
+</div>
 <!-- English Version -->
 <!--<div class="en post-container">
     {% capture about_en %}{% include about/en.md %}{% endcapture %}
