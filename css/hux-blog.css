@@ -1,4 +1,4 @@
-@media (min-width: 1200px) {
+@media (min-width: 1500px) {
   .post-container,
   .sidebar-container {
     padding-right: 5%;
@@ -131,7 +131,7 @@
 .side-catalog .catalog-body .active a {
   color: #0085a1 !important;
 }
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
   .side-catalog {
     display: none;
   }
@@ -1054,7 +1054,7 @@ samp {
 .navbar-custom.invert .nav li a:focus {
   color: #0085a1;
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 1370px) {
   .navbar-custom {
     -webkit-transition: background-color 0.3s;
     -moz-transition: background-color 0.3s;
