@@ -73,7 +73,7 @@ top: true
       }
     ```
 
-### Oreo Android 8.0
+### Oreo Android 8.0 API 26 (Android 8.1 API 27)
 * [通知](https://developer.android.com/guide/topics/ui/notifiers/notifications#ManageChannels)
   * [通知渠道](https://developer.android.com/guide/topics/ui/notifiers/notifications#ManageChannels)  
     通知渠道：Android 8.0 引入了通知渠道，其允许您为要显示的每种通知类型创建用户可自定义的渠道。用户界面将通知渠道称之为通知类别
@@ -95,7 +95,7 @@ top: true
 * [固定快捷方式和小部件](https://developer.android.com/guide/topics/ui/shortcuts)  
   Android 8.0 引入了快捷方式和微件的应用内固定功能。在您的应用中，您可以根据用户权限为支持的启动器创建固定的快捷方式和小部件。
 
-### Pie Android 9.0
+### Pie Android 9.0 API 28
 * 对使用非 SDK 接口的限制
 * 前台服务  
   如果应用以 Android 9 或更高版本为目标平台并使用前台服务，则必须请求 FOREGROUND_SERVICE 权限。这是普通权限，因此，系统会自动为请求权限的应用授予此权限。
