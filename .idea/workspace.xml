@@ -23,18 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021_4_13_9_44_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021_4_13_9_44__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/bootstrap.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/hux-blog.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hux-blog.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/hux-blog.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/hux-blog.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/hux-blog.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/hux-blog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/hux-blog.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/hux-blog.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/less/hux-blog.less" beforeDir="false" afterPath="$PROJECT_DIR$/less/hux-blog.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/less/side-catalog.less" beforeDir="false" afterPath="$PROJECT_DIR$/less/side-catalog.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/less/sidebar.less" beforeDir="false" afterPath="$PROJECT_DIR$/less/sidebar.less" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

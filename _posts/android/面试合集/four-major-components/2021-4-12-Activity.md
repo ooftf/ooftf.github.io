@@ -52,6 +52,7 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 此时的界面应该是ActivityB，可是奇迹又出现了，当前显示的界面是ActivityA。这是因为当重新启动的时候，
 系统会先去找主栈（我是这么叫的）里的activity，也就是APP中LAUNCHER的activity所处在的栈。
 查看是否有存在的activity。没有的话则会重新启动LAUNCHER。
+###  Activity 启动流程 API 30
 
 ## Service
 * service 有两种状态：启动状态和绑定状态。
@@ -61,5 +62,10 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 * 内部实现是由HandlerThread + Handler方式实现。
 * 在子线程中处理任务。
 * 在所有任务处理完成后自动推出。
-* 只处理了onStartCommand方法，onBind为空实现，代表只能由startService方式启动猜有效果，并不支持bindService
+* 只处理了onStartCommand方法，onBind为空实现，代表只能由startService方式启动才有效果，并不支持bindService
 * Android 8.0以上不推荐使用IntentService了，Google推荐使用JobIntentService
+
+
+
+
+
