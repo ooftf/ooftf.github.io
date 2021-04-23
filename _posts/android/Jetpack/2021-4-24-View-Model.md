@@ -1,4 +1,3 @@
-# ViweModel
 ### 项目配置ViewModel支持
 ```groovy
     def lifecycle_version = "2.3.1"
@@ -68,9 +67,11 @@
         return mViewModelStore;
     }
   ```
-  通过学习横竖屏切换相关的知识可知：我横竖屏切换时可以通过 onRestoreInstanceState 方法返回需要保存的对象，然后在新的Activity中通过 getLastNonConfigurationInstance 方法获取到保存的对象  
+* 通过学习横竖屏切换相关的知识可知：我横竖屏切换时可以通过 onRetainNonConfigurationInstance 方法返回需要保存的对象，然后在新的Activity中通过 getLastNonConfigurationInstance 方法 获取到保存的对象  
+
+* 查看 onRetainNonConfigurationInstance 方法可知，在横竖屏切换时保存了viewModelStore对象。因此新旧Activity获取到的viewModelStore是同一个实例，自然获取到的ViewModel也是同一个实例
   ```java
-  @Override
+    @Override
     @Nullable
     public final Object onRetainNonConfigurationInstance() {
         Object custom = onRetainCustomNonConfigurationInstance();
@@ -96,25 +97,25 @@
         return nci;
     }
   ``` 
-   查看 onRetainNonConfigurationInstance 方法可知，在横竖屏切换时保存了viewModelStore对象
-   因此新旧Activity获取到的viewModelStore是同一个实例，自然获取到的ViewModel也是同一个实例
 
 ### ViweModel.clear 的调用时机
+
 ```java
-    public ComponentActivity() {
-        ...
-        getLifecycle().addObserver(new LifecycleEventObserver() {
-            @Override
-            public void onStateChanged(@NonNull LifecycleOwner source,
-                    @NonNull Lifecycle.Event event) {
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                    if (!isChangingConfigurations()) {
-                        getViewModelStore().clear();
-                    }
+public ComponentActivity() {
+    ...
+    getLifecycle().addObserver(new LifecycleEventObserver() {
+        @Override
+        public void onStateChanged(@NonNull LifecycleOwner source,
+                @NonNull Lifecycle.Event event) {
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                if (!isChangingConfigurations()) {
+                    getViewModelStore().clear();
                 }
             }
-        });
-        ...
-    }
+        }
+    });
+    ...
+}
 ```
+
 由代码可知 Activity在创建的时候通过Lifecycle 监听ON_DESTROY生命周期，通过isChangingConfigurations判断如果不是横竖屏切换，就会执行clear方法
