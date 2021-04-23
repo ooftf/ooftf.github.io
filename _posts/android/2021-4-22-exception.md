@@ -40,3 +40,15 @@ org.bouncycastle:bcpkix-jdk15on:1.59
 比如，使用了A库，A库使用了B库，同时C库也使用了B库，但是C库使用的B库版本比较高，就会导致最终使用的B库是高版本的，但是B库高版本比低版本少了某个类，这个类刚好被A库本使用
 * 是自己编写的类
 有可能是Transform API 导致转移Jar 出错导致的    
+
+#### java.util.ConcurrentModificationException
+```
+1 java.util.ArrayList$Itr.next(ArrayList.java:860)
+2 com.google.gson.internal.bind.CollectionTypeAdapterFactory$Adapter.write(CollectionTypeAdapterFactory.java:96)
+3 com.google.gson.internal.bind.CollectionTypeAdapterFactory$Adapter.write(CollectionTypeAdapterFactory.java:61)
+4 com.google.gson.Gson.toJson(Gson.java:704)
+5 com.google.gson.Gson.toJson(Gson.java:683)
+6 com.google.gson.Gson.toJson(Gson.java:638)
+7 com.google.gson.Gson.toJson(Gson.java:618)
+```
+这种错误大概率是因为，在进行JSON转换的时候，还在修改List，大多是因为并发导致，可以使用线程安全的类，比如CopyOnWri

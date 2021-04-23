@@ -13,7 +13,7 @@
 * lifecycle 感知 Activity Fragment Service Application 组件生命周期
 * navigation Fragment导航组件，适合用于单一Activity + 多Fragment形式的Activity
 * pagging 列表分页加载组件，在分页异步数据读取过程中，展示默认Item，管理调用时机
-* room 数据库王家
+* room 数据库
 * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) 调度在退出应用或重启设备后仍应运行的可延期异步任务
 * asynclayoutinflater	异步膨胀布局以避免界面出现卡顿。
 cardview	用圆角和阴影实现 Material Design 卡片模式。

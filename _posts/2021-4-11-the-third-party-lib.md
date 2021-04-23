@@ -15,3 +15,4 @@ tags: LibIndex
 |[Matisse](https://github.com/zhihu/Matisse)|implementation 'com.zhihu.android:matisse:$latest_version'|[ ![Download](https://api.bintray.com/packages/zhihu/maven/matisse/images/download.svg) ](https://bintray.com/zhihu/maven/matisse/_latestVersion)|图片选择|4|
 |[MMKV](https://github.com/Tencent/MMKV)|  implementation 'com.tencent:mmkv-static:1.2.7'|[![Release Version](https://img.shields.io/badge/release-1.2.7-brightgreen.svg)](https://github.com/Tencent/MMKV/releases)||4|
 |[TIMSDK](https://github.com/tencentyun/TIMSDK)|||||
+|[gson](https://github.com/google/gson)|implementation 'com.google.code.gson:gson:2.8.6'||||
