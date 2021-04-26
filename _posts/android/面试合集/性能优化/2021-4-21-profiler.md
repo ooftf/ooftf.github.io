@@ -4,7 +4,7 @@
 * 查看函数调用
 
 [官网文档](https://developer.android.com/studio/profile/cpu-profiler#configurations)
-![CPU](../../../../images/profiler-cup.png)
+![CPU](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler-cup.png?raw=true)
 如图所示
 * 红色部分：历史Record记录
 * 黄色部分：操作台用于发起Record
