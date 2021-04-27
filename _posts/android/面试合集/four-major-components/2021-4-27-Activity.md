@@ -1,6 +1,7 @@
 ---
 layout: post
 author: "ooftf"
+top: true
 tags: [Android,Activity]
 ---
 
@@ -60,7 +61,7 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
  * ActivityTaskManagerService.startActivity() 调用 ActivityTaskManagerService.startActivityAsUser
  * ActivityTaskManagerService.startActivityAsUser() 调用 ActivityStarter.execute()   
  * ActivityStarter.execute() 调用 ActivityStarter.executeRequest  
- * ActivityStarter.executeRequest 调用了 ActivityStarter.startActivityUnchecked    
+ * ActivityStarter.executeRequest 调用 ActivityStarter.startActivityUnchecked    
  * ActivityStarter.startActivityUnchecked  调用  ActivityStarter.startActivityInner  
  * ActivityStarter.startActivityInner 调用 RootWindowContainer.resumeFocusedStacksTopActivities()
  * RootWindowContainer.resumeFocusedStacksTopActivities() 调用 ActivityStack.resumeTopActivityUncheckedLocked
@@ -218,13 +219,16 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 * ActivityStarter  
   * Controller for interpreting how and then launching an activity.
   * This class collects all the logic for determining how an intent and flags should be turned into an activity and associated task and stack.
-  * 如何将一个 Intent 转换为 Activity 并关联到对应的任务栈
+  * 将一个 Intent 转换为 Activity 并关联到对应的任务栈
 * RootWindowContainer
-* ActivityStack
+* ActivityStack  
+  应该就是我们平常所说的 Activity 栈
 * ActivityStackSupervisor
 * ClientTransaction
-* LaunchActivityItem
-* ApplicationThread
+* LaunchActivityItem   
+  专门用于启动 Activity 的 BaseClientRequest 和 ClientTransaction 配合使用
+* ApplicationThread  
+  用于和 AMS 交互
 * ActivityThread      
 * Instrumentation 
 * AppComponentFactory   
