@@ -54,10 +54,12 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 查看是否有存在的activity。没有的话则会重新启动LAUNCHER。
 
 ###  Activity 启动流程 API 30
+
 ![Activity 启动流程图](https://github.com/ooftf/ooftf.github.io/blob/master/images/android30_activity_start.png?raw=true)
+
 * Activity.startActivity() 调用了 Activity.startActivityForResult()
-* Activity.startActivityForResult() 调用了 mInstrumentation.execStartActivity()
-* mInstrumentation.execStartActivity() 调用了 ActivityTaskManager.getService().startActivity()
+* Activity.startActivityForResult() 调用了 Instrumentation.execStartActivity()
+* Instrumentation.execStartActivity() 调用了 ActivityTaskManager.getService().startActivity()
 * ActivityTaskManager.getService().startActivity()  
   ActivityTaskManager.getService() 获取到的是 IActivityTaskManager 的一个单例
   IActivityTaskManager 是一个Binder类型的对象 创建方式如下
@@ -166,7 +168,7 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
           return activity;
       }
   ```
-* Activity的实例是由 Instrumentation.newActivity 创建的
+* Activity 的实例是由 Instrumentation.newActivity 创建的
 * Instrumentation.newActivity 调用了 AppComonentFactory.instantiateActivity
 * AppComponentFactory.instantiateActivity
   ```java
@@ -177,9 +179,20 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
       }
   ```
 
+### 创建 Activity 类的调用顺序
+* Activity
+* Instrumentation
+* ActivityTaskManagerService
+* ActivityStarter
+* RootWindowContainer
+* ActivityStack
+* ActivityStackSupervisor
+* ClientTransaction
+* LaunchActivityItem
+* ActivityThread      
+* Instrumentation 
+* AppComponentFactory   
 
-
-                   
 ## Service
 * service 有两种状态：启动状态和绑定状态。
 * Service 本身是运行在主线程中的，因此好事的后台计算需要在单独的线程中去完成
