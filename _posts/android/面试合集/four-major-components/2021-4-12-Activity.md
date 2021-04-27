@@ -52,6 +52,7 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 此时的界面应该是ActivityB，可是奇迹又出现了，当前显示的界面是ActivityA。这是因为当重新启动的时候，
 系统会先去找主栈（我是这么叫的）里的activity，也就是APP中LAUNCHER的activity所处在的栈。
 查看是否有存在的activity。没有的话则会重新启动LAUNCHER。
+
 ###  Activity 启动流程 API 30
 ![Activity 启动流程图](https://github.com/ooftf/ooftf.github.io/blob/master/images/android30_activity_start.png?raw=true)
 * Activity.startActivity() 调用了 Activity.startActivityForResult()
@@ -76,105 +77,105 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
  * ActivityStack.resumeTopActivityUncheckedLocked 调用 ActivityStack.resumeTopActivityInnerLocked
  * ActivityStack.resumeTopActivityInnerLocked 调用 ActivityStackSupervisor.startSpecificActivity()
  * ActivityStackSupervisor.startSpecificActivity() 调用 ActivityStackSupervisor.realStartActivityLocked
- ```java
-  boolean realStartActivityLocked(ActivityRecord r, WindowProcessController proc,
-            boolean andResume, boolean checkConfig) throws RemoteException {
-              ...
-                // Create activity launch transaction.
-                final ClientTransaction clientTransaction = ClientTransaction.obtain(
-                        proc.getThread(), r.appToken);
-
-                final DisplayContent dc = r.getDisplay().mDisplayContent;
-                clientTransaction.addCallback(LaunchActivityItem.obtain(new Intent(r.intent),
-                        System.identityHashCode(r), r.info,
-                        // TODO: Have this take the merged configuration instead of separate global
-                        // and override configs.
-                        mergedConfiguration.getGlobalConfiguration(),
-                        mergedConfiguration.getOverrideConfiguration(), r.compat,
-                        r.launchedFromPackage, task.voiceInteractor, proc.getReportedProcState(),
-                        r.getSavedState(), r.getPersistentSavedState(), results, newIntents,
-                        dc.isNextTransitionForward(), proc.createProfilerInfoIfNeeded(),
-                        r.assistToken, r.createFixedRotationAdjustmentsIfNeeded()));
-
-                // Set desired final state.
-                final ActivityLifecycleItem lifecycleItem;
-                if (andResume) {
-                    lifecycleItem = ResumeActivityItem.obtain(dc.isNextTransitionForward());
-                } else {
-                    lifecycleItem = PauseActivityItem.obtain();
-                }
-                clientTransaction.setLifecycleStateRequest(lifecycleItem);
-
-                // Schedule transaction.
-                mService.getLifecycleManager().scheduleTransaction(clientTransaction);
-              ...
-            }
-
- ```
-上述代码属于非线性调用，mService.getLifecycleManager().scheduleTransaction(clientTransaction); 向 ClientLifecycleManager 添加了 ClientTransaction 计划任务，ClientTransaction 又添加了LaunchActivityItem 作为 CallBack 所以最终会调用  LaunchActivityItem.execute
+   ```java
+    boolean realStartActivityLocked(ActivityRecord r, WindowProcessController proc,
+              boolean andResume, boolean checkConfig) throws RemoteException {
+                ...
+                  // Create activity launch transaction.
+                  final ClientTransaction clientTransaction = ClientTransaction.obtain(
+                          proc.getThread(), r.appToken);
+  
+                  final DisplayContent dc = r.getDisplay().mDisplayContent;
+                  clientTransaction.addCallback(LaunchActivityItem.obtain(new Intent(r.intent),
+                          System.identityHashCode(r), r.info,
+                          // TODO: Have this take the merged configuration instead of separate global
+                          // and override configs.
+                          mergedConfiguration.getGlobalConfiguration(),
+                          mergedConfiguration.getOverrideConfiguration(), r.compat,
+                          r.launchedFromPackage, task.voiceInteractor, proc.getReportedProcState(),
+                          r.getSavedState(), r.getPersistentSavedState(), results, newIntents,
+                          dc.isNextTransitionForward(), proc.createProfilerInfoIfNeeded(),
+                          r.assistToken, r.createFixedRotationAdjustmentsIfNeeded()));
+  
+                  // Set desired final state.
+                  final ActivityLifecycleItem lifecycleItem;
+                  if (andResume) {
+                      lifecycleItem = ResumeActivityItem.obtain(dc.isNextTransitionForward());
+                  } else {
+                      lifecycleItem = PauseActivityItem.obtain();
+                  }
+                  clientTransaction.setLifecycleStateRequest(lifecycleItem);
+  
+                  // Schedule transaction.
+                  mService.getLifecycleManager().scheduleTransaction(clientTransaction);
+                ...
+              }
+  
+   ```
+  上述代码属于非线性调用，mService.getLifecycleManager().scheduleTransaction(clientTransaction); 向 ClientLifecycleManager 添加了 ClientTransaction 计划任务，ClientTransaction 又添加了LaunchActivityItem 作为 CallBack 所以最终会调用  LaunchActivityItem.execute
 * LaunchActivityItem.execute 调用 ClientTransactionHandler.handleLaunchActivity
 * ClientTransactionHandler 的实现类是 ActivityThread 所以最终走向了 ActivityThread.handleLaunchActivity
 * ActivityThread.performLaunchActivity
-```java
- /**  Core implementation of activity launch. */
-    private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
-        ...
-        ContextImpl appContext = createBaseContextForActivity(r);
-        Activity activity = null;
-        try {
-            java.lang.ClassLoader cl = appContext.getClassLoader();
-            activity = mInstrumentation.newActivity(
-                    cl, component.getClassName(), r.intent);
-            StrictMode.incrementExpectedActivityCount(activity.getClass());
-            r.intent.setExtrasClassLoader(cl);
-            r.intent.prepareToEnterProcess();
-            if (r.state != null) {
-                r.state.setClassLoader(cl);
-            }
-        } catch (Exception e) {
-            if (!mInstrumentation.onException(activity, e)) {
-                throw new RuntimeException(
-                    "Unable to instantiate activity " + component
-                    + ": " + e.toString(), e);
-            }
-        }
-
-        ...
-        Application app = r.packageInfo.makeApplication(false, mInstrumentation);
-        ...
-        if (activity != null) {
-           
-            if (r.isPersistable()) {
-                mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
-            } else {
-                mInstrumentation.callActivityOnCreate(activity, r.state);
-            }
-            
-        }
-        ...
-        r.activity = activity;
-        ...
-        r.setState(ON_CREATE)
-        // updatePendingActivityConfiguration() reads from mActivities to update
-        // ActivityClientRecord which runs in a different thread. Protect modifications to
-        // mActivities to avoid race.
-        synchronized (mResourcesManager) {
-            mActivities.put(r.token, r);
-        }
-        ...
-        return activity;
-    }
-```
+  ```java
+   /**  Core implementation of activity launch. */
+      private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
+          ...
+          ContextImpl appContext = createBaseContextForActivity(r);
+          Activity activity = null;
+          try {
+              java.lang.ClassLoader cl = appContext.getClassLoader();
+              activity = mInstrumentation.newActivity(
+                      cl, component.getClassName(), r.intent);
+              StrictMode.incrementExpectedActivityCount(activity.getClass());
+              r.intent.setExtrasClassLoader(cl);
+              r.intent.prepareToEnterProcess();
+              if (r.state != null) {
+                  r.state.setClassLoader(cl);
+              }
+          } catch (Exception e) {
+              if (!mInstrumentation.onException(activity, e)) {
+                  throw new RuntimeException(
+                      "Unable to instantiate activity " + component
+                      + ": " + e.toString(), e);
+              }
+          }
+  
+          ...
+          Application app = r.packageInfo.makeApplication(false, mInstrumentation);
+          ...
+          if (activity != null) {
+             
+              if (r.isPersistable()) {
+                  mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
+              } else {
+                  mInstrumentation.callActivityOnCreate(activity, r.state);
+              }
+              
+          }
+          ...
+          r.activity = activity;
+          ...
+          r.setState(ON_CREATE)
+          // updatePendingActivityConfiguration() reads from mActivities to update
+          // ActivityClientRecord which runs in a different thread. Protect modifications to
+          // mActivities to avoid race.
+          synchronized (mResourcesManager) {
+              mActivities.put(r.token, r);
+          }
+          ...
+          return activity;
+      }
+  ```
 * Activity的实例是由 Instrumentation.newActivity 创建的
 * Instrumentation.newActivity 调用了 AppComonentFactory.instantiateActivity
 * AppComponentFactory.instantiateActivity
-```java
-  public @NonNull Activity instantiateActivity(@NonNull ClassLoader cl, @NonNull String className,
-            @Nullable Intent intent)
-            throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        return (Activity) cl.loadClass(className).newInstance();
-    }
-```
+  ```java
+    public @NonNull Activity instantiateActivity(@NonNull ClassLoader cl, @NonNull String className,
+              @Nullable Intent intent)
+              throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+          return (Activity) cl.loadClass(className).newInstance();
+      }
+  ```
 
 
 
