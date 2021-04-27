@@ -55,6 +55,8 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 
 ###  Activity 启动流程 API 30
 
+[参考文章](https://blog.csdn.net/u010921373/article/details/109253342)
+
 ![Activity 启动流程图](https://github.com/ooftf/ooftf.github.io/blob/master/images/android30_activity_start.png?raw=true)
 
 * Activity.startActivity() 调用了 Activity.startActivityForResult()
@@ -114,7 +116,52 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
               }
   
    ```
-  上述代码属于非线性调用，mService.getLifecycleManager().scheduleTransaction(clientTransaction); 向 ClientLifecycleManager 添加了 ClientTransaction 计划任务，ClientTransaction 又添加了LaunchActivityItem 作为 CallBack 所以最终会调用  LaunchActivityItem.execute
+  mService.getLifecycleManager().scheduleTransaction(clientTransaction); 向 ClientLifecycleManager 添加了 ClientTransaction 计划任务，ClientTransaction 又添加了LaunchActivityItem 作为 CallBack 所以最终会调用  LaunchActivityItem.execute
+* clientTransaction 是如何被调用的呢
+  * ClientLifecycleManager.scheduleTransaction() 调用了 ClientTransaction.schedule()
+  * ClientTransaction.schedule() 调用了 IApplicationThread.scheduleTransaction()
+  * 已知 IApplicationThread 的实现类是 ApplicationThread ；查看 ApplicationThread.scheduleTransaction()
+  * ApplicationThread.scheduleTransaction() 调用 ActivityThread.scheduleTransaction
+    ```java
+     void scheduleTransaction(ClientTransaction transaction) {
+          transaction.preExecute(this);
+          sendMessage(ActivityThread.H.EXECUTE_TRANSACTION, transaction);
+      }
+    ```
+ * ClientTransactionHandler.sendMessage 的实现是 ActivityThread.sendMessage
+   ```java
+    private void sendMessage(int what, Object obj, int arg1, int arg2, boolean async) {
+          if (DEBUG_MESSAGES) {
+              Slog.v(TAG,
+                      "SCHEDULE " + what + " " + mH.codeToString(what) + ": " + arg1 + " / " + obj);
+          }
+          Message msg = Message.obtain();
+          msg.what = what;
+          msg.obj = obj;
+          msg.arg1 = arg1;
+          msg.arg2 = arg2;
+          if (async) {
+              msg.setAsynchronous(true);
+          }
+          mH.sendMessage(msg);
+      }
+   ```
+ * 接受 Message 是在 ActivityThread.H.handleMessage 内
+   ```java
+   case EXECUTE_TRANSACTION:
+                      final ClientTransaction transaction = (ClientTransaction) msg.obj;
+                      mTransactionExecutor.execute(transaction);
+                      if (isSystem()) {
+                          // Client transactions inside system process are recycled on the client side
+                          // instead of ClientLifecycleManager to avoid being cleared before this
+                          // message is handled.
+                          transaction.recycle();
+                      }
+                      // TODO(lifecycler): Recycle locally scheduled transactions.
+                      break;
+   ```
+
+
 * LaunchActivityItem.execute 调用 ClientTransactionHandler.handleLaunchActivity
 * ClientTransactionHandler 的实现类是 ActivityThread 所以最终走向了 ActivityThread.handleLaunchActivity
 * ActivityThread.performLaunchActivity

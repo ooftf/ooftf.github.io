@@ -1054,7 +1054,7 @@ samp {
 .navbar-custom.invert .nav li a:focus {
   color: #0085a1;
 }
-@media only screen and (min-width: 1370px) {
+@media only screen and (min-width: 1450px) {
   .navbar-custom {
     -webkit-transition: background-color 0.3s;
     -moz-transition: background-color 0.3s;
