@@ -26,5 +26,12 @@ android{
 * DataBinding 生成的 BindingImpl 类在哪里
   \build\generated\ap_generated_sources\debug\out\{applicationId}\databinding\{name}BindingImpl
 
+## be careful
+* java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
+  即使 App Module 没有使用 dataBinding 也要配置 dataBinding
+  ```groovy
+  dataBinding {
+      nabled true
+  }
+  ```
 
-  
