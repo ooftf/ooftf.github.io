@@ -25,7 +25,7 @@ tags: [Android,Activity,Service,BroadcastReceiver,ContentProvider]
 * 在子线程中处理任务。
 * 在所有任务处理完成后自动推出。
 * 只处理了onStartCommand方法，onBind为空实现，代表只能由startService方式启动才有效果，并不支持bindService
-* Android 8.0以上不推荐使用IntentService了，Google推荐使用JobIntentService
+* Android 8.0 以上不推荐使用IntentService了，Google推荐使用JobIntentService
 
 
 
