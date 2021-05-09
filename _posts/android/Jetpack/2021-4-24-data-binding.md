@@ -1,7 +1,7 @@
 ### DataBinding 配置
 ```groovy
 android{
-     buildFeatures {
+    buildFeatures {
         dataBinding true
     }
 }
@@ -30,8 +30,8 @@ android{
 * java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
   即使 App Module 没有使用 dataBinding 也要配置 dataBinding
   ```groovy
-  dataBinding {
-      nabled true
+  buildFeatures {
+          dataBinding true
   }
   ```
 

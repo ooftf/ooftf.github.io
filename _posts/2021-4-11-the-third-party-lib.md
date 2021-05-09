@@ -6,13 +6,13 @@ tags: LibIndex
 ---
 |名称|引用|Maven|描述|评级|
 |---|---|---|---|---|
-|[Android-PickerView](https://github.com/Bigkoo/Android-PickerView)|compile 'com.contrarywind:Android-PickerView:4.1.9'|[![Download](https://api.bintray.com/packages/contrarywind/maven/Android-PickerView/images/download.svg) ](https://bintray.com/contrarywind/maven/Android-PickerView/_latestVersion)|选择图片|
+|[Android-PickerView](https://github.com/Bigkoo/Android-PickerView)|compile 'com.contrarywind:Android-PickerView:4.1.9'|[![Download](https://api.bintray.com/packages/contrarywind/maven/Android-PickerView/badge.svg) ](https://bintray.com/contrarywind/maven/Android-PickerView/_latestVersion)|选择图片|
 |[EasyFloat](https://github.com/princekin-f/EasyFloat)|implementation 'com.github.princekin-f:EasyFloat:Tag'| [![](https://jitpack.io/v/princekin-f/EasyFloat.svg)](https://jitpack.io/#princekin-f/EasyFloat)|全局Dialog,浮窗|4|
 |[ShadowLayout](https://github.com/lihangleo2/ShadowLayout)|implementation 'com.github.lihangleo2:ShadowLayout:Tag'|[![](https://jitpack.io/v/lihangleo2/ShadowLayout.svg)](https://jitpack.io/#lihangleo2/ShadowLayout)|阴影|-|
 |[okhttp](https://github.com/square/okhttp)|implementation("com.squareup.okhttp3:okhttp:4.9.1")|-|网络请求框架|5|
 |[binding-collection-adapter](https://github.com/evant/binding-collection-adapter)|implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:4.0.0'  implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:4.0.0'  implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-viewpager2:4.0.0'|[![Maven Central](https://maven-badges.herokuapp.com/maven-central/me.tatarka.bindingcollectionadapter2/bindingcollectionadapter/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/me.tatarka.bindingcollectionadapter2/bindingcollectionadapter)|mvvm adapter|5|
 |[AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)|implementation 'com.blankj:utilcodex:1.30.6'|-|工具类|5|
-|[Matisse](https://github.com/zhihu/Matisse)|implementation 'com.zhihu.android:matisse:$latest_version'|[ ![Download](https://api.bintray.com/packages/zhihu/maven/matisse/images/download.svg) ](https://bintray.com/zhihu/maven/matisse/_latestVersion)|图片选择|4|
+|[Matisse](https://github.com/zhihu/Matisse)|implementation 'com.zhihu.android:matisse:$latest_version'|[ ![Download](https://api.bintray.com/packages/zhihu/maven/matisse/badge.svg) ](https://bintray.com/zhihu/maven/matisse/_latestVersion)|图片选择|4|
 |[MMKV](https://github.com/Tencent/MMKV)|  implementation 'com.tencent:mmkv-static:1.2.7'|[![Release Version](https://img.shields.io/badge/release-1.2.7-brightgreen.svg)](https://github.com/Tencent/MMKV/releases)||4|
 |[TIMSDK](https://github.com/tencentyun/TIMSDK)|||腾讯IM服务|3|
 |[gson](https://github.com/google/gson)|implementation 'com.google.code.gson:gson:2.8.6'|||4.5|
