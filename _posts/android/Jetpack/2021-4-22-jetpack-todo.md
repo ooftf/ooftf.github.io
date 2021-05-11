@@ -16,4 +16,4 @@
 * room 数据库
 * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) 调度在退出应用或重启设备后仍应运行的可延期异步任务
 * asynclayoutinflater	异步膨胀布局以避免界面出现卡顿。
-cardview	用圆角和阴影实现 Material Design 卡片模式。
+* cardview	用圆角和阴影实现 Material Design 卡片模式。
