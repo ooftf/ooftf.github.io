@@ -51,4 +51,24 @@ org.bouncycastle:bcpkix-jdk15on:1.59
 6 com.google.gson.Gson.toJson(Gson.java:638)
 7 com.google.gson.Gson.toJson(Gson.java:618)
 ```
-这种错误大概率是因为，在进行JSON转换的时候，还在修改List，大多是因为并发导致，可以使用线程安全的类，比如CopyOnWri
+这种错误大概率是因为，在进行JSON转换的时候，还在修改List，大多是因为并发导致，可以使用线程安全的类，比如 CopyOnWriteArrayList
+
+#### 
+```
+   > Could not resolve com.github.ooftf:autoregister:1.4.3.
+     Required by:
+         project :
+      > No matching variant of com.github.ooftf:autoregister:1.4.3 was found. The consumer was configured to find a runtime of a library compatible with Java 8, packaged as a jar, and its dependencies declared externally but:
+          - Variant 'apiElements' capability com.github.ooftf:autoregister:1.4.3 declares a library, packaged as a jar, and its dependencies declared externally:
+              - Incompatible because this component declares an API of a component compatible with Java 11 and the consumer needed a runtime of a component compatible with Java 8
+          - Variant 'runtimeElements' capability com.github.ooftf:autoregister:1.4.3 declares a runtime of a library, packaged as a jar, and its dependencies declared externally:
+              - Incompatible because this component declares a component compatible with Java 11 and the consumer needed a component compatible with Java 8
+```
+* 原因：引用库(一般是插件)要求Java 11 版本，但是当前项目是Java 8
+* 解决方式
+  1. 将引用库的要求版本版本改为 Java 8
+     ```groovy
+     sourceCompatibility = "8"
+     targetCompatibility = "8"
+     ```
+  2. 将当前项目改为Java 11
