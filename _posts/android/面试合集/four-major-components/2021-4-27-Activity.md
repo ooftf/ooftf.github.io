@@ -214,8 +214,8 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 #### 创建 Activity 类的调用顺序
 * Activity
 * Instrumentation
-* ActivityTaskManagerService
-* A pplicationThread
+* ActivityTaskManagerService  
+  * 系统服务
 * ActivityStarter  
   * Controller for interpreting how and then launching an activity.
   * This class collects all the logic for determining how an intent and flags should be turned into an activity and associated task and stack.
