@@ -19,6 +19,10 @@ tags: [Android,Activity]
 --------------------------------------------------------------------
 #### 从点击图标到Activity展示过程
 #### 启动模式
+1. standard
+2. singleTop
+3. singleTask
+4. singleInstrance
 ###### singleInstance
 **字面上理解为单一实例。  它具备所有singleTask的特点，唯一不同的是，它是存在于另一个任务栈中。上面的三种模式都存在于同一个任务栈中，
 而这种模式则是存在于另一个任务栈中。举个例子，上面的启动模式都存在于地球上，而这种模式存在于火星上。
@@ -40,6 +44,9 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 系统会先去找主栈（我是这么叫的）里的activity，也就是APP中LAUNCHER的activity所处在的栈。
 查看是否有存在的activity。没有的话则会重新启动LAUNCHER。
 
+### startActivityForResult
+A 通过 startActivityForResult 启动B ，B 启动 C ，在C展示过程中关闭 B 并不会回调 A 的 onActivityResult   
+onActivityResult 当 A 回到前台的时候才会回调
 ###  Activity 启动流程 API 30
 
 [参考文章](https://blog.csdn.net/u010921373/article/details/109253342)
@@ -212,26 +219,31 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
   ```
 
 #### 创建 Activity 类的调用顺序
-* Activity
-* Instrumentation
-* ActivityTaskManagerService  
+* Activity.startActivity() ->startActivityForResult()
+* Instrumentation.execStartActivity()
+* ActivityTaskManagerService.startActivity ->  startActivityAsUser()
   * 系统服务
-* ActivityStarter  
+* ActivityStarter.execute() -> startActivityInner()
   * Controller for interpreting how and then launching an activity.
   * This class collects all the logic for determining how an intent and flags should be turned into an activity and associated task and stack.
   * 将一个 Intent 转换为 Activity 并关联到对应的任务栈
-* RootWindowContainer
-* ActivityStack  
+* RootWindowContainer.resumeFocusedStacksTopActivities()
+* ActivityStack.resumeTopActivityUncheckedLocked ->   resumeTopActivityInnerLocked()
   应该就是我们平常所说的 Activity 栈
-* ActivityStackSupervisor
-* ClientTransaction
-* LaunchActivityItem   
-  专门用于启动 Activity 的 BaseClientRequest 和 ClientTransaction 配合使用
-* ApplicationThread  
+* ActivityStackSupervisor.startSpecificActivity() -> realStartActivityLocked()
+* ClientLifecycleManager.scheduleTransaction()
+* ClientTransaction.schedule()
+
+* ApplicationThread.scheduleTransaction()  
   用于和 AMS 交互
-* ActivityThread      
-* Instrumentation 
-* AppComponentFactory   
+* ActivityThread.scheduleTransaction()      
+* ActivityThread.H.handleMessage
+* ClientTransaction.getCallbacks().forEach->execute()
+* LaunchActivityItem.excute 
+  * LaunchActivityItem 就是一个ClientTransaction的 callback ClientTransactionItem 的一个实例
+* ActivityThread.handleLaunchActivity() -> performLaunchActivity()
+* Instrumentation.newActivity()
+* AppComponentFactory.instantiateActivity()   
 
 ##### 猜想
 从Activity的启动流程可知，有两次 Binder 调用 一次是在 Instrumentation.execStartActivity() 内调用  IActivityTaskManager.startActivity()
