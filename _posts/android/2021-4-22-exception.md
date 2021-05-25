@@ -53,7 +53,7 @@ org.bouncycastle:bcpkix-jdk15on:1.59
 ```
 这种错误大概率是因为，在进行JSON转换的时候，还在修改List，大多是因为并发导致，可以使用线程安全的类，比如 CopyOnWriteArrayList
 
-#### 
+####   compatible with Java 11
 ```
    > Could not resolve com.github.ooftf:autoregister:1.4.3.
      Required by:
