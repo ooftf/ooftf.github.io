@@ -14,3 +14,5 @@ tags: Android
 ### FragmentPagerAdapter和FragmentStatePagerAdapter
     FragmentPagerAdapter内fragment当移除视野外之后不会重新创建，会保存在内存中
     FragmentStatePagerAdapter 当fragment移除视野之外就会销毁
+### fragmentTransaction.add(containerViewId, fragment, tagId).commitAllowingStateLoss()
+并不会立刻将 frament 添加到 FragmentManager 中，所以在这之后调用FragmentManager.findFragmentByTag 是找不到fragment。走过一个Handler周期就可以通过FragmentManager.findFragmentByTag获取到了。具体解决方法可以参考 Glide 添加 SupportRequestManagerFragment 的方式
