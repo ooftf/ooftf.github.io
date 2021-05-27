@@ -23,6 +23,9 @@ tags:
 
 需要有一套统一的缓存管理机制，可以适当的使用内存，当系统内存不足时，及时的释放内存，使用onTrimMemory监控内存情况
 
+
+Glide.get(applicationContext).clearMemory()
+
 ###  进程管理
 
 一个空进程也会占用10MB的内存，减小应用启动的进程数，减少常驻进程，有节操的保活，对低端机非常重要
@@ -40,7 +43,33 @@ tags:
 ##### 统一监控
 
 * **大图监控**  
-    在开发中如果检测到长宽远远大于View甚至屏幕的长宽的图片体积提醒开发人员，在灰度或者线上情况，可以将异常信息上报到后台。
+    在开发中如果检测到长宽远远大于View甚至屏幕的长宽的图片体积提醒开发人员，在灰度或者线上情况，可以将异常信息上报到后台。  
+    Glide设置全局图片加载监听
+    ```kotlin
+    Glide.init(this, GlideBuilder().addGlobalRequestListener(object :    RequestListener<Any> {
+             override fun onLoadFailed(
+                 e: GlideException?,
+                 model: Any?,
+                 target: Target<Any>?,
+                 isFirstResource: Boolean
+             ): Boolean {
+                 return false
+             }
+
+             override fun onResourceReady(
+                 resource: Any?,
+                 model: Any?,
+                 target: Target<Any>?,
+                 dataSource: DataSource?,
+                 isFirstResource: Boolean
+             ): Boolean {
+
+                 Log.e("onResourceReady",Thread.currentThread().toString()+""    +resource.toString())
+                 return false
+             }
+
+         }))
+    ``` 
 * **重复图片监控**  
     Bitmap像素完全一致，但是有多个不同的对象存在。
 * **图片总内存**  

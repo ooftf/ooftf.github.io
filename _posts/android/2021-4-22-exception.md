@@ -72,3 +72,6 @@ org.bouncycastle:bcpkix-jdk15on:1.59
      targetCompatibility = "8"
      ```
   2. 将当前项目改为Java 11
+
+## 你的主机中的软件中止了一个已建立的连接。
+关闭电脑wifi热点
