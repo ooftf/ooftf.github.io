@@ -1,4 +1,4 @@
-## CUP（选择时间段）
+## [CUP](https://developer.android.google.cn/studio/profile/cpu-profiler)
 点击Record按钮开始记录，点击Stop按钮结束选取
 #### 功能
 * 查看各个线程占用的CUP资原
@@ -20,8 +20,8 @@
 * bottom up 从被调用者开始查看
 
 
-## MEMORY
-点击 dump按钮查看详情
+## [MEMORY](https://developer.android.google.cn/studio/profile/memory-profiler)
+点击 dump 按钮查看详情
 #### 功能
 * 查看内存占用情况
 * 查看各个类的实例对象个数以及具体内容
@@ -42,7 +42,7 @@
 * Shallow Size 是指实例自身占用的内存, 可以理解为保存该'数据结构'需要多少内存, 注意不包括它引用的其他实例
 * Retained Size, 当实例被回收时, 可以同时被回收的实例的Shallow Size之和
 
-## NETWORK（选择时间段）
+## [NETWORK](https://developer.android.google.cn/studio/profile/network-profiler)
 用鼠标划取时间段，查看详情
 ![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_network_summary.png?raw=true)
 ![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_network_detail.png?raw=true)
@@ -52,4 +52,4 @@
 * 查看网络占用情况
 * 查看网络请求具体内容
 
-## ENERGY
+## [ENERGY](https://developer.android.google.cn/studio/profile/energy-profiler)
