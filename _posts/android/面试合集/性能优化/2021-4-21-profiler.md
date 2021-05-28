@@ -11,6 +11,14 @@
 * 黄色部分：操作台用于发起Record
 * 蓝色部分：当前CPU占用情况
 * 绿色部分：各个线程占用CUP情况，由可知现在线程com.chaitai.crm （主线程）占用大量CPU资原
+* Trace Java Methods
+    会记录每个方法的时间、CPU信息。对运行时性能影响较大。
+* Sample Java Methods
+    相比于Trace Java Methods会记录每个方法的时间、CPU信息，它会在应用的Java代码执行期间频繁捕获应用的调用堆栈，对运行时性能的影响比较小，能够记录更大的数据区域。
+* Sample C/C++ Functions
+    需部署到Android 8.0及以上设备，内部使用simpleperf跟踪应用的native代码，也可以命令行使用simpleperf。
+* Trace System Calls
+    检查应用与系统资源的交互情况。 查看所有核心的CPU瓶。 内部采用systrace，也可以使用systrace命令。
 
 ![CPU](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_cup_detail.png?raw=true)
 * 红色区域选择查看线程
@@ -48,6 +56,8 @@
 ![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_network_detail.png?raw=true)
 * 红色为选取时间段所有请求列表
 * 黄色区域为选择请求详情
+
+
 #### 功能
 * 查看网络占用情况
 * 查看网络请求具体内容
