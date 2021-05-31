@@ -22,9 +22,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="30bb5a53-2d40-40e2-aaad-ed877f444cf3" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -535,10 +533,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="696" y="136" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1618293169683" />
-    <state x="695" y="414" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1618452486562">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="927" y="557" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1622046903773">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="695" y="414" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1618452486562" />
+    <state x="927" y="557" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400/2560.116.1920.1160@0.0.2560.1400" timestamp="1622046903773" />
     <state x="660" y="185" width="757" height="722" key="find.popup" timestamp="1619513214784">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
