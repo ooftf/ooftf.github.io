@@ -245,9 +245,90 @@ onActivityResult 当 A 回到前台的时候才会回调
 * Instrumentation.newActivity()
 * AppComponentFactory.instantiateActivity()   
 
-##### 猜想
+##### 两次跨进程
 从Activity的启动流程可知，有两次 Binder 调用 一次是在 Instrumentation.execStartActivity() 内调用  IActivityTaskManager.startActivity()
 另一次是在 ClientTransaction.schedule() 内调用了 IApplicationThread.scheduleTransaction() 。猜想：第一次 Binder 调用应该是跳转到系统服务，第二次调用再跳转回 App 内
+
+## Activity window view ViewRootImpl
+Activity 在 attach 方法中中创建并添加 window(PhoneWindow)
+window 在setContentView 时创建并添加 DecorView 并将 contentView添加到 DecorView 中
+
+Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
+```java
+//Activity
+final void attach(Context context, ActivityThread aThread,
+            Instrumentation instr, IBinder token, int ident,
+            Application application, Intent intent, ActivityInfo info,
+            CharSequence title, Activity parent, String id,
+            NonConfigurationInstances lastNonConfigurationInstances,
+            Configuration config, String referrer, IVoiceInteractor voiceInteractor,
+            Window window, ActivityConfigCallback activityConfigCallback, IBinder assistToken) {
+        attachBaseContext(context);
+        mWindow = new PhoneWindow(this, window, activityConfigCallback);
+        mWindow.setWindowManager(
+                (WindowManager)context.getSystemService(Context.WINDOW_SERVICE),
+                mToken, mComponent.flattenToString(),
+                (info.flags & ActivityInfo.FLAG_HARDWARE_ACCELERATED) != 0);
+    }
+```
+```java
+  //Window
+  public void setWindowManager(WindowManager wm, IBinder appToken, String appName,
+            boolean hardwareAccelerated) {
+        mAppToken = appToken;
+        mAppName = appName;
+        mHardwareAccelerated = hardwareAccelerated;
+        if (wm == null) {
+            wm = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
+        }
+        mWindowManager = ((WindowManagerImpl)wm).createLocalWindowManager(this);
+    }
+```
+```java
+    //WindowManagerImpl
+    public WindowManagerImpl createLocalWindowManager(Window parentWindow) {
+        return new WindowManagerImpl(mContext, parentWindow);
+    }
+     private WindowManagerImpl(Context context, Window parentWindow) {
+        mContext = context;
+        mParentWindow = parentWindow;
+    }
+```
+
+Activity.setContentView  调用 Window.setContentView
+```java
+// Window
+    public void setContentView(int layoutResID) {
+        if (mContentParent == null) {
+            installDecor();
+        } else if (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
+            mContentParent.removeAllViews();
+        }
+      mLayoutInflater.inflate(layoutResID, mContentParent);
+    }
+
+    private void installDecor() {
+       mForceDecorInstall = false;
+       if (mDecor == null) {
+           mDecor = generateDecor(-1);
+       } else {
+           mDecor.setWindow(this);
+       }
+       if (mContentParent == null) {
+           mContentParent = generateLayout(mDecor);
+       }
+    }
+
+     protected ViewGroup generateLayout(DecorView decor) {
+        mDecor.startChanging();
+        mDecor.onResourcesLoaded(mLayoutInflater, layoutResource);
+        ViewGroup contentParent = (ViewGroup)findViewById(ID_ANDROID_CONTENT);
+        mDecor.finishChanging()
+        return contentParent;
+    }
+    
+```
+
 
 
 
