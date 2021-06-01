@@ -249,10 +249,12 @@ onActivityResult 当 A 回到前台的时候才会回调
 从Activity的启动流程可知，有两次 Binder 调用 一次是在 Instrumentation.execStartActivity() 内调用  IActivityTaskManager.startActivity()
 另一次是在 ClientTransaction.schedule() 内调用了 IApplicationThread.scheduleTransaction() 。猜想：第一次 Binder 调用应该是跳转到系统服务，第二次调用再跳转回 App 内
 
-## Activity window view ViewRootImpl
+## Activity window view ViewRootImpl WindowManagerImpl
+
 Activity 在 attach 方法中中创建并添加 window(PhoneWindow)
 window 在setContentView 时创建并添加 DecorView 并将 contentView添加到 DecorView 中
 
+#### Activity.attach
 Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
 ```java
 //Activity
@@ -294,7 +296,7 @@ final void attach(Context context, ActivityThread aThread,
         mParentWindow = parentWindow;
     }
 ```
-
+#### Activity.setContentView
 Activity.setContentView  调用 Window.setContentView
 ```java
 // Window
@@ -329,8 +331,45 @@ Activity.setContentView  调用 Window.setContentView
     
 ```
 
+#### Activity.makeVisible
+```java
+    void makeVisible() {
+        if (!mWindowAdded) {
+            ViewManager wm = getWindowManager();
+            wm.addView(mDecor, getWindow().getAttributes());
+            mWindowAdded = true;
+        }
+        mDecor.setVisibility(View.VISIBLE);
+    }
+```
+## Activity.InputEvent
+```java
+   @Override
+    public void injectInputEvent(InputEvent event) {
+        getViewRootImpl().dispatchInputEvent(event);
+    }
+```
+## ViewRootImpl
+有很多布局相关的事件，都需要从根布局开始操作，而 ViewRootImpl 就是用来做这些事情的
+```java
+    //WindowManagerGlobal
+    public void addView(View view, ViewGroup.LayoutParams params,
+            Display display, Window parentWindow, int userId) {
+      final WindowManager.LayoutParams wparams = (WindowManager.LayoutParams) params;
+      ViewRootImpl root;
+      root = new ViewRootImpl(view.getContext(), display);
+      root.setView(view, wparams, panelParentView, userId);
+  
+    }
+```
 
+ActivityThread.handleResunmeActivity() -> Activity.makeVisible ->  WindwoManagerImpl.addView
 
+-> WindowManagerGlobal.addView #创建ViewRootImpl# -> ViewRootImpl.setView -> ViewRootImpl.requestLayout() 
+
+-> scheduleTraversals() -> Choreographer.postpostCallback(TraversalRunnable)
+
+-> TraversalRunnable.run -> ViewRootImpl.doTraversal -> ViewRootImpl.performTraversals
 
 
 
