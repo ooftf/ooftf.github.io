@@ -249,13 +249,48 @@ onActivityResult 当 A 回到前台的时候才会回调
 从Activity的启动流程可知，有两次 Binder 调用 一次是在 Instrumentation.execStartActivity() 内调用  IActivityTaskManager.startActivity()
 另一次是在 ClientTransaction.schedule() 内调用了 IApplicationThread.scheduleTransaction() 。猜想：第一次 Binder 调用应该是跳转到系统服务，第二次调用再跳转回 App 内
 
+
+## ActivityThraed.performLaunchActivity
+```java
+    /**  Core implementation of activity launch. */
+    private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
+
+        Activity activity = null;
+        activity = mInstrumentation.newActivity(
+                    cl, component.getClassName(), r.intent);
+        Application app = r.packageInfo.makeApplication(false, mInstrumentation);
+        activity.attach(appContext, this, getInstrumentation(), r.token,
+                              r.ident, app, r.intent, r.activityInfo, title, r.parent,
+                              r.embeddedID, r.lastNonConfigurationInstances, config,
+                              r.referrer, r.voiceInteractor, window, r.configCallback,
+                              r.assistToken);
+        if (r.isPersistable()) {
+            mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
+        } else {
+             mInstrumentation.callActivityOnCreate(activity, r.state);
+        }
+           
+        return activity;
+    }
+```
+这个方法一共做了四件比较重要的事按照顺序分别是
+1. 创建 Activity
+2. 如果 Application 还没有创建（这个时候，已经创建好了），创建 Application 并执行Application.onCreate 方法
+3. 调用 Activity.attach 方法
+4. 调用 Activity.onCreate 方法
+
 ## Activity window view ViewRootImpl WindowManagerImpl
 
 Activity 在 attach 方法中中创建并添加 window(PhoneWindow)
 window 在setContentView 时创建并添加 DecorView 并将 contentView添加到 DecorView 中
 
+# 疑问
+* Window 什么时候创建的
+* WindowManger 什么时候创建的
+* DecorView 什么时候创建的
+* ViewRootImpl 什么时候创建的
 #### Activity.attach
-Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
+ActivityThread.performLaunchActivity->Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
 ```java
 //Activity
 final void attach(Context context, ActivityThread aThread,
@@ -310,7 +345,6 @@ Activity.setContentView  调用 Window.setContentView
     }
 
     private void installDecor() {
-       mForceDecorInstall = false;
        if (mDecor == null) {
            mDecor = generateDecor(-1);
        } else {
@@ -342,13 +376,7 @@ Activity.setContentView  调用 Window.setContentView
         mDecor.setVisibility(View.VISIBLE);
     }
 ```
-## Activity.InputEvent
-```java
-   @Override
-    public void injectInputEvent(InputEvent event) {
-        getViewRootImpl().dispatchInputEvent(event);
-    }
-```
+
 ## ViewRootImpl
 有很多布局相关的事件，都需要从根布局开始操作，而 ViewRootImpl 就是用来做这些事情的
 ```java
