@@ -65,8 +65,54 @@ tags:
     经过精密的扣除和排除逻辑，我们最终可以得到用户的线上启动耗时。正如我在上一期所说的，准确的启动耗时统计是非常重要的。有很多优化在实验室完成之后，还需要在线上灰度验证效果。这个前提是启动统计是准确的，整个效果评估是真实的。
 
 
-* 在冷启动的过程中，首先会通过AMS在System进程展示一个Starting Window(通常情况下是个白屏，可以通过设置Application的theme修改)，接着AMS会通过Zygote创建应用程序的进程，并通过一系列的步骤后调用Application的attachBaseContext()、onCreate()然后最终调用Activity的onCreate()以及进行View相关的初始化工作。在Activity展示出来后会替换掉之前的Starting Window，这样启动过程结束。
-* 在Activity中onWindowFocusChanged()方法是最好的Activity对用户可见的标志，因此综合上一节的分析，我们可以考虑在Application的attachBaseContext()方法中开始计算冷启动计时，然后在真正首页Activity的onWindowFocusChanged()中停止冷启动计时，这样就可以初步得到应用的冷启动时间。
+## Application的创建以及初始化流程
+LoadedApk.makeApplication
+```java
+  public Application makeApplication(boolean forceDefaultAppClass,
+            Instrumentation instrumentation) {
+        if (mApplication != null) {
+            return mApplication;
+        }
+        app = mActivityThread.mInstrumentation.newApplication(
+                    cl, appClass, appContext);
+
+        instrumentation.callApplicationOnCreate(app);
+        return app;
+    }
+
+```
+Instrumentation.newApplication
+```java
+    public Application newApplication(ClassLoader cl, String className, Context context)
+            throws InstantiationException, IllegalAccessException, 
+            ClassNotFoundException {
+        Application app = getFactory(context.getPackageName())
+                .instantiateApplication(cl, className);
+        app.attach(context);
+        return app;
+    }
+```
+Application.attach
+```java
+    final void attach(Context context) {
+        attachBaseContext(context);
+        mLoadedApk = ContextImpl.getImpl(context).mPackageInfo;
+    }
+```
+由代码可知 attachBaseContext 是在 onCreate 之前被调用的
+## App启动过程
+在冷启动的过程中，首先会通过AMS在System进程展示一个Starting Window(通常情况下是个白屏，可以通过设置Application的theme修改)，接着AMS会通过Zygote创建应用程序的进程，并通过一系列的步骤后调用Application的attachBaseContext()、onCreate()然后最终调用Activity的onCreate()以及进行View相关的初始化工作。在Activity展示出来后会替换掉之前的Starting Window，这样启动过程结束。
+## 启动时长
+1. 计算从 Application 的 attachBaseContext 方法开始到 第一个Activity 的 onWindowFocusChanged() 方法之间的时间，这样就可以初步得到应用的冷启动时间
+2. 利用 Trace 查看 attachBaseContext 开始到 onWindowFocusChanged() 之间的方法调用和详细耗时
+3. 
+
+#### Trace
+Debug.startMethodTracing()
+/storage/emulated/0/Android/data/com.chaitai.crm/files/onCreate.trace
+adb pull 方式导出文件，需要 root 权限
+如果没有 root 权限，可以通过手机文件系统导出文件
+打开 Profiler 工具点击加号选择“load from file...” 选择 xxx.trace 文件
 ## 相关框架
 * [Android异步启动框架 alpha](https://github.com/alibaba/alpha)
 

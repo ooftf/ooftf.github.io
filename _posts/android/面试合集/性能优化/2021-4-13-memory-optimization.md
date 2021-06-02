@@ -86,3 +86,27 @@ PSS值可以通过Debug.MemoryInfo看到
 
 ### GC监控
 开发过程或者内部试用环境可以通过Debug.startAllocCounting来监控Java内存分配和GC情况
+
+
+## onTrimMemory 监听系统内存不足
+只要实现接口 ComponentCallbacks2 的类都可以，建议在Application中检测
+#### 监听下面两个level
+* TRIM_MEMORY_MODERATE 该进程接近后台 LRU 列表的末尾，如果很快找不到更多内存，它将被杀死。
+* TRIM_MEMORY_COMPLETE 该进程在后台LRU列表的中间；释放内存可以帮助系统保持列表中稍后运行的其他进程以获得更好的整体性能。
+
+缺点：只能检测系统内存不足，不能检测本App内存不足
+
+
+maxMemory 512.0
+totalMemory 512.0
+freeMemory 505.27667
+memoryClass 256.0
+largeMemoryClass 512.0
+
+ Log.e("MainActivity", "maxMemory "+ (Runtime.getRuntime().maxMemory().toFloat()/1024/1024))
+        Log.e("MainActivity", "totalMemory "+ (Runtime.getRuntime().totalMemory().toFloat()/1024/1024))
+        Log.e("MainActivity", "freeMemory "+ (Runtime.getRuntime().freeMemory().toFloat()/1024/1024))
+        (getSystemService(ACTIVITY_SERVICE) as ActivityManager).apply {
+            Log.e("MainActivity", "memoryClass "+ (memoryClass.toFloat()))
+            Log.e("MainActivity", "largeMemoryClass "+ (largeMemoryClass.toFloat()))
+        }
