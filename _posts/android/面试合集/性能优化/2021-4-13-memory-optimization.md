@@ -97,16 +97,17 @@ PSS值可以通过Debug.MemoryInfo看到
 缺点：只能检测系统内存不足，不能检测本App内存不足
 
 
-maxMemory 512.0
-totalMemory 512.0
-freeMemory 505.27667
-memoryClass 256.0
-largeMemoryClass 512.0
+## App内存信息
+不同的手机App可以占用的最大内存是不同的，以我的小米11为例，largeHeap="false"时最大内存为256MB，largeHeap="true"时最大内存为512MB 
+* Runtime.getRuntime().maxMemory()  App最大内存
+* Runtime.getRuntime().totalMemory() App当前可申请的最大内存（如果系统内存充裕那么 totalMemory = maxMemory，如果系统内存不足，那么 totalMemory < maxMemory )
+* Runtime.getRuntime().freeMemory()  App还可以申请的内存，等于 totalMemory 减去已使用的内存
+* (Context.getSystemService(ACTIVITY_SERVICE) as ActivityManager).memoryClass ， largeHeap="false" 时的最大内存 
+* (Context.getSystemService(ACTIVITY_SERVICE) as ActivityManager).largeMemoryClass ， largeHeap="true" 时的最大内存 
 
- Log.e("MainActivity", "maxMemory "+ (Runtime.getRuntime().maxMemory().toFloat()/1024/1024))
-        Log.e("MainActivity", "totalMemory "+ (Runtime.getRuntime().totalMemory().toFloat()/1024/1024))
-        Log.e("MainActivity", "freeMemory "+ (Runtime.getRuntime().freeMemory().toFloat()/1024/1024))
-        (getSystemService(ACTIVITY_SERVICE) as ActivityManager).apply {
-            Log.e("MainActivity", "memoryClass "+ (memoryClass.toFloat()))
-            Log.e("MainActivity", "largeMemoryClass "+ (largeMemoryClass.toFloat()))
-        }
+#### 如何设置App占用更多内存
+```xml
+<application
+    android:largeHeap="true">
+</application>
+```
