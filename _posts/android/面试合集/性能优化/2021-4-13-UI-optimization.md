@@ -50,4 +50,13 @@ Compose;Facebook的Litho;Google的Flutter
 ## 小知识点
 Flutter把Skia引擎直接集成到App中，就像一个游戏App一样
 ## 参考文章
+
+## AsyncLayoutInflater
+引入 AsyncLayoutInflater
+```groovy
+dependencies {
+    implementation "androidx.asynclayoutinflater:asynclayoutinflater:1.0.0"
+}
+```
+
 [UI 优化](https://blog.csdn.net/freekiteyu/article/details/77862670)
