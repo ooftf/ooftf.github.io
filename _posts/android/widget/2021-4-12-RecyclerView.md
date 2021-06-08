@@ -88,21 +88,6 @@ protected void onLayout(boolean changed, int l, int t, int r, int b) {
 }
 
 void dispatchLayout() {
-    if (mAdapter == null) {
-        Log.w(TAG, "No adapter attached; skipping layout");
-        // leave the state in START
-        return;
-    }
-    if (mLayout == null) {
-        Log.e(TAG, "No layout manager attached; skipping layout");
-        // leave the state in START
-        return;
-    }
-    mState.mIsMeasuring = false;
-    // If the last time we measured children in onMeasure, we skipped the measurement and layout
-    // of RV children because the MeasureSpec in both dimensions was EXACTLY, and current
-    // dimensions of the RV are not equal to the last measured dimensions of RV, we need to
-    // measure and layout children one last time.
     boolean needsRemeasureDueToExactSkip = mLastAutoMeasureSkippedDueToExact
                     && (mLastAutoMeasureNonExactMeasuredWidth != getWidth()
                     || mLastAutoMeasureNonExactMeasuredHeight != getHeight());
@@ -117,13 +102,6 @@ void dispatchLayout() {
             || needsRemeasureDueToExactSkip
             || mLayout.getWidth() != getWidth()
             || mLayout.getHeight() != getHeight()) {
-        // First 2 steps are done in onMeasure but looks like we have to run again due to
-        // changed size.
-        // TODO(shepshapard): Worth a note that I believe
-        //  "mLayout.getWidth() != getWidth() || mLayout.getHeight() != getHeight()" above is
-        //  not actually correct, causes unnecessary work to be done, and should be
-        //  removed. Removing causes many tests to fail and I didn't have the time to
-        //  investigate. Just a note for the a future reader or bug fixer.
         mLayout.setExactMeasureSpecsFrom(this);
         dispatchLayoutStep2();
     } else {
@@ -144,7 +122,7 @@ void dispatchLayout() {
                 return;
             }
 
-            // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不为null的时候，开始按照 LayoutManager 的方式测量
+            // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不为null的时候，开始按照 LayoutManager 的方式测量；如果是精确测量，是不会执行下面代码的
 
             //首先调用 dispatchLayoutStep1 对Children进行布局
             if (mState.mLayoutStep == State.STEP_START) {
@@ -155,41 +133,47 @@ void dispatchLayout() {
             mLayout.setMeasureSpecs(widthSpec, heightSpec);
             mState.mIsMeasuring = true;
             dispatchLayoutStep2();
-
-            // now we can get the width and height from the children.
             mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
-
-            // if RecyclerView has non-exact width and height and if there is at least one child
-            // which also has non-exact width & height, we have to re-measure.
-            if (mLayout.shouldMeasureTwice()) {
-                mLayout.setMeasureSpecs(
-                        MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
-                        MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
-                mState.mIsMeasuring = true;
-                dispatchLayoutStep2();
-                // now we can get the width and height from the children.
-                mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
-            }
-
             mLastAutoMeasureNonExactMeasuredWidth = getMeasuredWidth();
             mLastAutoMeasureNonExactMeasuredHeight = getMeasuredHeight();
     }
 ```
-* dispatchLayoutStep1
-  会触发LayoutManger.onLayoutChildren
-  The first step of a layout where we;
-  - process adapter updates
-  - decide which animation should run
-  - save information about current views
-  - If necessary, run predictive layout and save its information
-* dispatchLayoutStep2
-    会触发LayoutManger.onLayoutChildren
-    The second layout step where we do the actual layout of the views for the final state.
-    This step might be run multiple times if necessary (e.g. measure).
-* dispatchLayoutStep3
-    The final step of the layout where we save the information about views for animations,
-    trigger animations and do any necessary cleanup.
-  
+
+```java
+private void scrapOrRecycleView(Recycler recycler, int index, View view) {
+            final ViewHolder viewHolder = getChildViewHolderInt(view);
+            if (viewHolder.shouldIgnore()) {
+                if (DEBUG) {
+                    Log.d(TAG, "ignoring view " + viewHolder);
+                }
+                return;
+            }
+            if (viewHolder.isInvalid() && !viewHolder.isRemoved()
+                    && !mRecyclerView.mAdapter.hasStableIds()) {
+                //notifyDataSetChanged
+                removeViewAt(index);
+                recycler.recycleViewHolderInternal(viewHolder);
+            } else {
+                //初次布局
+                detachViewAt(index);
+                recycler.scrapView(view);
+                mRecyclerView.mViewInfoStore.onViewDetached(viewHolder);
+            }
+        }
+```
+### RecyclerView.dispatchLayoutStep1
+* 只有 State.STEP_START 状态才会执行  dispatchLayoutStep1
+* 调用 dispatchLayoutStep1 会将mState.mLayoutStep 置为 State.STEP_LAYOUT;
+* 与 RecyclerView 动画相关
+    - RunSimpleAnimations 动画只会计算属性，不会进行布局，
+    - RunPredictiveAnimations 会通过 LayoutManager.onLayoutChildren 进行空间布局
+### RecyclerView.dispatchLayoutStep3
+* 将 mState.mLayoutStep 重新置为 State.STEP_START
+* 添加动画：mViewInfoStore.addToPostLayout(holder, animationInfo);
+* 执行动画：mViewInfoStore.process(mViewInfoProcessCallback);
+*  mLayout.removeAndRecycleScrapInt(mRecycler);  将 Recycler.mAttachedScrap 中没有复用的 ViewHolder 添加到  RecycledViewPool 中
+*  清除 Recycler.mChangedScrap 中的缓存
+*  mRecycler.updateViewCacheSize(); 将 Recycler.mCachedViews 中的没有复用的 ViewHolder 添加到 RecycledViewPool 中  
 
 ### LinearLayoutManager.generateDefaultLayoutParams
 ## LinearLayoutManager.onLayoutChildren
@@ -256,4 +240,124 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
 * ViewGroup.removeView 会关注动画、焦点、触摸等事件，并且会重新布局和重新绘画。最终也会调用ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
 
 ## post-layout 和 pre-layout
-# RecyclerView 为了实现表项动画，进行了 2 次布局
+ViewInfoStore 记录 RecyclerView 动画相关信息，通过 process 执行动画
+```java
+    void addToPreLayout(RecyclerView.ViewHolder holder, RecyclerView.ItemAnimator.ItemHolderInfo info) {
+        InfoRecord record = mLayoutHolderMap.get(holder);
+        if (record == null) {
+            record = InfoRecord.obtain();
+            mLayoutHolderMap.put(holder, record);
+        }
+        record.preInfo = info;
+        record.flags |= FLAG_PRE;
+    }
+    void addToPostLayout(RecyclerView.ViewHolder holder, RecyclerView.ItemAnimator.ItemHolderInfo info) {
+        InfoRecord record = mLayoutHolderMap.get(holder);
+        if (record == null) {
+            record = InfoRecord.obtain();
+            mLayoutHolderMap.put(holder, record);
+        }
+        record.postInfo = info;
+        record.flags |= FLAG_POST;
+    }
+
+```
+## onLayoutChildren 为什么采用全部清除再添加的方式
+
+## LinearLayoutManager & wrap_content
+onMeasure dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren
+onMeasure dispatchLayoutStep2 onLayoutChildren
+onMeasure dispatchLayoutStep2 onLayoutChildren
+onMeasure dispatchLayoutStep2 onLayoutChildren
+onMeasure dispatchLayoutStep2 onLayoutChildren
+onMeasure dispatchLayoutStep2 onLayoutChildren
+onLayout dispatchLayout  dispatchLayoutStep3
+## LinearLayoutManager & match_parent
+onMeasure
+onMeasure
+onMeasure
+onMeasure
+onMeasure
+onMeasure
+onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren dispatchLayoutStep3
+
+
+
+## ViewHolder 的 flag
+```java
+ /**
+         * This ViewHolder has been bound to a position; mPosition, mItemId and mItemViewType
+         * are all valid.
+         */
+        static final int FLAG_BOUND = 1 << 0;
+
+        /**
+         * The data this ViewHolder's view reflects is stale and needs to be rebound
+         * by the adapter. mPosition and mItemId are consistent.
+         */
+        static final int FLAG_UPDATE = 1 << 1;
+
+        /**
+         * This ViewHolder's data is invalid. The identity implied by mPosition and mItemId
+         * are not to be trusted and may no longer match the item view type.
+         * This ViewHolder must be fully rebound to different data.
+         */
+        static final int FLAG_INVALID = 1 << 2;
+
+        /**
+         * This ViewHolder points at data that represents an item previously removed from the
+         * data set. Its view may still be used for things like outgoing animations.
+         */
+        static final int FLAG_REMOVED = 1 << 3;
+
+        /**
+         * This ViewHolder should not be recycled. This flag is set via setIsRecyclable()
+         * and is intended to keep views around during animations.
+         */
+        static final int FLAG_NOT_RECYCLABLE = 1 << 4;
+
+        /**
+         * This ViewHolder is returned from scrap which means we are expecting an addView call
+         * for this itemView. When returned from scrap, ViewHolder stays in the scrap list until
+         * the end of the layout pass and then recycled by RecyclerView if it is not added back to
+         * the RecyclerView.
+         */
+        static final int FLAG_RETURNED_FROM_SCRAP = 1 << 5;
+
+        /**
+         * This ViewHolder is fully managed by the LayoutManager. We do not scrap, recycle or remove
+         * it unless LayoutManager is replaced.
+         * It is still fully visible to the LayoutManager.
+         */
+        static final int FLAG_IGNORE = 1 << 7;
+
+        /**
+         * When the View is detached form the parent, we set this flag so that we can take correct
+         * action when we need to remove it or add it back.
+         */
+        static final int FLAG_TMP_DETACHED = 1 << 8;
+
+        /**
+         * Set when we can no longer determine the adapter position of this ViewHolder until it is
+         * rebound to a new position. It is different than FLAG_INVALID because FLAG_INVALID is
+         * set even when the type does not match. Also, FLAG_ADAPTER_POSITION_UNKNOWN is set as soon
+         * as adapter notification arrives vs FLAG_INVALID is set lazily before layout is
+         * re-calculated.
+         */
+        static final int FLAG_ADAPTER_POSITION_UNKNOWN = 1 << 9;
+
+        /**
+         * Set when a addChangePayload(null) is called
+         */
+        static final int FLAG_ADAPTER_FULLUPDATE = 1 << 10;
+
+        /**
+         * Used by ItemAnimator when a ViewHolder's position changes
+         */
+        static final int FLAG_MOVED = 1 << 11;
+
+        /**
+         * Used by ItemAnimator when a ViewHolder appears in pre-layout
+         */
+        static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
+```
