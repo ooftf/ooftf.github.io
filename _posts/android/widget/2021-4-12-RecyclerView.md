@@ -77,6 +77,27 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
 ### RecyclerView clear再添加数据，界面有闪烁
     是因为RecyclerView有默认动画， itemAnimator = null 可去除默认动画
 
+
+## DiffUtil
+```kotlin
+   val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+            }
+
+            override fun getNewListSize(): Int {
+            }
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // 数据的ID是否相同
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                // 数据的内容是否相同
+            }
+
+        }, true)
+        diffResult.dispatchUpdatesTo(recyclerView.adapter)
+```
 # RecyclerView 源码分析
 ## 分析RecyclerView.onLayout
 ```java
@@ -330,17 +351,18 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
     ```
 
 #### adapter.notify
-* notifyItemChanged 会将发生改变的放入到 mChangedScrap 没有改变的；放入到mAttachedScrap 中
+* notifyItemChanged 会将发生改变的放入到 mChangedScrap ;没有改变的放入到mAttachedScrap 中
 * notifyDataSetChanged 会将所有 ViewHolder 通过 recycler.recycleViewHolderInternal 加入到 mCachedViews 和 RecycledViewPool 中
 * notifyItemRemoved 会将所有 ViewHolder 缓存到 mAttachedScrap 中
+* 查看 RecyclerViewDataObserver 可知事件变化监听都是通过调用 requestLayout 触发重新布局来实现的(也就是会触发 回收所有View 重新布局)，不同的是：不同的事件会将不同的 ViewHolder 置为不同的 FLAG 因此会添加到不同的缓存中
 #### 相关知识点
 * 缓存 viewHolder 的入口为 LayoutManager.scrapOrRecycleView
+* 放入 mAttachedScrap 和 mAttachedScrap 时，移除View 的方式是 detachView；而放入 mCachedViews 和 RecycledViewPool 时，移除 View 的方式是 removeView
 * adapter.notifyDataSetChanged 会先调用 processDataSetCompletelyChanged 将 ViewHolder 置为ViewHolder.FLAG_UPDATE | ViewHolder.FLAG_INVALID  然后通过 requestLayout 间接调用LayoutManager.scrapOrRecycleView 调用 Recycler.recycleViewHolderInternal 将 ViewHolder 添加到 mCachedViews 或者 RecycledViewPool
 * dispatchLayoutStep3 调用 removeAndRecycleScrapInt 将  mAttachedScrap 中的 ViewHodler  通过 quickRecycleScrapView 调用 recycleViewHolderInternal 方法转移到 mCachedViews 或者  RecycledViewPool 中；并且将  mChangedScrap 清除；所以dispatchLayoutStep3执行完毕后，mAttachedScrap和mChangedScrap被清空； mCachedViews 和 RecycledViewPool 有缓存
-* 查看 RecyclerViewDataObserver 可知事件变化监听都是通过调用 requestLayout 触发重新布局来实现的(也就是会触发 回收所有View 重新布局)，不同的是：不同的事件会将不同的 ViewHolder 置为不同的 FLAG 因此会添加到不同的缓存中
 * mCachedViews 和 RecycledViewPool 不同的是 mCachedViews 还保留了位置信息，可以通过相同的 position 复用但是要重新 bind ,RecycledViewPool 已经变为一个"空白"ViewHodler
-* mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind
-* mChangedScrap 
+* mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind；
+* mChangedScrap 和 mAttachedScrap 的区别是  mChangedScrap 需要重新 bindview ;mAttachedScrap 不需要重新bind
 
 ## LinearLayoutManager & wrap_content
 onMeasure dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren
@@ -440,3 +462,13 @@ onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren dispatchLayout
          */
         static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ```
+
+## 优化方向
+
+* onCreateViewHolder 创建View使用代码创建对象的方式，而不是 xml 省去解析 xml 的时间
+* 如果是多列布局比如 GridLayoutManager 可以设置最大缓存个数避免滑动过程中调用 onCreateViewHolder 
+  - recyclerView.recycledViewPool.setMaxRecycledViews()  设置 RecyclerViewPool 指定ViewType 大小
+  - recyclerView.setItemViewCacheSize 设置 mCachedViews 大小
+* 使用 DiffUtil 优化更新
+* 使用 DataBinding 可以在不使用 adapter.nofity 的情况下改变 ItemView 的子 View 的内容
+* RecyclerView 尽可能使用精确大小比如 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
