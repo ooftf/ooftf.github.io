@@ -6,14 +6,13 @@ tags: Android
 
 ### ScrollView嵌套RecyclerView自动滚动
 
-![相关文章](https://blog.csdn.net/beibaokongming/article/details/79581232)
+[相关文章](https://blog.csdn.net/beibaokongming/article/details/79581232)
 
 - 解决方案一： ScrollView的子viewGroup中增加android:descendantFocusability="blocksDescendants" 属性
 - 解决方案二： ScrollView的直接子view 上添加focusableInTouchMode=true
 
-
 ### ScrollView 嵌套RecyclerView + GridLayoutManager 只显示一行或者不显示，需要滑动RecyclerView
-    将ScrollView换位NestScrollView
+解决方案：将 ScrollView 替换为 NestScrollView
 ### RecyclerView 中EditText singleLine模式下，作为最后一个Item，输入换行崩溃，某些机型（华为）
 ```
 java.lang.IllegalStateException: focus search returned a view that wasn't able to take focus!
@@ -76,6 +75,7 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
 ```
 * 方案二
    把EditText的android:imeOptions="actionNone" 即可
+
 ### RecyclerView clear再添加数据，界面有闪烁
     是因为RecyclerView有默认动画， itemAnimator = null 可去除默认动画
 
@@ -171,12 +171,20 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
     ...
     fill(recycler, mLayoutState, state, false);
     ...
-
+}
 ```
-
-1. LayoutManager.detachAndScrapAttachedViews $\rightarrow$ LayoutManager.scrapOrRecycleView $\rightarrow$
-   1. LayoutManager.detachViewAt(index) $\rightarrow$ LayoutManager.detachViewInternal $\rightarrow$ ChildHelper.detachViewFromParent $\rightarrow$ mCallback.detachViewFromParent(offset); $\uparrow$ RecyclerView.initChildrenHelper() $\rightarrow$ RecyclerView.this.detachViewFromParent(offset); $\Leftrightarrow$ ViewGroup.detachViewFromParent
-   2. Recycler.scrapView $\rightarrow$ mAttachedScrap.add(holder);
+ 
+    LayoutManager.detachAndScrapAttachedViews  
+        LayoutManager.scrapOrRecycleView   
+            LayoutManager.detachViewAt(index)   
+                LayoutManager.detachViewInternal   
+                    ChildHelper.detachViewFromParent   
+                         mCallback.detachViewFromParent(offset);   
+                            RecyclerView.initChildrenHelper()  
+                                RecyclerView.this.detachViewFromParent(offset);  
+                                    ViewGroup.detachViewFromParent  
+            Recycler.scrapView 
+                mAttachedScrap.add(holder);
 
 
 ```java
@@ -191,6 +199,7 @@ private void scrapOrRecycleView(Recycler recycler, int index, View view) {
     if (viewHolder.isInvalid() && !viewHolder.isRemoved()
             && !mRecyclerView.mAdapter.hasStableIds()) {
         //notifyDataSetChanged 会走这个分支
+        // 将viewHolder 缓存到 mCachedViews 和 RecycledViewPool
         removeViewAt(index);
         recycler.recycleViewHolderInternal(viewHolder);
     } else {
@@ -214,7 +223,15 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 }
 ```
 
-1. LinearLayoutManager.fill $\rightarrow$ LinearLayoutManager.layoutChunk $\rightarrow$ LayoutState.next $\rightarrow$ Recycler.getViewForPosition $\rightarrow$ Recycler.tryGetViewHolderForPositionByDeadline
+1. LinearLayoutManager.fill 
+    ```
+    LinearLayoutManager.fill 
+        LinearLayoutManager.layoutChunk
+            LayoutState.next 
+                Recycler.getViewForPosition
+                    Recycler.tryGetViewHolderForPositionByDeadline
+    ```
+
     ```java
      ViewHolder tryGetViewHolderForPositionByDeadline(int position,
                 boolean dryRun, long deadlineNs) {
@@ -278,8 +295,6 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
             if (mState.mLayoutStep == State.STEP_START) {
                 dispatchLayoutStep1();
             }
-            // set dimensions in 2nd step. Pre-layout should happen with old dimensions for
-            // consistency
             mLayout.setMeasureSpecs(widthSpec, heightSpec);
             mState.mIsMeasuring = true;
             dispatchLayoutStep2();
@@ -294,7 +309,7 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 当ItemView没有设置 LayoutParams 的时候，就会调用这个方法添加 LayoutParams
 
 
-## post-layout 和 pre-layout
+## ViewInfoStore
 ViewInfoStore 记录 RecyclerView 动画相关信息，通过 process 执行动画
 ```java
     void addToPreLayout(RecyclerView.ViewHolder holder, RecyclerView.ItemAnimator.ItemHolderInfo info) {
@@ -370,23 +385,36 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 * mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind；
 * mChangedScrap 和 mAttachedScrap 的区别是  mChangedScrap 需要重新 bindview ;mAttachedScrap 不需要重新bind
 
-## LinearLayoutManager & wrap_content
-onMeasure dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren
-onMeasure dispatchLayoutStep2 onLayoutChildren
-onMeasure dispatchLayoutStep2 onLayoutChildren
-onMeasure dispatchLayoutStep2 onLayoutChildren
-onMeasure dispatchLayoutStep2 onLayoutChildren
-onMeasure dispatchLayoutStep2 onLayoutChildren
-onLayout dispatchLayout  dispatchLayoutStep3
-## LinearLayoutManager & match_parent
-onMeasure
-onMeasure
-onMeasure
-onMeasure
-onMeasure
-onMeasure
-onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren dispatchLayoutStep3
+### 实战探索
+#### LinearLayoutManager & wrap_content
+* onMeasure dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren
+* onMeasure dispatchLayoutStep2 onLayoutChildren
+* onMeasure dispatchLayoutStep2 onLayoutChildren
+* onMeasure dispatchLayoutStep2 onLayoutChildren
+* onMeasure dispatchLayoutStep2 onLayoutChildren
+* onMeasure dispatchLayoutStep2 onLayoutChildren
+* onLayout dispatchLayout  dispatchLayoutStep3
 
+#### LinearLayoutManager & match_parent
+* onMeasure
+* onMeasure
+* onMeasure
+* onMeasure
+* onMeasure
+* onMeasure
+* onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren * dispatchLayoutStep3
+
+
+
+## 优化方向
+
+* onCreateViewHolder 创建View使用代码创建对象的方式，而不是 xml 省去解析 xml 的时间
+* 如果是多列布局比如 GridLayoutManager 可以设置最大缓存个数避免滑动过程中调用 onCreateViewHolder 
+  - recyclerView.recycledViewPool.setMaxRecycledViews()  设置 RecyclerViewPool 指定ViewType 大小
+  - recyclerView.setItemViewCacheSize 设置 mCachedViews 大小
+* 使用 DiffUtil 优化更新
+* 使用 DataBinding 可以在不使用 adapter.nofity 的情况下改变 ItemView 的子 View 的内容
+* RecyclerView 尽可能使用精确大小比如 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
 
 
 ## ViewHolder 的 FLAG  
@@ -469,12 +497,3 @@ onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren dispatchLayout
         static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ```
 
-## 优化方向
-
-* onCreateViewHolder 创建View使用代码创建对象的方式，而不是 xml 省去解析 xml 的时间
-* 如果是多列布局比如 GridLayoutManager 可以设置最大缓存个数避免滑动过程中调用 onCreateViewHolder 
-  - recyclerView.recycledViewPool.setMaxRecycledViews()  设置 RecyclerViewPool 指定ViewType 大小
-  - recyclerView.setItemViewCacheSize 设置 mCachedViews 大小
-* 使用 DiffUtil 优化更新
-* 使用 DataBinding 可以在不使用 adapter.nofity 的情况下改变 ItemView 的子 View 的内容
-* RecyclerView 尽可能使用精确大小比如 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
