@@ -378,7 +378,7 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 #### 相关知识点
 * 缓存 viewHolder 的入口为 LayoutManager.scrapOrRecycleView
 * 放入 mAttachedScrap 和 mAttachedScrap 时，移除View 的方式是 detachView；而放入 mCachedViews 和 RecycledViewPool 时，移除 View 的方式是 removeView
-* adapter.notifyDataSetChanged 会先调用 processDataSetCompletelyChanged 将 ViewHolder 置为ViewHolder.FLAG_UPDATE | ViewHolder.FLAG_INVALID  然后通过 requestLayout 间接调用LayoutManager.scrapOrRecycleView 调用 Recycler.recycleViewHolderInternal 将 ViewHolder 添加到 mCachedViews 或者 RecycledViewPool
+* adapter.notifyDataSetChanged 会先调用 processDataSetCompletelyChanged 将 ViewHolder 置为ViewHolder.FLAG_UPDATE、ViewHolder.FLAG_INVALID  然后通过 requestLayout 间接调用LayoutManager.scrapOrRecycleView 调用 Recycler.recycleViewHolderInternal 将 ViewHolder 添加到 mCachedViews 或者 RecycledViewPool
 * dispatchLayoutStep3 调用 removeAndRecycleScrapInt 将  mAttachedScrap 中的 ViewHodler  通过 quickRecycleScrapView 调用 recycleViewHolderInternal 方法转移到 mCachedViews 或者  RecycledViewPool 中；并且将  mChangedScrap 清除；所以dispatchLayoutStep3执行完毕后，mAttachedScrap和mChangedScrap被清空； mCachedViews 和 RecycledViewPool 有缓存
 * mCachedViews 和 RecycledViewPool 不同的是 mCachedViews 还保留了位置信息，可以通过相同的 position 复用但是要重新 bind ,RecycledViewPool 已经变为一个"空白"ViewHodler
 * mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind；
