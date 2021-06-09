@@ -77,17 +77,16 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
 ### RecyclerView clear再添加数据，界面有闪烁
     是因为RecyclerView有默认动画， itemAnimator = null 可去除默认动画
 
-
 # RecyclerView 源码分析
-## onLayout
+## 分析RecyclerView.onLayout
 ```java
 @Override
-protected void onLayout(boolean changed, int l, int t, int r, int b) {
+protected void RecyclerView.onLayout(boolean changed, int l, int t, int r, int b) {
     dispatchLayout();
     mFirstLayoutComplete = true;
 }
 
-void dispatchLayout() {
+void RecyclerView.dispatchLayout() {
     boolean needsRemeasureDueToExactSkip = mLastAutoMeasureSkippedDueToExact
                     && (mLastAutoMeasureNonExactMeasuredWidth != getWidth()
                     || mLastAutoMeasureNonExactMeasuredHeight != getHeight());
@@ -111,56 +110,7 @@ void dispatchLayout() {
     dispatchLayoutStep3();
 }
 ```
-```java
-    protected void onMeasure(int widthSpec, int heightSpec) {
-            final int widthMode = MeasureSpec.getMode(widthSpec);
-            final int heightMode = MeasureSpec.getMode(heightSpec);
-            mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);
-            mLastAutoMeasureSkippedDueToExact =
-                    widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY;
-            if (mLastAutoMeasureSkippedDueToExact || mAdapter == null) {
-                return;
-            }
 
-            // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不为null的时候，开始按照 LayoutManager 的方式测量；如果是精确测量，是不会执行下面代码的
-
-            //首先调用 dispatchLayoutStep1 对Children进行布局
-            if (mState.mLayoutStep == State.STEP_START) {
-                dispatchLayoutStep1();
-            }
-            // set dimensions in 2nd step. Pre-layout should happen with old dimensions for
-            // consistency
-            mLayout.setMeasureSpecs(widthSpec, heightSpec);
-            mState.mIsMeasuring = true;
-            dispatchLayoutStep2();
-            mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
-            mLastAutoMeasureNonExactMeasuredWidth = getMeasuredWidth();
-            mLastAutoMeasureNonExactMeasuredHeight = getMeasuredHeight();
-    }
-```
-
-```java
-private void scrapOrRecycleView(Recycler recycler, int index, View view) {
-            final ViewHolder viewHolder = getChildViewHolderInt(view);
-            if (viewHolder.shouldIgnore()) {
-                if (DEBUG) {
-                    Log.d(TAG, "ignoring view " + viewHolder);
-                }
-                return;
-            }
-            if (viewHolder.isInvalid() && !viewHolder.isRemoved()
-                    && !mRecyclerView.mAdapter.hasStableIds()) {
-                //notifyDataSetChanged
-                removeViewAt(index);
-                recycler.recycleViewHolderInternal(viewHolder);
-            } else {
-                //初次布局
-                detachViewAt(index);
-                recycler.scrapView(view);
-                mRecyclerView.mViewInfoStore.onViewDetached(viewHolder);
-            }
-        }
-```
 ### RecyclerView.dispatchLayoutStep1
 * 只有 State.STEP_START 状态才会执行  dispatchLayoutStep1
 * 调用 dispatchLayoutStep1 会将mState.mLayoutStep 置为 State.STEP_LAYOUT;
@@ -174,8 +124,15 @@ private void scrapOrRecycleView(Recycler recycler, int index, View view) {
 *  mLayout.removeAndRecycleScrapInt(mRecycler);  将 Recycler.mAttachedScrap 中没有复用的 ViewHolder 添加到  RecycledViewPool 中
 *  清除 Recycler.mChangedScrap 中的缓存
 *  mRecycler.updateViewCacheSize(); 将 Recycler.mCachedViews 中的没有复用的 ViewHolder 添加到 RecycledViewPool 中  
-
-### LinearLayoutManager.generateDefaultLayoutParams
+### RecyclerView.dispatchLayoutStep2()
+```java
+private void dispatchLayoutStep2() {
+    mState.mInPreLayout = false;
+    mLayout.onLayoutChildren(mRecycler, mState);
+    mState.mRunSimpleAnimations = mState.mRunSimpleAnimations &&mItemAnimator != null;
+    mState.mLayoutStep = State.STEP_ANIMATIONS;
+}
+```
 ## LinearLayoutManager.onLayoutChildren
 
 在每次向RecyclerView填充表项之前都会先清空 LayoutManager 中现存表项，将它们 detach 并同时缓存入 mAttachedScrap列表中。
@@ -189,18 +146,56 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
     ...
 
 ```
+
 1. LayoutManager.detachAndScrapAttachedViews $\rightarrow$ LayoutManager.scrapOrRecycleView $\rightarrow$
    1. LayoutManager.detachViewAt(index) $\rightarrow$ LayoutManager.detachViewInternal $\rightarrow$ ChildHelper.detachViewFromParent $\rightarrow$ mCallback.detachViewFromParent(offset); $\uparrow$ RecyclerView.initChildrenHelper() $\rightarrow$ RecyclerView.this.detachViewFromParent(offset); $\Leftrightarrow$ ViewGroup.detachViewFromParent
    2. Recycler.scrapView $\rightarrow$ mAttachedScrap.add(holder);
-2. LinearLayoutManager.fill $\rightarrow$ LinearLayoutManager.layoutChunk $\rightarrow$ LayoutState.next $\rightarrow$ Recycler.getViewForPosition $\rightarrow$ Recycler.tryGetViewHolderForPositionByDeadline
+
+
+```java
+private void scrapOrRecycleView(Recycler recycler, int index, View view) {
+    final ViewHolder viewHolder = getChildViewHolderInt(view);
+    if (viewHolder.shouldIgnore()) {
+        if (DEBUG) {
+            Log.d(TAG, "ignoring view " + viewHolder);
+        }
+        return;
+    }
+    if (viewHolder.isInvalid() && !viewHolder.isRemoved()
+            && !mRecyclerView.mAdapter.hasStableIds()) {
+        //notifyDataSetChanged 会走这个分支
+        removeViewAt(index);
+        recycler.recycleViewHolderInternal(viewHolder);
+    } else {
+        //初次布局
+        detachViewAt(index);
+        recycler.scrapView(view);
+        mRecyclerView.mViewInfoStore.onViewDetached(viewHolder);
+    }
+}
+```
+```java
+void Recycler.recycleViewHolderInternal(ViewHolder holder) {
+    ...
+    //如果已经超过 mCachedViews 最大容量 按找 FIFO 规则将 ViewHodler 转移到 RecycledViewPool
+    if (cachedViewSize >= mViewCacheMax && cachedViewSize > 0) {
+                   recycleCachedViewAt(0);
+                   cachedViewSize--;
+               }
+    mCachedViews.add(targetCacheIndex, holder);
+    ...
+}
+```
+
+1. LinearLayoutManager.fill $\rightarrow$ LinearLayoutManager.layoutChunk $\rightarrow$ LayoutState.next $\rightarrow$ Recycler.getViewForPosition $\rightarrow$ Recycler.tryGetViewHolderForPositionByDeadline
     ```java
      ViewHolder tryGetViewHolderForPositionByDeadline(int position,
                 boolean dryRun, long deadlineNs) {
         // 通过 position 从 mChangedScrap 中获取ViewHolder
         holder = getChangedScrapViewForPosition(position);
-        // 通过 position 从 mAttachedScrap 中获取 ViewHolder
+        // 通过 position 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
         holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun)
-        // 通过ItemId 从 mAttachedScrap 中获取 ViewHolder
+        // 通过ItemId 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
         holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition)
         // 通过 position 和 type 从 【用户自定义缓存ViewCacheExtension】中获取 ViewHolder
         final View view = mViewCacheExtension
@@ -234,10 +229,43 @@ public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State 
         }
     }
     ```
-## ViewGroup.removeView 和 ViewGroup.detachViewFromParent
+## ViewGroup.removeView 和 ViewGroup.detachViewFromParent 区别
 * ViewGroup.removeView 和 ViewGroup.detachViewFromParent 功能相似，都会调用ViewGroup.removeFromArray将子控件从父控件的孩子列表中移除
 * detachViewFromParent 更轻量，仅仅调用 ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
 * ViewGroup.removeView 会关注动画、焦点、触摸等事件，并且会重新布局和重新绘画。最终也会调用ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
+## RecyclerView.onMeasuer
+```java
+    protected void onMeasure(int widthSpec, int heightSpec) {
+            final int widthMode = MeasureSpec.getMode(widthSpec);
+            final int heightMode = MeasureSpec.getMode(heightSpec);
+            mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);
+            mLastAutoMeasureSkippedDueToExact =
+                    widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY;
+            if (mLastAutoMeasureSkippedDueToExact || mAdapter == null) {
+                return;
+            }
+
+            // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不为null的时候，开始按照 LayoutManager 的方式测量；如果是精确测量，是不会执行下面代码的
+
+            //首先调用 dispatchLayoutStep1 对Children进行布局
+            if (mState.mLayoutStep == State.STEP_START) {
+                dispatchLayoutStep1();
+            }
+            // set dimensions in 2nd step. Pre-layout should happen with old dimensions for
+            // consistency
+            mLayout.setMeasureSpecs(widthSpec, heightSpec);
+            mState.mIsMeasuring = true;
+            dispatchLayoutStep2();
+            mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
+            mLastAutoMeasureNonExactMeasuredWidth = getMeasuredWidth();
+            mLastAutoMeasureNonExactMeasuredHeight = getMeasuredHeight();
+    }
+```
+
+### LinearLayoutManager.generateDefaultLayoutParams
+
+当ItemView没有设置 LayoutParams 的时候，就会调用这个方法添加 LayoutParams
+
 
 ## post-layout 和 pre-layout
 ViewInfoStore 记录 RecyclerView 动画相关信息，通过 process 执行动画
@@ -262,7 +290,57 @@ ViewInfoStore 记录 RecyclerView 动画相关信息，通过 process 执行动�
     }
 
 ```
-## onLayoutChildren 为什么采用全部清除再添加的方式
+
+## 缓存总结
+RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 Recycler 中实现
+* mChangedScrap  
+  - ArrayList<ViewHolder>
+  - 缓存屏幕内的ViewHolder
+* mAttachedScrap 
+  - ArrayList<ViewHolder> 
+  - 缓存屏幕内的ViewHolder
+* mCachedViews 
+  - ArrayList<ViewHolder>
+  - 缓存屏幕外的 ViewHolder
+  - 默认容量为 2，如果达到最大值，会按照 FIFO 规则，调用 Recycler.recycleCachedViewAt 方法将 ViewHodler 转移到  RecycledViewPool
+* mViewCacheExtension 
+  - 自定义的缓存
+* RecycledViewPool 
+  - 数据结构
+    ```java
+    SparseArray<ScrapData> mScrap = new SparseArray<>();
+    ScrapData.mScrapHeap  = new ArrayList<ViewHolder> 
+    ```
+  - 添加到RecyclerdViewPool ViewHolder 会清除状态信息
+    ```java
+       void resetInternal() {
+            mFlags = 0;
+            mPosition = NO_POSITION;
+            mOldPosition = NO_POSITION;
+            mItemId = NO_ID;
+            mPreLayoutPosition = NO_POSITION;
+            mIsRecyclableCount = 0;
+            mShadowedHolder = null;
+            mShadowingHolder = null;
+            clearPayload();
+            mWasImportantForAccessibilityBeforeHidden = ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_AUTO;
+            mPendingAccessibilityState = PENDING_ACCESSIBILITY_STATE_NOT_SET;
+            clearNestedRecyclerViewIfNotNested(this);
+        }
+    ```
+
+#### adapter.notify
+* notifyItemChanged 会将发生改变的放入到 mChangedScrap 没有改变的；放入到mAttachedScrap 中
+* notifyDataSetChanged 会将所有 ViewHolder 通过 recycler.recycleViewHolderInternal 加入到 mCachedViews 和 RecycledViewPool 中
+* notifyItemRemoved 会将所有 ViewHolder 缓存到 mAttachedScrap 中
+#### 相关知识点
+* 缓存 viewHolder 的入口为 LayoutManager.scrapOrRecycleView
+* adapter.notifyDataSetChanged 会先调用 processDataSetCompletelyChanged 将 ViewHolder 置为ViewHolder.FLAG_UPDATE | ViewHolder.FLAG_INVALID  然后通过 requestLayout 间接调用LayoutManager.scrapOrRecycleView 调用 Recycler.recycleViewHolderInternal 将 ViewHolder 添加到 mCachedViews 或者 RecycledViewPool
+* dispatchLayoutStep3 调用 removeAndRecycleScrapInt 将  mAttachedScrap 中的 ViewHodler  通过 quickRecycleScrapView 调用 recycleViewHolderInternal 方法转移到 mCachedViews 或者  RecycledViewPool 中；并且将  mChangedScrap 清除；所以dispatchLayoutStep3执行完毕后，mAttachedScrap和mChangedScrap被清空； mCachedViews 和 RecycledViewPool 有缓存
+* 查看 RecyclerViewDataObserver 可知事件变化监听都是通过调用 requestLayout 触发重新布局来实现的(也就是会触发 回收所有View 重新布局)，不同的是：不同的事件会将不同的 ViewHolder 置为不同的 FLAG 因此会添加到不同的缓存中
+* mCachedViews 和 RecycledViewPool 不同的是 mCachedViews 还保留了位置信息，可以通过相同的 position 复用但是要重新 bind ,RecycledViewPool 已经变为一个"空白"ViewHodler
+* mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind
+* mChangedScrap 
 
 ## LinearLayoutManager & wrap_content
 onMeasure dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren
@@ -283,7 +361,8 @@ onLayout dispatchLayoutStep1 dispatchLayoutStep2 onLayoutChildren dispatchLayout
 
 
 
-## ViewHolder 的 flag
+## ViewHolder 的 FLAG  
+有助于理解 ViewHolder 的状态，不是很重要
 ```java
  /**
          * This ViewHolder has been bound to a position; mPosition, mItemId and mItemViewType
