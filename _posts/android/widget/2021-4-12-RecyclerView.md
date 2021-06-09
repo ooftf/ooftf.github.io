@@ -225,55 +225,53 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 
 #### LinearLayoutManager.fill 
 
-    ```
-    LinearLayoutManager.fill 
-        LinearLayoutManager.layoutChunk
-            LayoutState.next 
-                Recycler.getViewForPosition
-                    Recycler.tryGetViewHolderForPositionByDeadline
-    ```
+```
+LinearLayoutManager.fill 
+    LinearLayoutManager.layoutChunk
+        LayoutState.next 
+            Recycler.getViewForPosition
+                Recycler.tryGetViewHolderForPositionByDeadline
+```
 
-    ```java
-     ViewHolder tryGetViewHolderForPositionByDeadline(int position,
-                boolean dryRun, long deadlineNs) {
-        // 通过 position 从 mChangedScrap 中获取ViewHolder
-        holder = getChangedScrapViewForPosition(position);
-        // 通过 position 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
-        holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun)
-        // 通过ItemId 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
-        holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition)
-        // 通过 position 和 type 从 【用户自定义缓存ViewCacheExtension】中获取 ViewHolder
-        final View view = mViewCacheExtension
-                            .getViewForPositionAndType(this, position, type);
-        holder = getChildViewHolder(view);
-        // 从 RecycledViewPool.mScrap 中获取 ViewHolder
-        holder = getRecycledViewPool().getRecycledView(type);
-
-        holder = mAdapter.createViewHolder(RecyclerView.this, type)
-
-        // 判断是否需要重新调用 adapter.bindViewHolder
-        boolean bound = false;
-        if (mState.isPreLayout() && holder.isBound()) {
-            holder.mPreLayoutPosition = position;
-        } else if (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) {
-            final int offsetPosition = mAdapterHelper.findPositionOffset(position);
-            bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);
-        }
-
-        // 设置 itemView 的 Layoutparams 
-        final ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
-        final LayoutParams rvLayoutParams;
-        if (lp == null) {
-            rvLayoutParams = (LayoutParams) generateDefaultLayoutParams();
-            holder.itemView.setLayoutParams(rvLayoutParams);
-        } else if (!checkLayoutParams(lp)) {
-            rvLayoutParams = (LayoutParams) generateLayoutParams(lp);
-            holder.itemView.setLayoutParams(rvLayoutParams);
-        } else {
-            rvLayoutParams = (LayoutParams) lp;
-        }
+```java
+ ViewHolder tryGetViewHolderForPositionByDeadline(int position,
+            boolean dryRun, long deadlineNs) {
+    // 通过 position 从 mChangedScrap 中获取ViewHolder
+    holder = getChangedScrapViewForPosition(position);
+    // 通过 position 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
+    holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun)
+    // 通过ItemId 从 mAttachedScrap 或者 mCachedViews 中获取 ViewHolder
+    holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition)
+    // 通过 position 和 type 从 【用户自定义缓存ViewCacheExtension】中获取ViewHolder
+    final View view = mViewCacheExtension
+                        .getViewForPositionAndType(this, position, type);
+    holder = getChildViewHolder(view);
+    // 从 RecycledViewPool.mScrap 中获取 ViewHolder
+    holder = getRecycledViewPool().getRecycledView(type);
+    holder = mAdapter.createViewHolder(RecyclerView.this, type)
+    // 判断是否需要重新调用 adapter.bindViewHolder
+    boolean bound = false;
+    if (mState.isPreLayout() && holder.isBound()) {
+        holder.mPreLayoutPosition = position;
+    } else if (!holder.isBound() || holder.needsUpdate() || holderisInvalid()) {
+        final int offsetPosition = mAdapterHelper.findPositionOffse(position);
+        bound = tryBindViewHolderByDeadline(holder, offsetPosition,position, deadlineNs);
     }
-    ```
+    // 设置 itemView 的 Layoutparams 
+    final ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+    final LayoutParams rvLayoutParams;
+    if (lp == null) {
+        rvLayoutParams = (LayoutParams) generateDefaultLayoutParams();
+        holder.itemView.setLayoutParams(rvLayoutParams);
+    } else if (!checkLayoutParams(lp)) {
+        rvLayoutParams = (LayoutParams) generateLayoutParams(lp);
+        holder.itemView.setLayoutParams(rvLayoutParams);
+    } else {
+        rvLayoutParams = (LayoutParams) lp;
+    }
+}
+```
+
 ## ViewGroup.removeView 和 ViewGroup.detachViewFromParent 区别
 * ViewGroup.removeView 和 ViewGroup.detachViewFromParent 功能相似，都会调用ViewGroup.removeFromArray将子控件从父控件的孩子列表中移除
 * detachViewFromParent 更轻量，仅仅调用 ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
@@ -282,29 +280,27 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 
 ## RecyclerView.onMeasuer
 ```java
-    protected void onMeasure(int widthSpec, int heightSpec) {
-            final int widthMode = MeasureSpec.getMode(widthSpec);
-            final int heightMode = MeasureSpec.getMode(heightSpec);
-            mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);
-            mLastAutoMeasureSkippedDueToExact =
-                    widthMode == MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY;
-            if (mLastAutoMeasureSkippedDueToExact || mAdapter == null) {
-                return;
-            }
-
-            // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不为null的时候，开始按照 LayoutManager 的方式测量；如果是精确测量，是不会执行下面代码的
-
-            //首先调用 dispatchLayoutStep1 对Children进行布局
-            if (mState.mLayoutStep == State.STEP_START) {
-                dispatchLayoutStep1();
-            }
-            mLayout.setMeasureSpecs(widthSpec, heightSpec);
-            mState.mIsMeasuring = true;
-            dispatchLayoutStep2();
-            mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
-            mLastAutoMeasureNonExactMeasuredWidth = getMeasuredWidth();
-            mLastAutoMeasureNonExactMeasuredHeight = getMeasuredHeight();
+protected void onMeasure(int widthSpec, int heightSpec) {
+    final int widthMode = MeasureSpec.getMode(widthSpec);
+    final int heightMode = MeasureSpec.getMode(heightSpec);
+    mLayout.onMeasure(mRecycler, mState, widthSpec, heightSpec);
+    mLastAutoMeasureSkippedDueToExact =
+            widthMode == MeasureSpec.EXACTLY && heightMode ==MeasureSpecEXACTLY;
+    if (mLastAutoMeasureSkippedDueToExact || mAdapter == null) {
+        return;
     }
+    // 上面代码就是正常View的 onMeasure  当不是精确测量并且Adapter不null的候，开始按照 LayoutManager 的方式测量；如果是精确测量，是不执行下面代码的
+    //首先调用 dispatchLayoutStep1 对Children进行布局
+    if (mState.mLayoutStep == State.STEP_START) {
+        dispatchLayoutStep1();
+    }
+    mLayout.setMeasureSpecs(widthSpec, heightSpec);
+    mState.mIsMeasuring = true;
+    dispatchLayoutStep2();
+    mLayout.setMeasuredDimensionFromChildren(widthSpec, heightSpec);
+    mLastAutoMeasureNonExactMeasuredWidth = getMeasuredWidth();
+    mLastAutoMeasureNonExactMeasuredHeight = getMeasuredHeight();
+}
 ```
 
 ### LinearLayoutManager.generateDefaultLayoutParams
@@ -315,24 +311,24 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 ## ViewInfoStore
 ViewInfoStore 记录 RecyclerView 动画相关信息，通过 process 执行动画
 ```java
-    void addToPreLayout(RecyclerView.ViewHolder holder, RecyclerView.ItemAnimator.ItemHolderInfo info) {
-        InfoRecord record = mLayoutHolderMap.get(holder);
-        if (record == null) {
-            record = InfoRecord.obtain();
-            mLayoutHolderMap.put(holder, record);
-        }
-        record.preInfo = info;
-        record.flags |= FLAG_PRE;
+void addToPreLayout(RecyclerView.ViewHolder holder, RecyclerViewItemAnimator.ItemHolderInfo info) {
+    InfoRecord record = mLayoutHolderMap.get(holder);
+    if (record == null) {
+        record = InfoRecord.obtain();
+        mLayoutHolderMap.put(holder, record);
     }
-    void addToPostLayout(RecyclerView.ViewHolder holder, RecyclerView.ItemAnimator.ItemHolderInfo info) {
-        InfoRecord record = mLayoutHolderMap.get(holder);
-        if (record == null) {
-            record = InfoRecord.obtain();
-            mLayoutHolderMap.put(holder, record);
-        }
-        record.postInfo = info;
-        record.flags |= FLAG_POST;
+    record.preInfo = info;
+    record.flags |= FLAG_PRE;
+}
+void addToPostLayout(RecyclerView.ViewHolder holder, RecyclerViewItemAnimator.ItemHolderInfo info) {
+    InfoRecord record = mLayoutHolderMap.get(holder);
+    if (record == null) {
+        record = InfoRecord.obtain();
+        mLayoutHolderMap.put(holder, record);
     }
+    record.postInfo = info;
+    record.flags |= FLAG_POST;
+}
 
 ```
 
@@ -424,79 +420,68 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 有助于理解 ViewHolder 的状态，不是很重要
 ```java
  /**
-         * This ViewHolder has been bound to a position; mPosition, mItemId and mItemViewType
-         * are all valid.
-         */
-        static final int FLAG_BOUND = 1 << 0;
-
-        /**
-         * The data this ViewHolder's view reflects is stale and needs to be rebound
-         * by the adapter. mPosition and mItemId are consistent.
-         */
-        static final int FLAG_UPDATE = 1 << 1;
-
-        /**
-         * This ViewHolder's data is invalid. The identity implied by mPosition and mItemId
-         * are not to be trusted and may no longer match the item view type.
-         * This ViewHolder must be fully rebound to different data.
-         */
-        static final int FLAG_INVALID = 1 << 2;
-
-        /**
-         * This ViewHolder points at data that represents an item previously removed from the
-         * data set. Its view may still be used for things like outgoing animations.
-         */
-        static final int FLAG_REMOVED = 1 << 3;
-
-        /**
-         * This ViewHolder should not be recycled. This flag is set via setIsRecyclable()
-         * and is intended to keep views around during animations.
-         */
-        static final int FLAG_NOT_RECYCLABLE = 1 << 4;
-
-        /**
-         * This ViewHolder is returned from scrap which means we are expecting an addView call
-         * for this itemView. When returned from scrap, ViewHolder stays in the scrap list until
-         * the end of the layout pass and then recycled by RecyclerView if it is not added back to
-         * the RecyclerView.
-         */
-        static final int FLAG_RETURNED_FROM_SCRAP = 1 << 5;
-
-        /**
-         * This ViewHolder is fully managed by the LayoutManager. We do not scrap, recycle or remove
-         * it unless LayoutManager is replaced.
-         * It is still fully visible to the LayoutManager.
-         */
-        static final int FLAG_IGNORE = 1 << 7;
-
-        /**
-         * When the View is detached form the parent, we set this flag so that we can take correct
-         * action when we need to remove it or add it back.
-         */
-        static final int FLAG_TMP_DETACHED = 1 << 8;
-
-        /**
-         * Set when we can no longer determine the adapter position of this ViewHolder until it is
-         * rebound to a new position. It is different than FLAG_INVALID because FLAG_INVALID is
-         * set even when the type does not match. Also, FLAG_ADAPTER_POSITION_UNKNOWN is set as soon
-         * as adapter notification arrives vs FLAG_INVALID is set lazily before layout is
-         * re-calculated.
-         */
-        static final int FLAG_ADAPTER_POSITION_UNKNOWN = 1 << 9;
-
-        /**
-         * Set when a addChangePayload(null) is called
-         */
-        static final int FLAG_ADAPTER_FULLUPDATE = 1 << 10;
-
-        /**
-         * Used by ItemAnimator when a ViewHolder's position changes
-         */
-        static final int FLAG_MOVED = 1 << 11;
-
-        /**
-         * Used by ItemAnimator when a ViewHolder appears in pre-layout
-         */
-        static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
+ * This ViewHolder has been bound to a position; mPosition, mItemIand mItemViewType
+ * are all valid.
+ */
+static final int FLAG_BOUND = 1 << 0
+/**
+ * The data this ViewHolder's view reflects is stale and needs to brebound
+ * by the adapter. mPosition and mItemId are consistent.
+ */
+static final int FLAG_UPDATE = 1 << 1
+/**
+ * This ViewHolder's data is invalid. The identity implied bmPosition and mItemId
+ * are not to be trusted and may no longer match the item view type.
+ * This ViewHolder must be fully rebound to different data.
+ */
+static final int FLAG_INVALID = 1 << 2
+/**
+ * This ViewHolder points at data that represents an item previouslremoved from the
+ * data set. Its view may still be used for things like outgoinanimations.
+ */
+static final int FLAG_REMOVED = 1 << 3
+/**
+ * This ViewHolder should not be recycled. This flag is set visetIsRecyclable()
+ * and is intended to keep views around during animations.
+ */
+static final int FLAG_NOT_RECYCLABLE = 1 << 4
+/**
+ * This ViewHolder is returned from scrap which means we arexpecting an addView call
+ * for this itemView. When returned from scrap, ViewHolder stays ithe scrap list until
+ * the end of the layout pass and then recycled by RecyclerView if iis not added back to
+ * the RecyclerView.
+ */
+static final int FLAG_RETURNED_FROM_SCRAP = 1 << 5
+/**
+ * This ViewHolder is fully managed by the LayoutManager. We do noscrap, recycle or remove
+ * it unless LayoutManager is replaced.
+ * It is still fully visible to the LayoutManager.
+ */
+static final int FLAG_IGNORE = 1 << 7
+/**
+ * When the View is detached form the parent, we set this flag sthat we can take correct
+ * action when we need to remove it or add it back.
+ */
+static final int FLAG_TMP_DETACHED = 1 << 8
+/**
+ * Set when we can no longer determine the adapter position of thiViewHolder until it is
+ * rebound to a new position. It is different than FLAG_INVALIbecause FLAG_INVALID is
+ * set even when the type does not match. AlsoFLAG_ADAPTER_POSITION_UNKNOWN is set as soon
+ * as adapter notification arrives vs FLAG_INVALID is set lazilbefore layout is
+ * re-calculated.
+ */
+static final int FLAG_ADAPTER_POSITION_UNKNOWN = 1 << 9
+/**
+ * Set when a addChangePayload(null) is called
+ */
+static final int FLAG_ADAPTER_FULLUPDATE = 1 << 10
+/**
+ * Used by ItemAnimator when a ViewHolder's position changes
+ */
+static final int FLAG_MOVED = 1 << 11
+/**
+ * Used by ItemAnimator when a ViewHolder appears in pre-layout
+ */
+static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ```
 
