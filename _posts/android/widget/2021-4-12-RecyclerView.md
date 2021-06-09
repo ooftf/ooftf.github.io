@@ -223,7 +223,8 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 }
 ```
 
-1. LinearLayoutManager.fill 
+#### LinearLayoutManager.fill 
+
     ```
     LinearLayoutManager.fill 
         LinearLayoutManager.layoutChunk
@@ -277,6 +278,8 @@ void Recycler.recycleViewHolderInternal(ViewHolder holder) {
 * ViewGroup.removeView 和 ViewGroup.detachViewFromParent 功能相似，都会调用ViewGroup.removeFromArray将子控件从父控件的孩子列表中移除
 * detachViewFromParent 更轻量，仅仅调用 ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
 * ViewGroup.removeView 会关注动画、焦点、触摸等事件，并且会重新布局和重新绘画。最终也会调用ViewGroup.removeFromArray 将子控件从父控件的孩子列表中移除
+
+
 ## RecyclerView.onMeasuer
 ```java
     protected void onMeasure(int widthSpec, int heightSpec) {
