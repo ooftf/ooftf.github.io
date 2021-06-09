@@ -10,6 +10,8 @@ tags: Android
 
 - 解决方案一： ScrollView的子viewGroup中增加android:descendantFocusability="blocksDescendants" 属性
 - 解决方案二： ScrollView的直接子view 上添加focusableInTouchMode=true
+
+
 ### ScrollView 嵌套RecyclerView + GridLayoutManager 只显示一行或者不显示，需要滑动RecyclerView
     将ScrollView换位NestScrollView
 ### RecyclerView 中EditText singleLine模式下，作为最后一个Item，输入换行崩溃，某些机型（华为）
@@ -138,6 +140,8 @@ void RecyclerView.dispatchLayout() {
 * 与 RecyclerView 动画相关
     - RunSimpleAnimations 动画只会计算属性，不会进行布局，
     - RunPredictiveAnimations 会通过 LayoutManager.onLayoutChildren 进行空间布局
+
+
 ### RecyclerView.dispatchLayoutStep3
 * 将 mState.mLayoutStep 重新置为 State.STEP_START
 * 添加动画：mViewInfoStore.addToPostLayout(holder, animationInfo);
@@ -145,6 +149,8 @@ void RecyclerView.dispatchLayout() {
 *  mLayout.removeAndRecycleScrapInt(mRecycler);  将 Recycler.mAttachedScrap 中没有复用的 ViewHolder 添加到  RecycledViewPool 中
 *  清除 Recycler.mChangedScrap 中的缓存
 *  mRecycler.updateViewCacheSize(); 将 Recycler.mCachedViews 中的没有复用的 ViewHolder 添加到 RecycledViewPool 中  
+
+
 ### RecyclerView.dispatchLayoutStep2()
 ```java
 private void dispatchLayoutStep2() {
