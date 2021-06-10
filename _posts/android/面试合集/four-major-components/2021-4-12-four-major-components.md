@@ -16,16 +16,7 @@ tags: [Android,Activity,Service,BroadcastReceiver,ContentProvider]
 * ContentProvider 内部的 inset、delete、update、query方法需要处理好线程同步，应为这几个方法实在Binder线程池中被调用的，
 * ContentProvider不需要手动停止
 
-## Service
-* service 有两种状态：启动状态和绑定状态。
-* Service 本身是运行在主线程中的，因此耗时的任务需要在单独的线程中去完成
 
-#### IntentService
-* 内部实现是由HandlerThread + Handler方式实现。
-* 在子线程中处理任务。
-* 在所有任务处理完成后自动推出。
-* 只处理了onStartCommand方法，onBind为空实现，代表只能由startService方式启动才有效果，并不支持bindService
-* Android 8.0 以上不推荐使用IntentService了，Google推荐使用JobIntentService
 
 
 

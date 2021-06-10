@@ -48,13 +48,29 @@
    unbindService(connection)  onUnbind
                               onDestroy                 
    ```
-  * 不管是startService还是bindService，最后都要stopService和unBindService与之对应，要不然容易造成内存泄漏。
+  * bindService，最后要unBindService与之对应，要不然容易造成内存泄漏。startService不会产生内存泄漏
   * bindService后调用unBindService成功后，如果再调用unBindService将会报异常，可以加一个boolean变量判断。
   * 这里有一种特殊情况是先startService，此时回调onCreate->onStartCommand，然后再bindService，回调onBind->onServiceConnected;这时候要想销毁Service必须调用 unBindService，再调用stopService。
   * bindService成功后，Service就与当前Activity绑定了，它就跟随Activity生命周期走了，如果服务没有销毁，而与之绑定的Activity销毁了，那这个绑定的Service也会被销 毁，但是Service里启动的子线程不会被销毁。
-  * 服务是运行在后台，没错，但是不能进行耗时操作，否则会ANR，页面卡死情况；如果有耗时操作一定要新建一个子线程，放在里进行，这里也说明Service和Thread不是同一种东  西，就跟猫和鱼一样，是两个不同物种。但是通常情况下这两个是组合起来使用。
-  * 有人会问了，既然Service不能做耗时操作，就是做也得放在子线程里去做，那为啥不直接在Activity里开一个子线程去做呢，反而弄Service这么麻烦。有道理，但是Activity是  很难对线程去操作的，当线程所在的Activity销毁了，那这个线程就是脱缰的野马，没人能管的了了，你没办法再获取这个线程的实例了，除非把进程给杀了；但是如果线程放  在      Service里，就算Activity销毁了，以后只要重新与这个Service进行绑定，在onServiceConnected获取binder实例，这样就可以继续操作线程了，要它GG还是要它继续与  你作伴，就看你高兴了。
+  * 服务是运行在后台，这个后台不是指子线程，Service同样也是运行在主线程中的，所以不能进行耗时操作，否则会ANR，页面卡死情况；如果有耗时操作一定要新建一个子线程。
   * 通过startService启动服务后，服务就与启动它的组件没有联系了，组件销毁了，服务还是继续运行；通过bindService启动服务，与之绑定的组件就可以控制Service的具体执行  逻辑了。
-  * 
+  
+## 按照运行进程 Service 可分为两类
+
+1. 本地服务 （Local Service）： 寄存于当前的进程当中，当前进程结束后 Service 也会随之结束；因为处于同一个进程当中，所以Service 可以随时与 Activity 等多个部件进行通信，不需要IPC和AIDL；
+2. 远程服务 （Remote Service ）： 独立寄存于另一进程中， 服务常驻后台，通过 AIDL （Android Interface Definition Language）接口定义语言，实现Android设备上的两个进程间通信(IPC)。
+
+## 按Service运行方式分两类：前台服务和后台服务。
+
+* 前台Service在下拉通知栏有一条显示通知（主要做一些需要用户知道的事，但退出APP还能继续做，像音乐播放器类似的应用，在下拉栏有一些当前播放歌曲的信息和进行一些简单操作；有些下载功能放在Service里也会在下拉栏显示当前下载进度），但后台Service没有（主要是默默的做一些用户不知道的事，像收集定位数据，更新天气数据）
+* 前台Service优先级较高，不会由于系统内存不足而被回收；后台Service优先级较低，当系统出现内存不足情况时，很有可能会被回收
+
+
+#### IntentService
+* 内部实现是由HandlerThread + Handler方式实现。
+* 在子线程中处理任务。
+* 在所有任务处理完成后自动推出。
+* 只处理了onStartCommand方法，onBind为空实现，代表只能由startService方式启动才有效果，并不支持bindService
+* Android 8.0 以上不推荐使用IntentService了，Google推荐使用 JobIntentService
 ## 推荐链接
 [Service 详解](https://blog.csdn.net/qq_30993595/article/details/78452064)
