@@ -116,10 +116,39 @@ LifecycleBoundObserver.onStateChanged
 ```java
 @Override
 public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
-    if (mOwner.getLifecycle().getCurrentState() == DESTROYED) {
+    if (mOwner.getLifecycle().getCurrentState() == DESTROYED) { //如果已经处于销毁状态，直接移除监听
         removeObserver(mObserver);
         return;
     }
-    activeStateChanged(shouldBeActive());
+
+    activeStateChanged(shouldBeActive());// 设置活跃状态变化
+}
+```
+```java
+// 判断是否是活跃状态
+@Override
+boolean shouldBeActive() {
+    return mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED);
+}
+```
+```java
+void activeStateChanged(boolean newActive) {
+    if (newActive == mActive) {
+        return;
+    }
+    // immediately set active state, so we'd never dispatch anything to inactive
+    // owner
+    mActive = newActive;
+    boolean wasInactive = LiveData.this.mActiveCount == 0; // mActiveCount是LiveData所有订阅者中处于活跃状态的的订阅者数目；wasInactive 是指原来 LiveData 是否都处于非活跃状态
+    LiveData.this.mActiveCount += mActive ? 1 : -1;
+    if (wasInactive && mActive) {//如果原来  LiveData 处于非活跃状态 并且 新的状态为活跃，调用 LiveData.onActive 方法
+        onActive();
+    }
+    if (LiveData.this.mActiveCount == 0 && !mActive) { //如果满足 （LiveData.this.mActiveCount == 0），通过 LiveData.this.mActiveCount += mActive ? 1 : -1; 可知 LiveData.this.mActiveCount=1 即 LiveData 原来处于活跃状态，现在处于非活跃状态，调用 LiveData.onInactive
+        onInactive();
+    }
+    if (mActive) { //如果是活跃状态，通知次订阅者数值发生改变
+        dispatchingValue(this);
+    }
 }
 ```
