@@ -3,9 +3,9 @@ layout: page
 header-style: pic
 description: "「美好的事情即将发生」"
 ---
-
+{% if (paginator.page == 1) %}
 {% for post in site.posts %}
-{% if (post.top == true&&paginator.page == 1) %}
+{% if (post.top == true) %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
         <h2 class="post-title">
@@ -31,7 +31,7 @@ description: "「美好的事情即将发生」"
 <hr>
 {% endif %}
 {% endfor %}
-
+{% endif %}
 {% for post in paginator.posts %}
 {% if post.top != true %}
 <div class="post-preview">
