@@ -64,21 +64,27 @@ description: "「美好的事情即将发生」"
 <ul class="pager">
     {% if paginator.previous_page %}
     <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts fdsafa</a>
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Previous </a>
     </li>
     {% endif %}
     {% for page in (1..paginator.total_pages) %}
     {% if page == paginator.page %}
+    <li>
       <em>{{ page }}</em>
+    </li>
     {% elsif page == 1 %}
+    <li>
       <a href="{{ '/' | relative_url }}">{{ page }}</a>
+    </li>
     {% else %}
+    <li>
       <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+    </li>
     {% endif %}
     {% endfor %}
     {% if paginator.next_page %}
     <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next &rarr;</a>
     </li>
     {% endif %}
 </ul>
