@@ -5,7 +5,7 @@ description: "「美好的事情即将发生」"
 ---
 
 {% for post in site.posts %}
-{% if (post.top == true&&paginator.page == 0) %}
+{% if (post.top == true&&paginator.page == 1) %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
         <h2 class="post-title">
