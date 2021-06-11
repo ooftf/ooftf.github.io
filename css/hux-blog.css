@@ -1400,7 +1400,7 @@ footer .copyright a:focus {
   .pager li > a,
   .pager li > span {
     font-size: 14px;
-    padding: 15px 25px;
+    padding: 10px 15px;
   }
 }
 .pager li > a {
