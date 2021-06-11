@@ -34,6 +34,13 @@ Glide.get(applicationContext).clearMemory()
 
 安装包中的代码、资原、图片以及SO库的体积，跟它们占用的内存有很大的关系，我们可以考虑针对低端机用户推出4MB的轻量版本，例如今日头条极速版
 
+APK瘦身
+* 点击AS上的Analyze菜单按钮，选择Run Inspection by Name输入unused resources 找出没有用到的文件（databinding 用的的资源文件有可能会被误删）
+* 图片可以采用webp方案压缩,采用矢量图
+* cpu架构支持设置只支持armeabi-v7a
+* 开启混淆，和资源压缩
+* 采用插件化
+
 ### Bitmap优化
 
 ##### 收拢图片调用

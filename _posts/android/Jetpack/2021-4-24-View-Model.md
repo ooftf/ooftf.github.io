@@ -1,3 +1,9 @@
+---
+layout: post
+author: "ooftf"
+top: true
+tags: [Android,ViewModel]
+---
 ### 项目配置ViewModel支持
 ```groovy
     def lifecycle_version = "2.3.1"
