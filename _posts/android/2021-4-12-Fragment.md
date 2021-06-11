@@ -16,3 +16,11 @@ tags: Android
 
 ### fragmentTransaction.add(containerViewId, fragment, tagId).commitAllowingStateLoss()
 并不会立刻将 frament 添加到 FragmentManager 中，所以在这之后调用FragmentManager.findFragmentByTag 是找不到fragment。走过一个Handler周期就可以通过FragmentManager.findFragmentByTag获取到了。具体解决方法可以参考 Glide 添加 SupportRequestManagerFragment 的方式
+
+
+## ViewPager2 + Fragment
+#### FragmentStateAdapter
+* 从 0 Fragment 开始向左滑动一点 就会开始创建 1 Fragment 生命周期会走到 onStart,并不会执行 onResume。只有继续向左滑动当前显示Fragment 变为 1 的时候，才会执行  1  的 onResume 方法，并且 0 Fragment执行 onPaused 方法
+* 多次左右切换并不会重新创建 Fragment 只会执行 onResume 和 onPaused 方法
+
+## ViewPager + Fragment
