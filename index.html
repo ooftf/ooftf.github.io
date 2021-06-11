@@ -5,7 +5,7 @@ description: "「美好的事情即将发生」"
 ---
 
 {% for post in site.posts %}
-{% if post.top == true %}
+{% if (post.top == true&&paginator.page == 0) %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
         <h2 class="post-title">
@@ -62,6 +62,11 @@ description: "「美好的事情即将发生」"
 <!-- Pager -->
 {% if paginator.total_pages > 1 %}
 <ul class="pager">
+    {% for page in paginator.total_pages %}
+    <li class="previous">
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; {page}</a>
+    </li>
+    {% endfor %}
     {% if paginator.previous_page %}
     <li class="previous">
         <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
