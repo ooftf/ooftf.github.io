@@ -67,7 +67,7 @@ description: "「美好的事情即将发生」"
         <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Previous </a>
     </li>
     {% endif %}
-    {% for page in (max(1,paginator.page-5)..min(paginator.total_pages,paginator.page+5)) %}
+    {% for page in (1..paginator.total_pages) %}
     {% if page == paginator.page %}
     <li>
       <a style="color:#0000ee;">{{ page }}</a>
