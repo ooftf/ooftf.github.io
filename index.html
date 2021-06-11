@@ -70,7 +70,7 @@ description: "「美好的事情即将发生」"
     {% for page in (1..paginator.total_pages) %}
     {% if page == paginator.page %}
     <li>
-      <span style="color:#0000ee;">{{ page }}</span>
+      <a style="color:#0000ee;">{{ page }}</a>
     </li>
     {% elsif page == 1 %}
     <li>
