@@ -25,6 +25,10 @@ tags: Android
 
 ## ViewPager + Fragment
 
+## Fragment + BottomBar
+* Fragment 使用 hide 和 show 的方式控制显隐
+* Fragment的生命周期和 Activity 生命周期同步。
+* 左右切换的时候会调用 FragmentManager.hideFragment 和 FragmentManager.showFragment 改变 Fragment.mHidden 的值，但是不会执行 onResume onPaused onStart onStop 等生命周期方法
 
 ## 理解 Fragment 的生命周期
 FragmentManager
