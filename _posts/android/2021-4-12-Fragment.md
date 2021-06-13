@@ -24,3 +24,98 @@ tags: Android
 * 多次左右切换并不会重新创建 Fragment 只会执行 onResume 和 onPaused 方法
 
 ## ViewPager + Fragment
+
+
+## 理解 Fragment 的生命周期
+FragmentManager
+```java
+void moveToState(@NonNull Fragment f, int newState) {
+        FragmentStateManager fragmentStateManager = mFragmentStore.getFragmentStateManager(f.mWho);
+        if (fragmentStateManager == null) {
+            fragmentStateManager = new FragmentStateManager(mLifecycleCallbacksDispatcher, f);
+            fragmentStateManager.setFragmentManagerState(Fragment.CREATED);
+        }
+        newState = Math.min(newState, fragmentStateManager.computeMaxState());
+        if (f.mState <= newState) {
+
+            switch (f.mState) {
+                case Fragment.INITIALIZING:
+                    if (newState > Fragment.INITIALIZING) {
+                        if (isLoggingEnabled(Log.DEBUG)) Log.d(TAG, "moveto ATTACHED: " + f);
+
+                        fragmentStateManager.attach(mHost, this, mParent);
+                    }
+                    // fall through
+                case Fragment.ATTACHED:
+                    if (newState > Fragment.ATTACHED) {
+                        fragmentStateManager.create();
+                    }
+                    // fall through
+                case Fragment.CREATED:
+    
+                    if (newState > Fragment.CREATED) {
+                        fragmentStateManager.createView(mContainer);
+                        fragmentStateManager.activityCreated();
+                        fragmentStateManager.restoreViewState();
+                    }
+                    // fall through
+                case Fragment.ACTIVITY_CREATED:
+                    if (newState > Fragment.ACTIVITY_CREATED) {
+                        fragmentStateManager.start();
+                    }
+                    // fall through
+                case Fragment.STARTED:
+                    if (newState > Fragment.STARTED) {
+                        fragmentStateManager.resume();
+                    }
+            }
+        } else if (f.mState > newState) {
+            switch (f.mState) {
+                case Fragment.RESUMED:
+                    if (newState < Fragment.RESUMED) {
+                        fragmentStateManager.pause();
+                    }
+                    // fall through
+                case Fragment.STARTED:
+                    if (newState < Fragment.STARTED) {
+                        fragmentStateManager.stop();
+                    }
+                    // fall through
+                case Fragment.ACTIVITY_CREATED:
+                    if (newState < Fragment.ACTIVITY_CREATED) {
+                       
+                        FragmentAnim.AnimationOrAnimator anim = null;
+                        if (f.mView != null && f.mContainer != null) {
+                            // Stop any current animations:
+                            f.mContainer.endViewTransition(f.mView);
+                            f.mView.clearAnimation();
+            
+                            if (!f.isRemovingParent()) {
+                   
+                                ViewGroup container = f.mContainer;
+                                View view = f.mView;
+                               
+                                container.removeView(view);
+                               
+                                if (container != f.mContainer) {
+                                    return;
+                                }
+                            }
+                        }
+                        destroyFragmentView(f);
+                       
+                    }
+                    // fall through
+                case Fragment.CREATED:
+                    if (newState < Fragment.CREATED) {
+                       fragmentStateManager.destroy(mHost, mNonConfig);
+                    }
+                    // fall through
+                case Fragment.ATTACHED:
+                    if (newState < Fragment.ATTACHED) {
+                        fragmentStateManager.detach(mNonConfig);
+                    }
+            }
+        }fff
+    }
+```

@@ -16,6 +16,50 @@ tags: [Android,Activity]
 * activeCou
 * onResume
 
+## 关于Application.activityLifecycleCallbacks.onCreate  Lifecycle.onCreate 和 MyAcitivity.onCreate 的调用顺序
+
+```kotlin
+   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+       // doSoming
+    }
+```
+查看父类 Activity.onCreate 方法
+```java
+@MainThread
+@CallSuper
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    dispatchActivityCreated(savedInstanceState);
+}
+```
+查看 Activity.dispatchActivityCreated 方法
+```java
+private void dispatchActivityCreated(@Nullable Bundle savedInstanceState) {
+    // 这里将 onCreate 方法通知给 Application.activityLifecycleCallbacks.onCreate 
+    getApplication().dispatchActivityCreated(this, savedInstanceState);
+    // 由 Lifecycle 的源码可知在 Build.VERSION.SDK_INT >= 29 时，Lifecycle 的实现是由  activity.registerActivityLifecycleCallbacks 来实现的，下面就是通知注册Callback 的；因此这里是 Lifecycle.onCreate 执行的地方
+    Object[] callbacks = collectActivityLifecycleCallbacks();
+    if (callbacks != null) {
+        for (int i = 0; i < callbacks.length; i++) {
+            ((Application.ActivityLifecycleCallbacks) callbacks[i]).onActivityCreated(this,
+                    savedInstanceState);
+        }
+    }
+}
+```
+
+因为 onCreate 的执行顺序为
+```java
+MyAcitivity.onCreate{
+    Activity.onCreate{
+        Application.activityLifecycleCallbacks.onCreate
+        Lifecycle.onCreate
+    }
+     // doSoming
+}
+
+```
+
 --------------------------------------------------------------------
 #### 从点击图标到Activity展示过程
 #### 启动模式
