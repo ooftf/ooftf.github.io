@@ -65,6 +65,9 @@ Activity.performCreate{
 
 ```
 
+
+
+
 --------------------------------------------------------------------
 #### 从点击图标到Activity展示过程
 #### 启动模式
@@ -339,6 +342,7 @@ window 在setContentView 时创建并添加 DecorView 并将 contentView添加�
 * DecorView 什么时候创建的
 * ViewRootImpl 什么时候创建的
 #### Activity.attach
+
 ActivityThread.performLaunchActivity->Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
 ```java
 //Activity
@@ -444,15 +448,22 @@ Activity 视图渲染调用堆栈
 ActivityThread.handleResunmeActivity()
     Activity.makeVisible 
         WindwoManagerImpl.addView
-            WindowManagerGlobal.addView #创建ViewRootImpl# 
+            WindowManagerGlobal.addView // #创建ViewRootImpl# 
                 ViewRootImpl.setView 
                     ViewRootImpl.requestLayout() 
                         scheduleTraversals() 
-                            Choreographer.postpostCallback(TraversalRunnable)
+                            mHandler.getLooper().getQueue().postSyncBarrier()
+                            Choreographer.postCallback(TraversalRunnable)
+                    //  WindowlessWindowManager 是一个 Bindler 这是一个跨进程操作，调用系统服务
+                    WindowlessWindowManager.addToDisplayAsUser()
+                        WindowlessWindowManager.addToDisplay
+                      
 
 TraversalRunnable.run 
-    ViewRootImpl.doTraversal 
+    ViewRootImpl.doTraversal
+        mHandler.getLooper().getQueue().removeSyncBarrier(mTraversalBarrier); 
         ViewRootImpl.performTraversals
+            DecoerView.dispatchAttachedToWindow
             ViewRootImpl.performMeasure
                 View.measure
                     View.onMeasure
@@ -462,6 +473,11 @@ TraversalRunnable.run
             ViewRootImpl.performDraw
                 ViewRootImpl.draw
                     ThreadedRenderer.draw
+                        ThreadedRenderer.updateRootDisplayList
+                            ThreadedRenderer.updateViewTreeDisplayList
+                                view.updateDisplayListIfDirty
+                                    RecordingCanvas canvas = renderNode.beginRecording(width, height);
+                                    View.draw(canvas);
 
 ```
 
