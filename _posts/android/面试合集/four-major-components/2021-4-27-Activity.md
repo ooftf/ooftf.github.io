@@ -434,14 +434,32 @@ Activity.setContentView  调用 Window.setContentView
   
     }
 ```
+Activity 视图渲染调用堆栈
+```
+ActivityThread.handleResunmeActivity()
+    Activity.makeVisible 
+        WindwoManagerImpl.addView
+            WindowManagerGlobal.addView #创建ViewRootImpl# 
+                ViewRootImpl.setView 
+                    ViewRootImpl.requestLayout() 
+                        scheduleTraversals() 
+                            Choreographer.postpostCallback(TraversalRunnable)
 
-ActivityThread.handleResunmeActivity() -> Activity.makeVisible ->  WindwoManagerImpl.addView
+TraversalRunnable.run 
+    ViewRootImpl.doTraversal 
+        ViewRootImpl.performTraversals
+            ViewRootImpl.performMeasure
+                View.measure
+                    View.onMeasure
+            ViewRootImpl.performLayout
+                View.layout
+                    View.onLayout
+            ViewRootImpl.performDraw
+                ViewRootImpl.draw
+                    ThreadedRenderer.draw
 
--> WindowManagerGlobal.addView #创建ViewRootImpl# -> ViewRootImpl.setView -> ViewRootImpl.requestLayout() 
+```
 
--> scheduleTraversals() -> Choreographer.postpostCallback(TraversalRunnable)
-
--> TraversalRunnable.run -> ViewRootImpl.doTraversal -> ViewRootImpl.performTraversals
 
 
 
