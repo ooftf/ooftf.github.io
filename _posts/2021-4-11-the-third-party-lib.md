@@ -17,5 +17,5 @@ tags: LibIndex
 |[TIMSDK](https://github.com/tencentyun/TIMSDK)|||腾讯IM服务|3|
 |[gson](https://github.com/google/gson)|implementation 'com.google.code.gson:gson:2.8.6'|||4.5|
 |[glide](https://github.com/bumptech/glide)|implementation 'com.github.bumptech.glide:glide:4.12.0'  annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'|[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.bumptech.glide/glide/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.bumptech.glide/glide)|图片加载框架|4.5|
-|[Hunter](https://github.com/Leaking/Hunter)| classpath 'com.quinn.hunter:hunter-debug-plugin:1.1.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.1.0' apply plugin: 'hunter-debug'   implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'||通过注解打印方法调用和内容|5|
+|[Hunter](https://github.com/Leaking/Hunter)| classpath 'com.quinn.hunter:hunter-debug-plugin:1.1.0'classpath 'com.quinn.hunter:hunter-transform:1.1.0' apply plugin: 'hunter-debug'   implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'||通过注解打印方法调用和内容|5|
+|[Android-SpinKit](https://github.com/ybq/Android-SpinKit)|||loading 动画|4|

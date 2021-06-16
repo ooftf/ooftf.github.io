@@ -27,10 +27,13 @@ final void performCreate(Bundle icicle, PersistableBundle persistentState) {
     } else {
         onCreate(icicle);
     }
-
-    // 从这里可知执行完 onCreate 方法又执行的 mFragments.dispatchActivityCreated()，而 Activity Lifecycle 的实现是通过 ReportFragment 监听 onActivityCreate 方法，所以mFragments.dispatchActivityCreated() 调用了 Activity Lifecycle.onCreate 方法
-    // 因此结论是，onCreate 方法调用完成，才执行 Lifecycle.onCreate
-
+    /*
+     * 从这里可知执行完 onCreate 方法又执行的 mFragments.dispatchActivityCreated()
+     * 而 Activity Lifecycle 的实现是通过 ReportFragment 监听 onActivityCreate 方法
+     * 所以mFragments.dispatchActivityCreated() 调用了 Activity Lifecycle.onCreate 方法
+     * 因此结论是，onCreate 方法调用完成，才执行 Lifecycle.onCreate
+     */
+    
     mFragments.dispatchActivityCreated();
     dispatchActivityPostCreated(icicle);
 }
