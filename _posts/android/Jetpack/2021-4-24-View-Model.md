@@ -50,7 +50,7 @@ tags: [Android,ViewModel]
               : NewInstanceFactory.getInstance());
   }
   ```
-* ViewModelStoreOwner.getViewModelStore() 是在Activity的父类 androidx.activity.ComponentActivity 内实现的
+* ComponentActivity.getViewModelStore() 是在Activity的父类 androidx.activity.ComponentActivity 内实现的
   ```java
     @NonNull
     @Override
@@ -75,11 +75,11 @@ tags: [Android,ViewModel]
   ```
 * 通过学习横竖屏切换相关的知识可知：我横竖屏切换时可以通过 onRetainNonConfigurationInstance 方法返回需要保存的对象，然后在新的Activity中通过 getLastNonConfigurationInstance 方法 获取到保存的对象  
 
-* 查看 onRetainNonConfigurationInstance 方法可知，在横竖屏切换时保存了viewModelStore对象。因此新旧Activity获取到的viewModelStore是同一个实例，自然获取到的ViewModel也是同一个实例
+* 查看 ComponentActivity.onRetainNonConfigurationInstance 方法可知，在横竖屏切换时保存了viewModelStore对象。因此新旧Activity获取到的viewModelStore是同一个实例，自然获取到的ViewModel也是同一个实例
   ```java
     @Override
     @Nullable
-    public final Object onRetainNonConfigurationInstance() {
+    public final Object ComponentActivity.onRetainNonConfigurationInstance() {
         Object custom = onRetainCustomNonConfigurationInstance();
 
         ViewModelStore viewModelStore = mViewModelStore;

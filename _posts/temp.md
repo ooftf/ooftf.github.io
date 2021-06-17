@@ -1,58 +1,75 @@
-2021-06-06 21:25:31.100 30518-30645/? E/AndroidRuntime: FATAL EXCEPTION: OkHttp Dispatcher
-    Process: com.chaitai.crm:remote, PID: 30518
-    java.lang.ExceptionInInitializerError
-        at com.didichuxing.doraemonkit.util.UtilsBridge.getApplicationByReflect(UtilsBridge.java:104)
-        at com.didichuxing.doraemonkit.util.Utils.getApp(Utils.java:71)
-        at com.didichuxing.doraemonkit.util.DoKitSPUtil.getSharedPrefs(DoKitSPUtil.java:30)
-        at com.didichuxing.doraemonkit.util.DoKitSPUtil.getSharedPrefs(DoKitSPUtil.java:25)
-        at com.didichuxing.doraemonkit.util.DoKitSPUtil.getBoolean(DoKitSPUtil.java:76)
-        at com.didichuxing.doraemonkit.config.GlobalConfig.getAppHealth(GlobalConfig.java:29)
-        at com.didichuxing.doraemonkit.constant.DoKitConstant.<clinit>(DoKitConstant.kt:81)
-        at com.didichuxing.doraemonkit.constant.DoKitConstant.dealDidiPlatformPath(Unknown Source:0)
-        at com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager.mockMatched(DokitDbManager.java:393)
-        at com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager.isMockMatched(DokitDbManager.java:370)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor.intercept(DokitMockInterceptor.java:69)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor.intercept(DokitExtInterceptor.kt:16)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor.intercept(DokitCapInterceptor.java:46)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor.intercept(DokitLargePicInterceptor.java:32)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor.intercept(DokitMockInterceptor.java:49)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor.intercept(DokitExtInterceptor.kt:16)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor.intercept(DokitCapInterceptor.java:46)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor.intercept(DokitLargePicInterceptor.java:32)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor.intercept(DokitMockInterceptor.java:49)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor.intercept(DokitExtInterceptor.kt:16)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor.intercept(DokitCapInterceptor.java:46)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor.intercept(DokitLargePicInterceptor.java:32)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor.intercept(DokitMockInterceptor.java:49)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor.intercept(DokitExtInterceptor.kt:16)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-2021-06-06 21:25:31.101 30518-30645/? E/AndroidRuntime:     at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor.intercept(DokitCapInterceptor.java:46)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor.intercept(DokitLargePicInterceptor.java:32)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor.intercept(DokitMockInterceptor.java:49)
-        at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
-        at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:201)
-        at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:517)
-        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
-        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
-        at java.lang.Thread.run(Thread.java:923)
-     Caused by: java.lang.RuntimeException: Can't create handler inside thread Thread[OkHttp https://api.map.baidu.com/...,5,main] that has not called Looper.prepare()
-        at android.os.Handler.<init>(Handler.java:227)
-        at android.os.Handler.<init>(Handler.java:129)
-        at android.app.Activity.<init>(Activity.java:904)
-        at com.didichuxing.doraemonkit.util.UtilsActivityLifecycleImpl.<clinit>(UtilsActivityLifecycleImpl.java:42)
-        	... 49 more
+ ## 竖屏切换成横屏
+```
+⇢ onPause[]
+⇠ onPause[0ms]="void"
+⇢ onStop[]
+⇠ onStop[0ms]="void"
+⇢ onSaveInstanceState[outState="Bundle[{}]"]
+⇠ onSaveInstanceState[0ms]="void"
+⇢ onRetainCustomNonConfigurationInstance[]
+⇠ onRetainCustomNonConfigurationInstance[0ms]="null"
+⇢ isChangingConfigurations[]
+⇠ isChangingConfigurations[0ms]="true"
+⇢ onDestroy[]
+⇠ onDestroy[0ms]="void"
+⇢ onDetachedFromWindow[]
+⇠ onDetachedFromWindow[0ms]="void"
+⇢ <init>[]
+⇠ <init>[1ms]="void"
+⇢ onCreate[savedInstanceState="Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@b8c12cc, 2131230768=androidx.appcompat.widget.Toolbar$SavedState@e265915, 2131230770=android.view.AbsSavedState$1@b8c12cc, 2131230776=android.view.AbsSavedState$1@b8c12cc, 2131230839=android.view.AbsSavedState$1@b8c12cc, 2131230977=android.view.AbsSavedState$1@b8c12cc}}], androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{}], android:lastAutofillId=1073741823, android:fragments=android.app.FragmentManagerState@b6842a}]"]
+⇢ getLastNonConfigurationInstance[]
+⇠ getLastNonConfigurationInstance[0ms]="androidx.activity.ComponentActivity$NonConfigurationInstances@310b8f6"
+⇠ onCreate[39ms]="void"
+⇢ onStart[]
+⇠ onStart[0ms]="void"
+⇢ onRestoreInstanceState[savedInstanceState="Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@b8c12cc, 2131230768=androidx.appcompat.widget.Toolbar$SavedState@e265915, 2131230770=android.view.AbsSavedState$1@b8c12cc, 2131230776=android.view.AbsSavedState$1@b8c12cc, 2131230839=android.view.AbsSavedState$1@b8c12cc, 2131230977=android.view.AbsSavedState$1@b8c12cc}}], androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{}], android:lastAutofillId=1073741823, android:fragments=android.app.FragmentManagerState@b6842a}]"]
+⇠ onRestoreInstanceState[0ms]="void"
+⇢ onResume[]
+⇠ onResume[2ms]="void"
+⇢ onAttachedToWindow[]
+⇠ onAttachedToWindow[0ms]="void"
+⇢ onWindowFocusChanged[hasFocus="true"]
+⇠ onWindowFocusChanged[0ms]="void"
+```
+
+## 横屏切换成竖屏
+```
+⇢ onPause[]
+⇠ onPause[1ms]="void"
+⇢ onStop[]
+⇠ onStop[0ms]="void"
+⇢ onSaveInstanceState[outState="Bundle[{}]"]
+⇠ onSaveInstanceState[0ms]="void"
+⇢ onRetainCustomNonConfigurationInstance[]
+⇠ onRetainCustomNonConfigurationInstance[0ms]="null"
+⇢ isChangingConfigurations[]
+⇢ onDetachedFromWindow[]
+⇠ onDetachedFromWindow[0ms]="void"
+⇢ <init>[]
+⇠ <init>[0ms]="void"
+⇢ onCreate[savedInstanceState="Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@b8c12cc, 2131230768=androidx.appcompat.widget.Toolbar$SavedState@776b8c, 2131230770=android.view.AbsSavedState$1@b8c12cc, 2131230776=android.view.AbsSavedState$1@b8c12cc, 2131230839=android.view.AbsSavedState$1@b8c12cc, 2131230977=android.view.AbsSavedState$1@b8c12cc}}], androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{}], android:lastAutofillId=1073741823, android:fragments=android.app.FragmentManagerState@fe5a2d5}]"]
+⇢ getLastNonConfigurationInstance[]
+⇠ getLastNonConfigurationInstance[0ms]="androidx.activity.ComponentActivity$NonConfigurationInstances@76a9751"
+⇠ onCreate[34ms]="void"
+⇢ onStart[]
+⇠ onStart[1ms]="void"
+⇢ onRestoreInstanceState[savedInstanceState="Bundle[{android:viewHierarchyState=Bundle[{android:views={16908290=android.view.AbsSavedState$1@b8c12cc, 2131230768=androidx.appcompat.widget.Toolbar$SavedState@776b8c, 2131230770=android.view.AbsSavedState$1@b8c12cc, 2131230776=android.view.AbsSavedState$1@b8c12cc, 2131230839=android.view.AbsSavedState$1@b8c12cc, 2131230977=android.view.AbsSavedState$1@b8c12cc}}], androidx.lifecycle.BundlableSavedStateRegistry.key=Bundle[{}], android:lastAutofillId=1073741823, android:fragments=android.app.FragmentManagerState@fe5a2d5}]"]
+⇠ onRestoreInstanceState[1ms]="void"
+⇢ onResume[]
+⇠ onResume[1ms]="void"
+⇢ onAttachedToWindow[]
+⇠ onAttachedToWindow[0ms]="void"
+⇢ onWindowFocusChanged[hasFocus="true"]  // 只要焦点从Activity中失去或者得到就会被调用，所以会被调用多次
+⇠ onWindowFocusChanged[0ms]="void"
+```
+
+## 设置 <activity android:configChanges="keyboardHidden|orientation|screenSize"/>
+### 横屏变竖屏
+
+ ⇢ onConfigurationChanged[newConfig="{1.0 310mcc260mnc [zh_CN_#Hans,en_US] ldltr sw360dp w672dp h336dp 480dpi nrml long land finger qwerty/v/v dpad/v winConfig={ mBounds=Rect(0, 0 - 2160, 1080) mAppBounds=Rect(0, 0 - 2016, 1080) mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_90} s.5}"]
+ ⇠ onConfigurationChanged[2ms]="void"
+ 
+#### 竖屏变横屏
+
+ ⇢ onConfigurationChanged[newConfig="{1.0 310mcc260mnc [zh_CN_#Hans,en_US] ldltr sw360dp w360dp h648dp 480dpi nrml long port finger qwerty/v/v dpad/v winConfig={ mBounds=Rect(0, 0 - 1080, 2160) mAppBounds=Rect(0, 0 - 1080, 2016) mWindowingMode=fullscreen mDisplayWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} s.7}"]
+⇠ onConfigurationChanged[0ms]="void"
