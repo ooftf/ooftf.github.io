@@ -97,3 +97,12 @@ can't deliver broadcast
 android.app.ActivityThread$H.handleMessage(ActivityThread.java:2171)
 ```
 
+### dokit 使用 gradle-7.0.1 报错
+Exception:
+```
+Querying the mapped value of property(org.gradle.api.file.RegularFile, property(org.gradle.api.file.RegularFile, property(org.gradle.api.file.RegularFile, map(org.gradle.api.file.RegularFile flatmap(provider(task 'processDebugMainManifest', class com.android.build.gradle.tasks.ProcessApplicationManifest)) check-type())))) before task ':app:processDebugMainManifest' has completed is not supported
+
+```
+解决方案：
+
+修改 gradle 为 7 一下就可以

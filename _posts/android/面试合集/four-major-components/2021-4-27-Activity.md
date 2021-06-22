@@ -483,7 +483,11 @@ TraversalRunnable.run
                                     View.draw(canvas);
 
 ```
-
+## 如何创建多任务 App
+启动Activity的时候添加 Flag Intent.FLAG_ACTIVITY_NEW_DOCUMENT 会在任务列表中单独显示
+```kotlin
+startActivity(Intent(this,MainActivity2::class.java).apply {addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)})
+```
 
 
 

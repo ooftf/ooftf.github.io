@@ -54,7 +54,7 @@
   * bindService成功后，Service就与当前Activity绑定了，它就跟随Activity生命周期走了，如果服务没有销毁，而与之绑定的Activity销毁了，那这个绑定的Service也会被销 毁，但是Service里启动的子线程不会被销毁。
   * 服务是运行在后台，这个后台不是指子线程，Service同样也是运行在主线程中的，所以不能进行耗时操作，否则会ANR，页面卡死情况；如果有耗时操作一定要新建一个子线程。
   * 通过startService启动服务后，服务就与启动它的组件没有联系了，组件销毁了，服务还是继续运行；通过bindService启动服务，与之绑定的组件就可以控制Service的具体执行  逻辑了。
-  
+  * 从 Android 5.0（API 级别 21）开始，如果使用隐式 intent 调用 bindService()，系统会抛出异常。
 ## 按照运行进程 Service 可分为两类
 
 1. 本地服务 （Local Service）： 寄存于当前的进程当中，当前进程结束后 Service 也会随之结束；因为处于同一个进程当中，所以Service 可以随时与 Activity 等多个部件进行通信，不需要IPC和AIDL；
