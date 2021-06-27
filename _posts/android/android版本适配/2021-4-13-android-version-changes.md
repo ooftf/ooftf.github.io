@@ -137,3 +137,22 @@ top: true
   * 永久 SIM 卡标识符：在 Android 11 及更高版本中，使用 getIccId() 方法访问不可重置的 ICCID 受到限制。该方法会返回一个非 null 的空字符串。如需唯一标识设备上安装的 SIM 卡，请改用 getSubscriptionId() 方法。订阅 ID 会提供一个索引值（从 1 开始），用于唯一识别已安装的 SIM 卡（包括实体 SIM 卡和电子 SIM 卡）。除非设备恢复出厂设置，否则此标识符的值对于给定 SIM 卡是保持不变的。
 
 ### Android 12
+
+
+### 兼容性问题
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <item>
+        <color android:color="@color/white">
+        </color>
+    </item>
+    <item
+        android:bottom="24dp"
+        android:drawable="@mipmap/entrance_launcher_logo"
+        android:gravity="bottom|center_horizontal" />
+</layer-list>
+```
+像上面代码 <android:gravity="bottom|center_horizontal"> 这个属性在 Android 5.0 版本中不起作用，这个图片 entrance_launcher_logo 会铺满整个 layer-list，Android 6.0 可以正常显示
