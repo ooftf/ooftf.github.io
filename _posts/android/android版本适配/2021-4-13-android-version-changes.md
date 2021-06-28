@@ -140,6 +140,8 @@ top: true
 
 
 ### 兼容性问题
+
+#### layer-list 兼容问题
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
@@ -155,4 +157,54 @@ top: true
         android:gravity="bottom|center_horizontal" />
 </layer-list>
 ```
-像上面代码 <android:gravity="bottom|center_horizontal"> 这个属性在 Android 5.0 版本中不起作用，这个图片 entrance_launcher_logo 会铺满整个 layer-list，Android 6.0 可以正常显示
+像上面代码 <android:gravity="bottom|center_horizontal"> 这个属性在 Android 5.0 版本中不起作用，这个图片 entrance_launcher_logo 会铺满整个 layer-list，Android 6.0 可以正常显示，在 6.0 以下可以使用 bitmap 达到相同的效果
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <item>
+        <color android:color="@color/white">
+        </color>
+    </item>
+    <item  android:bottom="24dp">
+        <bitmap
+            android:src="@mipmap/entrance_launcher_logo"
+            android:gravity="bottom|center_horizontal" />
+    </item>
+</layer-list>
+```
+
+如果使用的使 drawable 如下
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <item>
+        <color android:color="@color/white">
+        </color>
+    </item>
+    <item
+        android:drawable="@drawable/user_top_bg"
+        android:gravity="top" />
+</layer-list>
+```
+可以用下面方式兼容，代码如下
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+    <item>
+        <shape>
+            <size
+                android:width="400dp"
+                android:height="850dp" />
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+    <item android:gravity="top" android:bottom="750dp"  android:drawable="@drawable/user_top_bg">
+    </item>
+</layer-list>
+```
