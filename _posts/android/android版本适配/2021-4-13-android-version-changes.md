@@ -175,7 +175,7 @@ top: true
 </layer-list>
 ```
 
-如果使用的使 drawable 如下
+如果使用的使 drawable 如下，drawable 不推荐使用 layer-list 在 5.0 的手机上无法做到精准布局
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
