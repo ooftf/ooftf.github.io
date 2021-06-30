@@ -44,6 +44,7 @@ public SharedPreferences getSharedPreferences(File file, int mode) {
             return sp;
         }
     }
+    // 如果是多进程模式，每次获取 SharedPreferences 都会重新从磁盘中获取数据
     if ((mode & Context.MODE_MULTI_PROCESS) != 0 ||
         getApplicationInfo().targetSdkVersion < android.os.BuildVERSION_CODES.HONEYCOMB) {
         sp.startReloadIfChangedUnexpectedly();
@@ -231,8 +232,9 @@ public static void queue(Runnable work, boolean shouldDelay) {
 #### 分析为什么  SharedPreferences 不能跨进程
 由于同一个 name 的 SharedPreferences 只存在一个对象，并且 SharedPreferences 读取硬盘的操作，在正常流程中只会在执行构造方法的地方执行一次
 
-而子进程修改 SharedPreferences 内存中的值，因为进程间内存隔离的原因是不会反映到主进程中的，
-修改硬盘中的值，如果主进程对应的 SharedPreferences 还没有创建，这次修改是可以反应到主进程中的，但是仅限这次修改；
-如果主进程 SharedPreferences 已经构造完成，就不会从硬盘中获取对应的数据，子进程修改的值也就不会反应到子进程中。
+子进程修改 SharedPreferences 内存中的值，因为进程间内存隔离的原因是不会反映到主进程中的，
+修改硬盘中的值，如果主进程对应的 SharedPreferences 还没有创建，这次修改是可以反应到主进程中的，但是仅限这次修改；如果主进程 SharedPreferences 已经构造完成，就不会从硬盘中获取对应的数据，子进程修改的值也就不会反应到子进程中。
+
+即使将模式改为 MODE_MULTI_PROCESS ，每次调用 Context.getSharedPreferences 都会检查磁盘文件是否修改，如果已经修改重新从磁盘读取数据，这个方式不仅会增加获取 getSharedPreferences 的时间消耗，也会因为多进程并发修改文件而产生安全问题。推荐使用 ContentProvider 、跨进程通讯封装、MMKV
 
 所以总的来说 SharedPreferences 是不能跨进程的
