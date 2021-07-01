@@ -71,10 +71,10 @@ Activity.performCreate{
 |ContentFrameLayout|[0,333][1440,3048]|android.R.id.content|
 |ActionBarOverlayLayout|[0,137][1440,3048]|ActionBar 主题|
 |FitWindowsLinearLayout|[0,137][1440,3048]|NoActionBar 主题|
-|FrameLayout|[0,137][1440,3048]|
-|LinearLayout|[0,0]  [1440,3048]|
-|DecorView|[0,0]  [1440,3200]|
-|android.view.ViewRootImpl||
+|FrameLayout|[0,137][1440,3048]||
+|LinearLayout|[0,0]  [1440,3048]||
+|DecorView|[0,0]  [1440,3200]||
+|android.view.ViewRootImpl|||
 
 #### 启动模式
 1. standard
