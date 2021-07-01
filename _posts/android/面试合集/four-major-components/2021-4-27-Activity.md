@@ -66,6 +66,7 @@ Activity.performCreate{
 ![Activity 视图层](https://github.com/ooftf/ooftf.github.io/blob/master/images/AndroidViewLayer.png?raw=true)
 
 #### Android 10 1440*3200 小米手机 展示 NavigationBar 状态下
+
 |名字|坐标|描述|
 |--|--|--|
 |ContentFrameLayout|[0,333][1440,3048]|android.R.id.content|
