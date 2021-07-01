@@ -77,6 +77,7 @@ Activity.performCreate{
 |DecorView|[0,0]  [1440,3200]||
 |android.view.ViewRootImpl|||
 
+window.decorView.getWindowVisibleDisplayFrame(outRect) 获取到的是 去除 StatusBar、NavigationBar、键盘 等系统界面之后的区域
 #### 启动模式
 1. standard
 2. singleTop
