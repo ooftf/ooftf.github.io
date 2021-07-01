@@ -5,9 +5,9 @@ top: true
 tags: [Android,Activity]
 ---
 
-## Activity
+## [Activity](https://developer.android.google.cn/guide/components/activities/intro-activities?hl=zh_cn)
 ![生命周期](http://hi.csdn.net/attachment/201109/1/0_1314838777He6C.gif)
-[生命周期](https://blog.csdn.net/xiajun2356033/article/details/78741121)
+[生命周期](https://github.com/ooftf/ooftf.github.io/blob/master/images/activity_lifecycle.png?raw=true)
 
 ## 关于Application.activityLifecycleCallbacks.onCreate  Lifecycle.onCreate 和 MyAcitivity.onCreate 的调用顺序
 
@@ -348,6 +348,7 @@ window 在setContentView 时创建并添加 DecorView 并将 contentView添加�
 * WindowManger 什么时候创建的
 * DecorView 什么时候创建的
 * ViewRootImpl 什么时候创建的
+
 #### Activity.attach
 
 ActivityThread.performLaunchActivity->Activity attach 方法，创建PhoneWindow，为PhoneWindow 创建 WindowManagerImpl
