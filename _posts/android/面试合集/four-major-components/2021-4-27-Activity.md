@@ -68,11 +68,19 @@ Activity.performCreate{
 
 ```
 
+## Activity 视图层
 
+![Activity 视图层](https://github.com/ooftf/ooftf.github.io/blob/master/images/AndroidViewLayer.png?raw=true)
 
+* Activity.setContentView
+* androidx.appcompat.widget.ContentFrameLayout
+* androidx.appcompat.widget.ActionBarOverlayLayout/androidx.appcompat.widget.FitWindowsLinearLayout
+  
+  如果有ActionBar 就会使用 ActionBarOverlayLayout ，如果没有 ActionBar 使用的是 FitWindowsLinearLayout
+* android.widget.FrameLayout
+* android.widget.LinearLayout
+* com.android.internal.policy.DecorView
 
---------------------------------------------------------------------
-#### 从点击图标到Activity展示过程
 #### 启动模式
 1. standard
 2. singleTop

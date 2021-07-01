@@ -490,6 +490,7 @@ internal class ViewModelClearedWatcher(
     
     // 将生成的软引用添加到观察列表
     watchedObjects[key] = reference
+    // checkRetainedExecutor 默认会延迟5秒执行，延迟5秒后检测对象是否已经被回收
     checkRetainedExecutor.execute {
       moveToRetained(key)
     }
