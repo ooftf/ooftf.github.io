@@ -22,7 +22,15 @@ dependencies {
 ## LeakCanary 是如何做到初始化不用编写代码
 
 LeakCanary 添加了一个名字叫做 AppWatcherInstaller 的 ContentProvider，由于 ContentProvider 在App 启动的时候会被调用 onCreate 方法，所以在 AppWatcherInstaller.onCreate 做了 LeakCanary 的初始化工作
-
+```XML
+<application>
+    <provider
+        android:name="leakcanary.internal.AppWatcherInstaller$MainProcess"
+        android:authorities="${applicationId}.leakcanary-installer"
+        android:enabled="@bool/leak_canary_watcher_auto_install"
+        android:exported="false" />
+</application>
+```
 ```kotlin
   override fun AppWatcherInstaller.onCreate(): Boolean {
     val application = context!!.applicationContext as Application
@@ -30,6 +38,8 @@ LeakCanary 添加了一个名字叫做 AppWatcherInstaller 的 ContentProvider�
     return true
   }
 ```
+从 provider 的代码可知，默认使用 leakcanary.internal.AppWatcherInstaller$MainProcess 初始化 LeakCanary ， 如果不想自动初始化 LeakCanary ，可以覆盖 leak_canary_watcher_auto_install 变量为 false ，然后调用 AppWatcher.manualInstall(application) 初始化
+
 ## LeakCanary 初始化工作
 ```kotlin
   // retainedDelayMillis 是内存泄漏检测时间，当需要被检测的类生成弱引用添加到观察队列，retainedDelayMillis 后会对该弱引用进行检查判断是否已经被回收

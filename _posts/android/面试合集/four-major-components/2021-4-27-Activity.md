@@ -8,13 +8,6 @@ tags: [Android,Activity]
 ## Activity
 ![生命周期](http://hi.csdn.net/attachment/201109/1/0_1314838777He6C.gif)
 [生命周期](https://blog.csdn.net/xiajun2356033/article/details/78741121)
-* onCreate
-* setContentView
-* LifecycleObserver onCreate
-* onStart
-* onPostCreate
-* activeCou
-* onResume
 
 ## 关于Application.activityLifecycleCallbacks.onCreate  Lifecycle.onCreate 和 MyAcitivity.onCreate 的调用顺序
 
@@ -68,18 +61,20 @@ Activity.performCreate{
 
 ```
 
-## Activity 视图层
+## Activity 视图层级结构
 
 ![Activity 视图层](https://github.com/ooftf/ooftf.github.io/blob/master/images/AndroidViewLayer.png?raw=true)
 
-* Activity.setContentView
-* androidx.appcompat.widget.ContentFrameLayout
-* androidx.appcompat.widget.ActionBarOverlayLayout/androidx.appcompat.widget.FitWindowsLinearLayout
-  
-  如果有ActionBar 就会使用 ActionBarOverlayLayout ，如果没有 ActionBar 使用的是 FitWindowsLinearLayout
-* android.widget.FrameLayout
-* android.widget.LinearLayout
-* com.android.internal.policy.DecorView
+#### Android 10 1440*3200 小米手机 展示 NavigationBar 状态下
+|名字|坐标|描述|
+|--|--|--|
+|ContentFrameLayout|[0,333][1440,3048]|android.R.id.content|
+|ActionBarOverlayLayout|[0,137][1440,3048]|ActionBar 主题|
+|FitWindowsLinearLayout|[0,137][1440,3048]|NoActionBar 主题|
+|FrameLayout|[0,137][1440,3048]|
+|LinearLayout|[0,0]  [1440,3048]|
+|DecorView|[0,0]  [1440,3200]|
+|android.view.ViewRootImpl||
 
 #### 启动模式
 1. standard
