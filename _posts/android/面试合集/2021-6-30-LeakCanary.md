@@ -30,9 +30,39 @@ LeakCanary 添加了一个名字叫做 AppWatcherInstaller 的 ContentProvider�
     return true
   }
 ```
+## LeakCanary 初始化工作
+```kotlin
+  // retainedDelayMillis 是内存泄漏检测时间，当需要被检测的类生成弱引用添加到观察队列，retainedDelayMillis 后会对该弱引用进行检查判断是否已经被回收
 
-## 内存泄漏检测分析
-从 AppWatcher.appDefaultWatchers 可知 LeakCanary 有四个内存泄漏检测模块，其实在 FragmentAndViewModelWatcher 内部还使用了 ViewModelClearedWatcher ,所以一共是5个
+  //watchersToInstall 用来监测对象生命周期的观察者
+  fun AppWatcher.manualInstall(
+    application: Application,
+    retainedDelayMillis: Long = TimeUnit.SECONDS.toMillis(5),
+    watchersToInstall: List<InstallableWatcher> = appDefaultWatchers(application)
+  ) {
+    this.retainedDelayMillis = retainedDelayMillis
+    watchersToInstall.forEach {
+      it.install()
+    }
+  }
+```
+
+```kotlin
+  // 从 AppWatcher.appDefaultWatchers 可知 LeakCanary 有四个内存泄漏监测模块，其实在 FragmentAndViewModelWatcher 内部还使用了 ViewModelClearedWatcher ,所以一共是5个
+  fun appDefaultWatchers(
+    application: Application,
+    reachabilityWatcher: ReachabilityWatcher = objectWatcher
+  ): List<InstallableWatcher> {
+    return listOf(
+      ActivityWatcher(application, reachabilityWatcher),
+      FragmentAndViewModelWatcher(application, reachabilityWatcher),
+      RootViewWatcher(reachabilityWatcher),
+      ServiceWatcher(reachabilityWatcher)
+    )
+  }
+```
+## 5个内存泄漏监听模块
+
 #### 1. ActivityWatcher(application, reachabilityWatcher)
 ```kotlin
 class ActivityWatcher(
@@ -441,7 +471,7 @@ internal class ViewModelClearedWatcher(
 从上面5中 Watcher 分析可知当对象生命结束时就会调用 ObjectWatcher.expectWeaklyReachable 方法，将对象添加到泄漏检测
 
 ```kotlin
- @Synchronized override fun expectWeaklyReachable(
+ @Synchronized override fun ObjectWatcher.expectWeaklyReachable(
     watchedObject: Any,
     description: String
   ) {
@@ -466,7 +496,7 @@ internal class ViewModelClearedWatcher(
   }
 
   // 清除已回收对象，如果未被回收记录保留时间，触发 onObjectRetainedListeners 监听，这个监听会间接触发 checkRetainedObjects
-  @Synchronized private fun moveToRetained(key: String) {
+  @Synchronized private fun ObjectWatcher.moveToRetained(key: String) {
     removeWeaklyReachableObjects()
     val retainedRef = watchedObjects[key]
     if (retainedRef != null) {
