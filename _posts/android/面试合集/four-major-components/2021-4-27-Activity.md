@@ -6,9 +6,7 @@ tags: [Android,Activity]
 ---
 
 ## [Activity](https://developer.android.google.cn/guide/components/activities/intro-activities?hl=zh_cn)
-![生命周期](http://hi.csdn.net/attachment/201109/1/0_1314838777He6C.gif)
-[生命周期](https://github.com/ooftf/ooftf.github.io/blob/master/images/activity_lifecycle.png?raw=true)
-
+![生命周期](https://github.com/ooftf/ooftf.github.io/blob/master/images/activity_lifecycle.png?raw=true)
 ## 关于Application.activityLifecycleCallbacks.onCreate  Lifecycle.onCreate 和 MyAcitivity.onCreate 的调用顺序
 
 查看 Activity.performCreate 方法
@@ -73,9 +71,11 @@ Activity.performCreate{
 |ActionBarOverlayLayout|[0,137][1440,3048]|ActionBar 主题|
 |FitWindowsLinearLayout|[0,137][1440,3048]|NoActionBar 主题|
 |FrameLayout|[0,137][1440,3048]||
+|View|[0,3048][1440,3200]|与 LinearLayout 同级都是 DecorView 的 children ,android.R.id.navigationBarBackground|
 |LinearLayout|[0,0]  [1440,3048]||
 |DecorView|[0,0]  [1440,3200]||
 |android.view.ViewRootImpl|||
+
 
 #### 启动模式
 1. standard

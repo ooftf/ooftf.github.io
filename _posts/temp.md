@@ -14,3 +14,9 @@ FrameLayout                [0,137][1440,3048]
 LinearLayout               [0,0]  [1440,3048]
 DecorView                  [0,0]  [1440,3200]
 android.view.ViewRootImpl
+
+
+
+
+// [0,137][1265,1626]Point(0, -124)[0, -124]
+// [175,312][1440,2062]Point(175, 312)[175, 312]
