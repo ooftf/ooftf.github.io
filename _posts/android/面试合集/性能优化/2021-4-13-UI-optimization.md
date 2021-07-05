@@ -2,7 +2,6 @@
 layout: post
 author: "ooftf"
 tags: Android
-top: true
 ---
 
 ## UI优化

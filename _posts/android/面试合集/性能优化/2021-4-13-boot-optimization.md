@@ -130,6 +130,7 @@ Application.attach
 由代码可知 attachBaseContext 是在 onCreate 之前被调用的
 ## 相关框架
 * [Android异步启动框架 alpha](https://github.com/alibaba/alpha)
+* [startup](https://developer.android.google.cn/topic/libraries/app-startup?hl=zh-cn)
 
 
 
