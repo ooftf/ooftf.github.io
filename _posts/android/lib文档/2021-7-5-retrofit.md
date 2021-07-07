@@ -1,5 +1,7 @@
 # 源码分析
 
+解析注解的部分先不做具体分析，解析注解部分是学习使用 Okhttp 的绝佳案例 
+
 ```java
   public <T> T create(final Class<T> service) {
     // 检查传入的 service 是否是接口，如果不是接口抛出异常
@@ -65,7 +67,7 @@
     if (returnType == void.class) {
       throw methodError(method, "Service methods cannot return void.");
     }
-
+    // 根据注解生成 ServiceMethod 方法，可以调用 invoke 发起网络请求
     return HttpServiceMethod.parseAnnotations(retrofit, method, requestFactory);
   }
 ```
@@ -89,18 +91,14 @@
         responseType = Utils.getParameterUpperBound(0, (ParameterizedType) responseType);
         continuationWantsResponse = true;
       } else {
-        // TODO figure out if type is nullable or not
-        // Metadata metadata = method.getDeclaringClass().getAnnotation(Metadata.class)
-        // Find the entry for method
-        // Determine if return type is nullable or not
       }
-
+      // 挂起函数，如果返回值做一层 Call 封装，用于 “返回值适配器” 做类型匹配  
       adapterType = new Utils.ParameterizedTypeImpl(null, Call.class, responseType);
       annotations = SkipCallbackExecutorImpl.ensurePresent(annotations);
     } else {
       adapterType = method.getGenericReturnType();
     }
-
+    // 匹配返回值适配器， Call 适配器
     CallAdapter<ResponseT, ReturnT> callAdapter =
         createCallAdapter(retrofit, method, adapterType, annotations);
     Type responseType = callAdapter.responseType();
@@ -115,15 +113,17 @@
       throw methodError(method, "Response must include generic type (e.g., Response<String>)");
     }
     // TODO support Unit for Kotlin?
+    // HEAD 请求必须使用 void 返回类型
     if (requestFactory.httpMethod.equals("HEAD") && !Void.class.equals(responseType)) {
       throw methodError(method, "HEAD method must use Void as response type.");
     }
-
+    // 查找 响应数据适配器 例如 Gson 适配器，String 适配器   
     Converter<ResponseBody, ResponseT> responseConverter =
         createResponseConverter(retrofit, method, responseType);
 
     okhttp3.Call.Factory callFactory = retrofit.callFactory;
     if (!isKotlinSuspendFunction) {
+      // 包装成一个最终的适配器，包含 请求参数生成器，okhttp.call 生成器，响应数据转换器，返回类型适配器
       return new CallAdapted<>(requestFactory, callFactory, responseConverter, callAdapter);
     } else if (continuationWantsResponse) {
       //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.

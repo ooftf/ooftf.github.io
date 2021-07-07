@@ -103,6 +103,17 @@ ActivityB的启动模式为singleInstance。当在ActivityA里startActivity了Ac
 系统会先去找主栈（我是这么叫的）里的activity，也就是APP中LAUNCHER的activity所处在的栈。
 查看是否有存在的activity。没有的话则会重新启动LAUNCHER。
 
+* SingleTask或singleInstance 如果在A启动A    虽然不会走大部分生命周期，但是会导致本身和位于其中的Fragment走onResume方法
+
+```
+    [HomeActivity, onActivityPaused]
+    [HomeFragment, onFragmentPaused]
+    [SupportRequestManagerFragment, onFragmentPaused]
+    [HomeActivity, onActivityResumed]
+    [HomeFragment, onFragmentResumed]
+    [SupportRequestManagerFragment, onFragmentResumed]
+```
+
 ### startActivityForResult
 A 通过 startActivityForResult 启动B ，B 启动 C ，在C展示过程中关闭 B 并不会回调 A 的 onActivityResult   
 onActivityResult 当 A 回到前台的时候才会回调

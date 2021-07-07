@@ -216,10 +216,14 @@ public static void queue(Runnable work, boolean shouldDelay) {
     Handler handler = getHandler();
 
     synchronized (sLock) {
-        sWork.add(work); //添加到 sWork 中  work 会在 Activity 执行 onStop onPause 的时候执行，或者 接收到  MSG_RUN 消息时执行
+        //添加到 sWork 中
+        sWork.add(work); 
+    // sWork 内 work ，会有两种方式触发执行
+    // 1. 在 Activity 执行 onStop onPause 后调用 QueuedWork.waitToFinish 的方法内执行 , 这时候是在主线程执行的
+    // 2. Handler 接收到 QueuedWorkHandler.MSG_RUN 消息时执行，因为这个 Handler 是子线程 Handler,所以是在子线程执行的
 
         if (shouldDelay && sCanDelay) {
-            // DELAY 默认值为 100 ，会在 100 毫秒后执行 sWork 内的 work
+            // DELAY 默认值为 100 ，会在 100 毫秒后执行 sWork 内的 work ,handler是子线程 hander 所以如果是 handler执行是在子线程执行 work
             handler.sendEmptyMessageDelayed(QueuedWorkHandler.MSG_RUN, DELAY);
         } else {
             handler.sendEmptyMessage(QueuedWorkHandler.MSG_RUN);

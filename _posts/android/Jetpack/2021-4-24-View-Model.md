@@ -10,6 +10,12 @@ tags: [Android,ViewModel]
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 ```
 
+如果要使用 ViewModelScope 需要添加
+
+```groovy
+implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+```
+
 ### 为什么横竖屏切换后，Activity是新对象，ViewModel还是原来的对象
 * 由代码可知我们获取ViewModel 是通过 ViewModelProvider.get 方法获取的
   ```kotlin
