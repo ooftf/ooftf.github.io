@@ -6,7 +6,7 @@ tags: [Android,Activity]
 ---
 
 ## [Activity](https://developer.android.google.cn/guide/components/activities/intro-activities?hl=zh_cn)
-![生命周期](https://github.com/ooftf/ooftf.github.io/blob/master/images/activity_lifecycle.png?raw=true)
+![生命周期](https://raw.githubusercontent.com/ooftf/Material/master/img/blogactivity_lifecycle.png)
 ## 关于Application.activityLifecycleCallbacks.onCreate  Lifecycle.onCreate 和 MyAcitivity.onCreate 的调用顺序
 
 查看 Activity.performCreate 方法
@@ -61,7 +61,7 @@ Activity.performCreate{
 
 ## Activity 视图层级结构
 
-![Activity 视图层](https://github.com/ooftf/ooftf.github.io/blob/master/images/AndroidViewLayer.png?raw=true)
+![Activity 视图层](https://raw.githubusercontent.com/ooftf/Material/master/img/blogAndroidViewLayer.png)
 
 #### Android 10 1440*3200 小米手机 展示 NavigationBar 状态下
 
@@ -121,7 +121,7 @@ onActivityResult 当 A 回到前台的时候才会回调
 
 [参考文章](https://blog.csdn.net/u010921373/article/details/109253342)
 
-![Activity 启动流程图](https://github.com/ooftf/ooftf.github.io/blob/master/images/android30_activity_start.png?raw=true)
+![Activity 启动流程图](https://raw.githubusercontent.com/ooftf/Material/master/img/blogandroid30_activity_start.png)
 
 * Activity.startActivity() 调用了 Activity.startActivityForResult()
 * Activity.startActivityForResult() 调用了 Instrumentation.execStartActivity()

@@ -5,7 +5,7 @@
 * 查看函数调用
 
 [官网文档](https://developer.android.com/studio/profile/cpu-profiler#configurations)
-![CPU](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler-cup.png?raw=true)
+![CPU](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler-cup.png)
 如图所示
 * 红色部分：历史Record记录
 * 黄色部分：操作台用于发起Record
@@ -20,7 +20,7 @@
 * Trace System Calls
     检查应用与系统资源的交互情况。 查看所有核心的CPU瓶。 内部采用systrace，也可以使用systrace命令。
 
-![CPU](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_cup_detail.png?raw=true)
+![CPU](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_cup_detail.png)
 * 红色区域选择查看线程
 * 黄色区域查看选择线程的方法调用
 * 蓝色区域选择查看的视图
@@ -35,13 +35,13 @@
 * 查看各个类的实例对象个数以及具体内容
 * 查看垃圾回收触发时间
 
-![MEMORY_LIST](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_memory_first.png?raw=true)
+![MEMORY_LIST](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_memory_first.png)
 * 蓝色区域为手动触发GC按钮
 * 绿色区域为内存占用图示
 * 红色区域为发生GC时间点
 * 黄色区域为查看当前内存详情按钮
 
-![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_memory_second.png?raw=true)
+![MEMORY_second](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_memory_second.png)
 * 红色区域搜索目标类
 * 白色区域存在内存泄漏问题的类的个数
 * 黄色区域为搜索结果列表
@@ -52,8 +52,8 @@
 
 ## [NETWORK](https://developer.android.google.cn/studio/profile/network-profiler)
 用鼠标划取时间段，查看详情
-![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_network_summary.png?raw=true)
-![MEMORY_second](https://github.com/ooftf/ooftf.github.io/blob/master/images/profiler_network_detail.png?raw=true)
+![MEMORY_second](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_network_summary.png)
+![MEMORY_second](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_network_detail.png)
 * 红色为选取时间段所有请求列表
 * 黄色区域为选择请求详情
 

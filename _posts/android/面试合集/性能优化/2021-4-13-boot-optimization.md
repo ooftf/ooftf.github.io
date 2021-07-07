@@ -7,7 +7,7 @@ tags:
     - Optimization
 ---
 ## 启动过程
-![启动耗时](https://github.com/ooftf/ooftf.github.io/blob/master/images/APP启动图.jpg?raw=true)
+![启动耗时](https://raw.githubusercontent.com/ooftf/Material/master/img/blogAPP%E5%90%AF%E5%8A%A8%E5%9B%BE.jpg)
 如图所示
 * T1 预览窗口显示。系统在拉起进程之前，会先根据Application的 Theme 属性创建预览窗口。当然如果我们禁用预览窗口或者将预览窗口指定为透明，
     用户在这段时间依然看到的是桌面。

@@ -16,7 +16,7 @@ tags: Android
     通过 wifi 链接手机 ADB
 * jclasslib Bytecode viewr
     查看Java字节码的插件
-    ![Bytecode](https://github.com/ooftf/ooftf.github.io/blob/master/images/bytecode.png?raw=true)
+    ![Bytecode](https://raw.githubusercontent.com/ooftf/Material/master/img/blogbytecode.png)
     当代码修改后需要重新编译，然后点击红色标注出的Reload按钮，才会显示新的字节码
 * JSON To kotlin class  
     将Json 字符串转化为 kotlin 类

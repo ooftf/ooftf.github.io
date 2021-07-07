@@ -1,7 +1,7 @@
 # [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) 
 调度在退出应用或重启设备后仍应运行的**可延期**异步任务
 #### 使用底层作业来调度服务
-![workmanager](https://github.com/ooftf/ooftf.github.io/blob/master/images/WorkManager.png?raw=true)
+![workmanager](https://raw.githubusercontent.com/ooftf/Material/master/img/blogWorkManager.png)
 #### 示例
 1. 创建一个Worker
    ```kotlin
