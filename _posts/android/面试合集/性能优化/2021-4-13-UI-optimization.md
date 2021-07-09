@@ -37,6 +37,12 @@ tags: Android
 * 其他
   2. 使用AsyncLayoutInflater异步解析视图
 
+* 请勿在 draw 方法中创建渲染对象  
+  一个常见的错误是，每次调用渲染方法时都创建新的 Paint 或 Path。这会强制垃圾回收器更频繁地运行，同时还会绕过硬件管道中的缓存和优化。
+
+* 谨慎使用 Alpha
+  当您使用 setAlpha()、AlphaAnimation 或 ObjectAnimator 将视图设置为半透明时，该视图会在屏幕外缓冲区渲染，导致所需的填充率翻倍。在超大视图上应用 Alpha 时，请考虑将视图的层类型设置为 LAYER_TYPE_HARDWARE。
+
 常见的检测工具有：
 1. Hierarchy Viewer（分析Ui性能）
 2. 手机开发者自带GPU呈现模式（考核Ui性能）
