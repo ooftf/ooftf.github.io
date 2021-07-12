@@ -1,22 +1,140 @@
-Android 10 1080*2340 模拟器
-ContentFrameLayout            [0,180][1080,2232]
-ActionBarOverlayLayout        [0,54] [1080,2232]
-FrameLayout                   [0,54] [1080,2232]
-LinearLayout                  [0,0]  [1080,2232]
-DecorView                     [0,0]  [1080,2340]
-ViewRootImpl
+```groovy
+package com.ooftf.maven
 
-#### Android 10 1440*3200 小米手机 展示NavigationBar
+import org.gradle.api.JavaVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.javadoc.Javadoc
 
-ContentFrameLayout         [0,333][1440,3048]
-ActionBarOverlayLayout     [0,137][1440,3048]    FitWindowsLinearLayout[0,137][1440,3048]
-FrameLayout                [0,137][1440,3048]
-LinearLayout               [0,0]  [1440,3048]
-DecorView                  [0,0]  [1440,3200]
-android.view.ViewRootImpl
+class ReleasePlugin implements Plugin<Project> {
+
+    @Override
+    void apply(Project project) {
+        boolean isAndroid = project.plugins.hasPlugin('com.android.library')
+        boolean isJava = project.plugins.hasPlugin('java')
+        boolean isGroovy = project.plugins.hasPlugin('groovy')
+        PublishExtension extension = project.extensions.create('publish', PublishExtension)
+        project.apply([plugin: 'maven-publish'])
+        project.apply([plugin: 'signing'])
+        project.task('generateSourcesJar', type: Jar) {
+            if (isAndroid) {
+                from project.android.sourceSets.main.java.srcDirs
+                classifier 'sources'
+            }
+            if (isJava) {
+                from project.sourceSets.main.allJava
+                classifier "sources"
+            }
+            if (isGroovy) {
+                from project.sourceSets.main.allGroovy
+                classifier "sources"
+            }
+        }
+        if (isGroovy || isJava) {
+            project.task('javadocJar', type: Jar) {
+                from project.tasks.javadoc
+                archiveClassifier = 'javadoc'
+            }
+        } else if (isAndroid) {
+            project.task('androidJavadocs', type: Javadoc) {
+                source = project.android.sourceSets.main.java.srcDirs
+                failOnError = false
+                //classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+                if (JavaVersion.current().isJava8Compatible()) {
+                    project.allprojects {
+                        project.tasks.withType(Javadoc) {
+                            enabled = false
+                            options.addStringOption('Xdoclint:none', '-quiet')
+                            options.setCharSet('UTF-8')
+                            options.setEncoding("UTF-8")
+                        }
+                    }
+                }
+            }
+            project.task('javadocJar', type: Jar) {
+                from project.tasks.androidJavadocs
+                archiveClassifier = 'javadoc'
+            }
+        }
+
+        project.tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+            options.addStringOption('encoding', 'UTF-8')
+            options.addStringOption('charSet', 'UTF-8')
+        }
 
 
+        project.afterEvaluate {
+            extension.initDefault(project)
+            extension.validate()
+            boolean isRelease = !extension.version.endsWith("SNAPSHOT")
+            project.ext["signing.keyId"] = extension.signingKeyId
+            project.ext["signing.password"] = extension.signingPassword
+            project.ext["signing.secretKeyRingFile"] = extension.signingSecretKeyRingFile
+            project.publishing {
+                publications {
+                    release(MavenPublication) {
+                        if (isAndroid) {
+                            from project.components.release
+                        } else if (isJava) {
+                            from project.components.java
+                        } else if (isGroovy) {
+                            from project.components.groovy
+                        }
+                        groupId = extension.groupId
+                        artifactId = extension.artifactId
+                        version = extension.version
+                        if (isAndroid || isJava || isGroovy) {
+                            artifact project.tasks.generateSourcesJar
+                        }
+                        if (isRelease) {
+                            artifact project.tasks.javadocJar
+                            pom {
+                                name = extension.artifactId
+                                description = "noting to description"
+                                url = "http://github.com/${extension.username}/${extension.artifactId}"
+                                licenses {
+                                    license {
+                                        name = "The Apache License, Version 2.0"
+                                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                                    }
+                                }
+                                developers {
+                                    developer {
+                                        id = "ooftf"
+                                        name = "ooftf"
+                                        email = "994749769@qq.com"
+                                    }
+                                }
+                                scm {
+                                    connection = "scm:svn:http://github.com/${extension.username}"
+                                    developerConnection = "scm:svn:https://github.com/${extension.username}"
+                                    url = "http://github.com/${extension.username}"
+                                }
+                            }
+                        }
+                    }
+                }
 
+                repositories {
+                    maven {
+                        url = extension.url
+                        credentials {
+                            username = extension.username
+                            password = extension.password
+                        }
+                    }
 
-// [0,137][1265,1626]Point(0, -124)[0, -124]
-// [175,312][1440,2062]Point(175, 312)[175, 312]
+                }
+            }
+            if (isRelease) {
+                project.signing {
+                    sign project.publishing.publications
+                }
+            }
+        }
+    }
+}
+```
