@@ -28,7 +28,7 @@ android{
 
 ## be careful
 * java.lang.NoClassDefFoundError: Failed resolution of: Landroidx/databinding/DataBinderMapperImpl;
-  即使 App Module 没有使用 dataBinding 也要配置 dataBinding
+  即使 App Module 没有使用 dataBinding 也要配置 dataBinding,如果使用了 kotlin ，还需要添加 katp 插件
   ```groovy
   buildFeatures {
           dataBinding true
