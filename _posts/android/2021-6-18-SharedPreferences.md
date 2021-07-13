@@ -1,3 +1,7 @@
+---
+title: SharedPreferences
+---
+
 ## SharedPreferences 代码分析
 #### ContextImpl.getSharedPreferences
 ContextImpl.getSharedPreferences(String name, int mode)

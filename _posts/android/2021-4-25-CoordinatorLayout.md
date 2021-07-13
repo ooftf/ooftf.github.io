@@ -1,3 +1,7 @@
+---
+title: CoordinatorLayout
+---
+
 ## CoordinatorLayout
 * 默认情况下 child 布局类似 FrameLayout
 * 关键属性  app:layout_behavior="@string/appbar_scrolling_view_behavior" 决定了。Child 之间的相对位置，和对于滑动事件的消费优先级
