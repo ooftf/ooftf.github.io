@@ -2,6 +2,7 @@
 layout: post
 author: "ooftf"
 tags: Android
+title: LeakCanary
 top: true
 ---
 

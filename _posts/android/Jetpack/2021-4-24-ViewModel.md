@@ -3,6 +3,7 @@ layout: post
 author: "ooftf"
 top: true
 tags: [Android,ViewModel]
+title: ViewModel
 ---
 ### 项目配置ViewModel支持
 ```groovy

@@ -1,9 +1,11 @@
 ---
 layout: post
 author: "ooftf"
+title: LiveData
 top: true
 tags: [Android,LiveData]
 ---
+
 ## LiveData 原理分析
 ### LiveData.post() 
 ```java
