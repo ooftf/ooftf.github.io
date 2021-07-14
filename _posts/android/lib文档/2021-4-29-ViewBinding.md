@@ -1,3 +1,7 @@
+---
+title:ViewBinding
+---
+
 # [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
 ### gradle 配置
 视图绑定功能可按模块启用。要在某个模块中启用视图绑定，请将 viewBinding 元素添加到其 build.gradle 文件中，如下例所示：

@@ -1,3 +1,7 @@
+---
+title:BaiduMap
+---
+
 ## 定位
 [文档](https://lbs.baidu.com/index.php?title=android-locsdk/guide/get-location/latlng)
 [错误码](http://lbs.baidu.com/index.php?title=android-locsdk/guide/addition-func/error-code)
