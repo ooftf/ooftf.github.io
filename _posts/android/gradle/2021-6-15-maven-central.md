@@ -11,13 +11,13 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'io.github.running-libo'  //sonatype平台创建的groupId
+                groupId = 'io.github.xxxxx'  //sonatype平台创建的groupId
                 artifactId = project.name
-                version = '1.0.0'  //库版本名
+                version = '1.0.0'  //版本,快照版本需要添加后缀 -SNAPSHOT
 
                 ext["signing.keyId"] = "*****"  //GPG指纹后8位
                 ext["signing.password"] = "*****"  //GPG密码
-                ext["signing.secretKeyRingFile"] = "/myfile/maven_upload_pub_sec/libo_0x55ECE4FE_SECRET.gpg" //GPG私钥文件
+                ext["signing.secretKeyRingFile"] = "/xxxxxx/xxxxx/xxxx.gpg" //GPG私钥文件
 
                 pom {
                     name = "basemvvm"
