@@ -1,5 +1,5 @@
 ---
-title:MavenCentral 配置
+title: MavenCentral 配置
 ---
 
 ### 发布 snapshot 版本配置

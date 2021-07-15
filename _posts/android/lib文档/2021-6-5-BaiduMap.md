@@ -1,5 +1,5 @@
 ---
-title:BaiduMap
+title: BaiduMap
 ---
 
 ## 定位

@@ -1,5 +1,5 @@
 ---
-title:ViewBinding
+title: ViewBinding
 ---
 
 # [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
