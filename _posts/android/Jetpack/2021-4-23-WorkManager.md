@@ -1,3 +1,7 @@
+---
+title: WorkManager
+---
+
 # [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) 
 调度在退出应用或重启设备后仍应运行的**可延期**异步任务
 #### 使用底层作业来调度服务

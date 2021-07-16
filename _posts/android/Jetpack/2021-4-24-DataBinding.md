@@ -1,3 +1,7 @@
+---
+title: DataBinding
+---
+
 ### DataBinding 配置
 ```groovy
 android{
