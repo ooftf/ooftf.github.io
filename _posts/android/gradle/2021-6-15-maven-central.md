@@ -188,3 +188,8 @@ afterEvaluate {
     }
 }
 ```
+
+
+##  GPG 工具
+* [Window GPG 工具](https://www.gpg4win.org/)
+* [MAC GPG 工具](https://gpgtools.org/)
