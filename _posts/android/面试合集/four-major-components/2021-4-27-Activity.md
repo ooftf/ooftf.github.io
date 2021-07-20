@@ -81,7 +81,7 @@ window.decorView.getWindowVisibleDisplayFrame(outRect) 获取到的是 去除 St
 1. standard
 2. singleTop
 3. singleTask
-4. singleInstrance
+4. singleInstance
 ###### singleInstance
 **字面上理解为单一实例。  它具备所有singleTask的特点，唯一不同的是，它是存在于另一个任务栈中。上面的三种模式都存在于同一个任务栈中，
 而这种模式则是存在于另一个任务栈中。举个例子，上面的启动模式都存在于地球上，而这种模式存在于火星上。
