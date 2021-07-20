@@ -14,6 +14,8 @@ android{
 1. DataBinderMapper
 2. {name}Binding
 3. {name}BindingImpl
+
+
 #### binding 相关方法
 * invalidateAll()
 * mDirtyFlags

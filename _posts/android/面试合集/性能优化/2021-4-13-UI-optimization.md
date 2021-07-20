@@ -1,9 +1,11 @@
 ---
 layout: post
 author: "ooftf"
-tags: Android
+tags:
+    - Android
+    - Optimization
+title: UI Optimization
 ---
-
 ## UI优化
 
 ### 在系统框架下优化

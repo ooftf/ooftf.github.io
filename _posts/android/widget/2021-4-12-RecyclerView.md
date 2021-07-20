@@ -335,13 +335,15 @@ void addToPostLayout(RecyclerView.ViewHolder holder, RecyclerViewItemAnimator.It
 ## 缓存总结
 RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 Recycler 中实现
 * mChangedScrap  
-  - ArrayList<ViewHolder>
+  - ArrayList\<ViewHolder\>
   - 缓存屏幕内的ViewHolder
+  - 位置没有发生变化，数据改变
 * mAttachedScrap 
-  - ArrayList<ViewHolder> 
+  - ArrayList\<ViewHolder\> 
   - 缓存屏幕内的ViewHolder
+  - 位置可能发生变化
 * mCachedViews 
-  - ArrayList<ViewHolder>
+  - ArrayList\<ViewHolder\>
   - 缓存屏幕外的 ViewHolder
   - 默认容量为 2，如果达到最大值，会按照 FIFO 规则，调用 Recycler.recycleCachedViewAt 方法将 ViewHodler 转移到  RecycledViewPool
 * mViewCacheExtension 
