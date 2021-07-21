@@ -291,6 +291,7 @@ onActivityResult 当 A 回到前台的时候才会回调
 #### 创建 Activity 类的调用顺序
 * Activity.startActivity() ->startActivityForResult()
 * Instrumentation.execStartActivity()
+* ActivityTaskManager.getService().startActivity
 * ActivityTaskManagerService.startActivity ->  startActivityAsUser()
   * 系统服务
 * ActivityStarter.execute() -> startActivityInner()
@@ -303,7 +304,7 @@ onActivityResult 当 A 回到前台的时候才会回调
 * ActivityStackSupervisor.startSpecificActivity() -> realStartActivityLocked()
 * ClientLifecycleManager.scheduleTransaction()
 * ClientTransaction.schedule()
-
+* IApplicationThread.scheduleTransaction()
 * ApplicationThread.scheduleTransaction()  
   用于和 AMS 交互
 * ActivityThread.scheduleTransaction()      
@@ -316,6 +317,7 @@ onActivityResult 当 A 回到前台的时候才会回调
 * AppComponentFactory.instantiateActivity()   
 
 ##### 两次跨进程
+
 从Activity的启动流程可知，有两次 Binder 调用 一次是在 Instrumentation.execStartActivity() 内调用  IActivityTaskManager.startActivity()
 另一次是在 ClientTransaction.schedule() 内调用了 IApplicationThread.scheduleTransaction() 。猜想：第一次 Binder 调用应该是跳转到系统服务，第二次调用再跳转回 App 内
 
