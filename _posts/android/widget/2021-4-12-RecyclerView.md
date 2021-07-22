@@ -79,7 +79,7 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
 ### RecyclerView clear再添加数据，界面有闪烁
     是因为RecyclerView有默认动画， itemAnimator = null 可去除默认动画
 
-
+## LinearSnapHelper、PagerSnapHelper
 ## DiffUtil
 ```kotlin
    val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
