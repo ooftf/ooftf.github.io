@@ -487,3 +487,7 @@ static final int FLAG_MOVED = 1 << 11
 static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ```
 
+
+## 自定义 LayoutManager
+
+[自定义 LayoutManager](https://blog.csdn.net/u011387817/article/details/81875021)
