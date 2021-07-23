@@ -501,11 +501,24 @@ TraversalRunnable.run
                                     View.draw(canvas);
 
 ```
-## 如何创建多任务 App
+## Activity 属性
+### 如何在 Recent Screen 显示多个 
 启动Activity的时候添加 Flag Intent.FLAG_ACTIVITY_NEW_DOCUMENT 会在任务列表中单独显示
 ```kotlin
 startActivity(Intent(this,MainActivity2::class.java).apply {addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)})
 ```
+### 如何不显示在 Recent Screen
+```xml
+<activity
+    android:name=".MainActivity"
+    android:excludeFromRecents="true" />
+```
+* 在 Android 系统中，如果我们不想某个 Activity 出现在 “Recent screens” 中，可以设置 <activity> 属性 android:excludeFromRecents 为 true。
+* android:excludeFromRecents 属性并不会仅仅影响被设置的 Activity。由此该 Activity 启动的后续同属一个 “Task” 的一系列 Activity 都不会出现在 Recent screens。
+也就是说该属性是对 Task 起作用的，而不仅仅是某个 Activity。所以想要后续的 Activity 能够出现在 Recent screens 中，就必须让后续 Activity 在新的 Task 中。
+* 如果设置上面属性的 Activity 正是当前正在使用的，切换到 Recent screens 也是可以看到的。但是退到后台运行后，比如按下 Home 键，属性就会发生作用。
+
+### taskAffinity
 
 
 
