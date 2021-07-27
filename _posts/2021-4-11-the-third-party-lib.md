@@ -19,4 +19,5 @@ tags: LibIndex
 |[glide](https://github.com/bumptech/glide)|implementation 'com.github.bumptech.glide:glide:4.12.0'  annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'|[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.bumptech.glide/glide/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.bumptech.glide/glide)|图片加载框架|4.5|
 |[Hunter](https://github.com/Leaking/Hunter)| classpath 'com.quinn.hunter:hunter-debug-plugin:1.1.0'classpath 'com.quinn.hunter:hunter-transform:1.1.0' apply plugin: 'hunter-debug'   implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'||通过注解打印方法调用和内容|5|
 |[Android-SpinKit](https://github.com/ybq/Android-SpinKit)|||loading 动画|4|
-|jol-core|org.openjdk.jol:jol-core:0.16||查看对象在内存中的占用情况，不支持 Android 运行时环境，但支持 main 方法||
+|jol-core|org.openjdk.jol:jol-core:0.16||查看对象在内存中的占用情况，不支持 Android 运行时环境，但支持 main 方法|3|
+|[Awesome-RecyclerView-LayoutManager](https://github.com/jiang111/Awesome-RecyclerView-LayoutManager)|||一些自定义 RecyclerView LayoutManager 的合集 ||
