@@ -520,5 +520,16 @@ startActivity(Intent(this,MainActivity2::class.java).apply {addFlags(Intent.FLAG
 
 ### taskAffinity
 
+## 问答
+
+### Android onSaveInstanceState()和onRestoreInstanceState() 调用时机
+在没有 finish  Activity 的时候，onStart 被调用前就会调用 onSaveInstanceState
+例如
+1. 当用户按下HOME键时。
+2. 从最近应用中选择运行其他的程序时。
+3. 按下电源按键（关闭屏幕显示）时。
+4. 从当前activity启动一个新的activity时。
+5. 屏幕方向切换时(无论竖屏切横屏还是横屏切竖屏都会调用)。
+
 
 
