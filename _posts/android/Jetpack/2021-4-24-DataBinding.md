@@ -2,6 +2,9 @@
 title: DataBinding
 ---
 
+## 原理解析
+
+[原理解析](https://blog.csdn.net/sted_zxz/article/details/79593575) 
 ### DataBinding 配置
 ```groovy
 android{
