@@ -144,6 +144,35 @@ onActivityResult 当 A 回到前台的时候才会回调
  * RootWindowContainer.resumeFocusedStacksTopActivities() 调用 ActivityStack.resumeTopActivityUncheckedLocked
  * ActivityStack.resumeTopActivityUncheckedLocked 调用 ActivityStack.resumeTopActivityInnerLocked
  * ActivityStack.resumeTopActivityInnerLocked 调用 ActivityStackSupervisor.startSpecificActivity()
+   ```java
+       void startSpecificActivity(ActivityRecord r, boolean andResume, boolean checkConfig) {
+        // Is this activity's application already running?
+        final WindowProcessController wpc =
+                mService.getProcessController(r.processName, r.info.applicationInfo.uid);
+
+        boolean knownToBeDead = false;
+        if (wpc != null && wpc.hasThread()) {
+            try {
+                realStartActivityLocked(r, wpc, andResume, checkConfig);
+                return;
+            } catch (RemoteException e) {
+                Slog.w(TAG, "Exception when starting activity "
+                        + r.intent.getComponent().flattenToShortString(), e);
+            }
+
+            // If a dead object exception was thrown -- fall through to
+            // restart the application.
+            knownToBeDead = true;
+        }
+
+        r.notifyUnknownVisibilityLaunchedForKeyguardTransition();
+
+        final boolean isTop = andResume && r.isTopRunningActivity();
+        mService.startProcessAsync(r, knownToBeDead, isTop, isTop ? "top-activity" : "activity");
+    }
+
+   ```
+   检查目标线程是否存在，如果不存在调用 ActivityTaskManagerService.startProcessAsync() 启动进程
  * ActivityStackSupervisor.startSpecificActivity() 调用 ActivityStackSupervisor.realStartActivityLocked
    ```java
     boolean realStartActivityLocked(ActivityRecord r, WindowProcessController proc,
@@ -298,6 +327,8 @@ onActivityResult 当 A 回到前台的时候才会回调
   * Controller for interpreting how and then launching an activity.
   * This class collects all the logic for determining how an intent and flags should be turned into an activity and associated task and stack.
   * 将一个 Intent 转换为 Activity 并关联到对应的任务栈
+  * 通过 PMS.resolveIntent 获取到 Intent 对应的具体信息
+  * 检查开启权限 
 * RootWindowContainer.resumeFocusedStacksTopActivities()
 * ActivityStack.resumeTopActivityUncheckedLocked ->   resumeTopActivityInnerLocked()
   应该就是我们平常所说的 Activity 栈
