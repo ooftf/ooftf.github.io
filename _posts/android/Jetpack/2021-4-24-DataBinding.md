@@ -2,6 +2,16 @@
 title: DataBinding
 ---
 
+
+### 优点
+* 有效避免空指针异常
+
+
+### 缺点
+
+
+
+
 ## 原理解析
 
 [原理解析](https://blog.csdn.net/sted_zxz/article/details/79593575) 
