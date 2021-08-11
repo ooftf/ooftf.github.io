@@ -92,7 +92,8 @@ APK瘦身
 PSS值可以通过Debug.MemoryInfo看到
 
 ### GC监控
-开发过程或者内部试用环境可以通过Debug.startAllocCounting来监控Java内存分配和GC情况
+
+开发过程或者内部试用环境可以通过 Debug.startAllocCounting 来监控Java内存分配和GC情况
 
 
 ## onTrimMemory 监听系统内存不足

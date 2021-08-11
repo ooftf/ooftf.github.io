@@ -5,10 +5,12 @@ title: DataBinding
 
 ### 优点
 * 有效避免空指针异常
-
+* 代码变得更少了
+* google 提供的 adapter 属性 太少
 
 ### 缺点
-
+* 异常排查变得复杂
+* View 复用性降低
 
 
 
@@ -54,3 +56,284 @@ android{
   }
   ```
 
+## 源码分析
+```java
+    public void setTextObservable(@Nullable androidx.databinding.ObservableField<java.lang.String> TextObservable) {
+        updateRegistration(0, TextObservable);
+        this.mTextObservable = TextObservable;
+        synchronized(this) {
+            mDirtyFlags |= 0x1L;
+        }
+        notifyPropertyChanged(BR.textObservable);
+        super.requestRebind();
+    }
+    public void setTextLiveData(@Nullable androidx.lifecycle.MutableLiveData<java.lang.String> TextLiveData) {
+        updateLiveDataRegistration(1, TextLiveData);
+        this.mTextLiveData = TextLiveData;
+        synchronized(this) {
+            mDirtyFlags |= 0x2L;
+        }
+        notifyPropertyChanged(BR.textLiveData);
+        super.requestRebind();
+    }
+    public void setViewModel(@Nullable com.ooftf.demo.databinding.MainViewModel ViewModel) {
+        this.mViewModel = ViewModel;
+        synchronized(this) {
+            mDirtyFlags |= 0x10L;
+        }
+        notifyPropertyChanged(BR.viewModel);
+        super.requestRebind();
+    }
+    public void setText(@Nullable java.lang.String Text) {
+        this.mText = Text;
+        synchronized(this) {
+            mDirtyFlags |= 0x20L;
+        }
+        notifyPropertyChanged(BR.text);
+        super.requestRebind();
+    }
+```
+
+分析:
+-------------
+会根据三种不同类型（Observable、LiveData、其他）做不同的实现，如果是 Observable 会调用 updateRegistration 注册监听，如果是 LiveData 会调用 updateLiveDataRegistration 注册监听
+
+将新的值赋给全局变量
+
+将 mDirtyFlags 对应的标志位，置为 “改变”
+
+调用 notifyPropertyChanged 通知对应 id 改变
+
+调用 requestRebind
+
+接下来先分析 requestRebind
+
+```java
+    protected void requestRebind() {
+        if (mContainingBinding != null) {
+            mContainingBinding.requestRebind();
+        } else {
+            final LifecycleOwner owner = this.mLifecycleOwner;
+            if (owner != null) {
+                Lifecycle.State state = owner.getLifecycle().getCurrentState();
+                if (!state.isAtLeast(Lifecycle.State.STARTED)) {
+                    return; // wait until lifecycle owner is started
+                }
+            }
+            synchronized (this) {
+                if (mPendingRebind) {
+                    return;
+                }
+                mPendingRebind = true;
+            }
+            if (USE_CHOREOGRAPHER) {
+                mChoreographer.postFrameCallback(mFrameCallback);
+            } else {
+                mUIThreadHandler.post(mRebindRunnable);
+            }
+        }
+    }
+```
+分析
+----
+判断当前状态是否是可见的，如果不可见直接 return
+
+如果状态都符合，采用 Choreographer 或者 Handler 向主线程发送回调,最终都会执行到 mRebindRunnable.run
+
+接下来看 mRebindRunnable.run
+
+```java
+
+    /**
+     * Runnable executed on animation heartbeat to rebind the dirty Views.
+     */
+    private final Runnable mRebindRunnable = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (this) {
+                mPendingRebind = false;
+            }
+            processReferenceQueue();
+            if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+                // Nested so that we don't get a lint warning in IntelliJ
+                if (!mRoot.isAttachedToWindow()) {
+                    // Don't execute the pending bindings until the View
+                    // is attached again.
+                    mRoot.removeOnAttachStateChangeListener(ROOT_REATTACHED_LISTENER);
+                    mRoot.addOnAttachStateChangeListener(ROOT_REATTACHED_LISTENER);
+                    return;
+                }
+            }
+            executePendingBindings();
+        }
+    };
+```
+分析
+----
+判断是否已经添加到 window 上，如果没有添加 OnAttachStateChangeListener ，然后直接 return
+
+如果 isAttachedToWindow 返回 true 执行 executePendingBindings 方法
+
+```java
+    public void executePendingBindings() {
+        if (mContainingBinding == null) {
+            executeBindingsInternal();
+        } else {
+            mContainingBinding.executePendingBindings();
+        }
+    }
+
+    // 接着看 executeBindingsInternal 方法
+
+    private void executeBindingsInternal() {
+        if (mIsExecutingPendingBindings) {
+            requestRebind();
+            return;
+        }
+        if (!hasPendingBindings()) {
+            return;
+        }
+        mIsExecutingPendingBindings = true;
+        mRebindHalted = false;
+        if (mRebindCallbacks != null) {
+            mRebindCallbacks.notifyCallbacks(this, REBIND, null);
+
+            if (mRebindHalted) {
+                mRebindCallbacks.notifyCallbacks(this, HALTED, null);
+            }
+        }
+        if (!mRebindHalted) {
+            executeBindings();
+            if (mRebindCallbacks != null) {
+                mRebindCallbacks.notifyCallbacks(this, REBOUND, null);
+            }
+        }
+        mIsExecutingPendingBindings = false;
+    }
+```
+```java
+    @Override
+    protected void executeBindings() {
+        long dirtyFlags = 0;
+        synchronized(this) {
+            dirtyFlags = mDirtyFlags;
+            mDirtyFlags = 0;
+        }
+        java.lang.String textLiveDataGetValue = null;
+        androidx.databinding.ObservableField<java.lang.String> viewModelTextObservable = null;
+        androidx.lifecycle.MutableLiveData<java.lang.String> viewModelTextLiveData = null;
+        java.lang.String viewModelTextLiveDataGetValue = null;
+        java.lang.String text = mText;
+        java.lang.String viewModelText = null;
+        java.lang.String viewModelTextObservableGet = null;
+        androidx.databinding.ObservableField<java.lang.String> textObservable = mTextObservable;
+        androidx.lifecycle.MutableLiveData<java.lang.String> textLiveData = mTextLiveData;
+        com.ooftf.demo.databinding.MainViewModel viewModel = mViewModel;
+        java.lang.String textObservableGet = null;
+
+        if ((dirtyFlags & 0x50L) != 0) {
+        }
+        if ((dirtyFlags & 0x44L) != 0) {
+
+
+
+                if (textObservable != null) {
+                    // read textObservable.get()
+                    textObservableGet = textObservable.get();
+                }
+        }
+        if ((dirtyFlags & 0x48L) != 0) {
+
+
+
+                if (textLiveData != null) {
+                    // read textLiveData.getValue()
+                    textLiveDataGetValue = textLiveData.getValue();
+                }
+        }
+        if ((dirtyFlags & 0x63L) != 0) {
+
+
+            if ((dirtyFlags & 0x61L) != 0) {
+
+                    if (viewModel != null) {
+                        // read viewModel.textObservable
+                        viewModelTextObservable = viewModel.getTextObservable();
+                    }
+                    updateRegistration(0, viewModelTextObservable);
+
+
+                    if (viewModelTextObservable != null) {
+                        // read viewModel.textObservable.get()
+                        viewModelTextObservableGet = viewModelTextObservable.get();
+                    }
+            }
+            if ((dirtyFlags & 0x62L) != 0) {
+
+                    if (viewModel != null) {
+                        // read viewModel.textLiveData
+                        viewModelTextLiveData = viewModel.getTextLiveData();
+                    }
+                    updateLiveDataRegistration(1, viewModelTextLiveData);
+
+
+                    if (viewModelTextLiveData != null) {
+                        // read viewModel.textLiveData.getValue()
+                        viewModelTextLiveDataGetValue = viewModelTextLiveData.getValue();
+                    }
+            }
+            if ((dirtyFlags & 0x60L) != 0) {
+
+                    if (viewModel != null) {
+                        // read viewModel.text
+                        viewModelText = viewModel.getText();
+                    }
+            }
+        }
+        // batch finished
+        if ((dirtyFlags & 0x50L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.button, text);
+        }
+        if ((dirtyFlags & 0x40L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.button, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, buttonandroidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.mboundView2, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, mboundView2androidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.mboundView3, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, mboundView3androidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.mboundView4, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, mboundView4androidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.mboundView5, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, mboundView5androidTextAttrChanged);
+            androidx.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.mboundView6, (androidx.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (androidx.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, mboundView6androidTextAttrChanged);
+        }
+        if ((dirtyFlags & 0x44L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.mboundView2, textObservableGet);
+        }
+        if ((dirtyFlags & 0x48L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.mboundView3, textLiveDataGetValue);
+        }
+        if ((dirtyFlags & 0x60L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.mboundView4, viewModelText);
+        }
+        if ((dirtyFlags & 0x61L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.mboundView5, viewModelTextObservableGet);
+        }
+        if ((dirtyFlags & 0x62L) != 0) {
+            // api target 1
+
+            androidx.databinding.adapters.TextViewBindingAdapter.setText(this.mboundView6, viewModelTextLiveDataGetValue);
+        }
+    }
+
+```
+
+根据 dirtyFlags 判断数据是否改变，如果数据发生改变，在判断是否是可观察类型，如果是可观察类型，调用 updateRegistration 更新监听；然后获取到改变后的数据
+调用对应的 BindingAdapter 设置给控件 
