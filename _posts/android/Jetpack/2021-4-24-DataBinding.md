@@ -337,3 +337,6 @@ android{
 
 根据 dirtyFlags 判断数据是否改变，如果数据发生改变，在判断是否是可观察类型，如果是可观察类型，调用 updateRegistration 更新监听；然后获取到改变后的数据
 调用对应的 BindingAdapter 设置给控件 
+
+我们再回过头来看一下 updateRegistration 的源码
+
