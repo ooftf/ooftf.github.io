@@ -172,7 +172,7 @@ onActivityResult 当 A 回到前台的时候才会回调
     }
 
    ```
-   检查目标线程是否存在，如果不存在调用 ActivityTaskManagerService.startProcessAsync() 启动进程
+   检查目标进程是否存在，如果不存在调用 ActivityTaskManagerService.startProcessAsync() 启动进程
  * ActivityStackSupervisor.startSpecificActivity() 调用 ActivityStackSupervisor.realStartActivityLocked
    ```java
     boolean realStartActivityLocked(ActivityRecord r, WindowProcessController proc,
