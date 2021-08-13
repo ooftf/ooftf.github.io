@@ -340,3 +340,5 @@ android{
 
 我们再回过头来看一下 updateRegistration 的源码
 
+
+
