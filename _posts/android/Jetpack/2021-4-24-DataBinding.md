@@ -340,5 +340,169 @@ android{
 
 我们再回过头来看一下 updateRegistration 的源码
 
+```java
+    /**
+     * @hide
+     */
+    protected boolean updateRegistration(int localFieldId, Observable observable) {
+        return updateRegistration(localFieldId, observable, CREATE_PROPERTY_LISTENER);
+    }
 
+    /**
+     * @hide
+     */
+    protected boolean updateRegistration(int localFieldId, ObservableList observable) {
+        return updateRegistration(localFieldId, observable, CREATE_LIST_LISTENER);
+    }
+
+    /**
+     * @hide
+     */
+    protected boolean updateRegistration(int localFieldId, ObservableMap observable) {
+        return updateRegistration(localFieldId, observable, CREATE_MAP_LISTENER);
+    }
+
+    /**
+     * @hide
+     */
+    protected boolean updateLiveDataRegistration(int localFieldId, LiveData<?> observable) {
+        mInLiveDataRegisterObserver = true;
+        try {
+            return updateRegistration(localFieldId, observable, CREATE_LIVE_DATA_LISTENER);
+        } finally {
+            mInLiveDataRegisterObserver = false;
+        }
+    }
+```
+
+从代码可知，针对四种不同的被观察对象(Observable ObservableList ObservableMap LiveData)，分别有四种不同的 CREATE_XXXX_LISTENER 负责对应的监听，下面我们以 CREATE_LIVE_DATA_LISTENER 为例，进行分析
+
+```java
+    private static final CreateWeakListener CREATE_LIVE_DATA_LISTENER = new CreateWeakListener() {
+        @Override
+        public WeakListener create(
+                ViewDataBinding viewDataBinding,
+                int localFieldId,
+                ReferenceQueue<ViewDataBinding> referenceQueue
+        ) {
+            return new LiveDataListener(viewDataBinding, localFieldId, referenceQueue)
+                    .getListener();
+        }
+    };
+```
+
+```java
+    private static class LiveDataListener implements Observer,
+            ObservableReference<LiveData<?>> {
+        final WeakListener<LiveData<?>> mListener;
+        @Nullable
+        WeakReference<LifecycleOwner> mLifecycleOwnerRef = null;
+
+        public LiveDataListener(
+                ViewDataBinding binder,
+                int localFieldId,
+                ReferenceQueue<ViewDataBinding> referenceQueue
+        ) {
+            mListener = new WeakListener(binder, localFieldId, this, referenceQueue);
+        }
+
+        @Nullable
+        private LifecycleOwner getLifecycleOwner() {
+            WeakReference<LifecycleOwner> ownerRef = this.mLifecycleOwnerRef;
+            if (ownerRef == null) {
+                return null;
+            }
+            return ownerRef.get();
+        }
+
+        @Override
+        public void setLifecycleOwner(@Nullable LifecycleOwner lifecycleOwner) {
+            LifecycleOwner previousOwner = getLifecycleOwner();
+            LifecycleOwner newOwner = lifecycleOwner;
+            LiveData<?> liveData = mListener.getTarget();
+            if (liveData != null) {
+                if (previousOwner != null) {
+                    liveData.removeObserver(this);
+                }
+                if (newOwner != null) {
+                    liveData.observe(newOwner, this);
+                }
+            }
+            if (newOwner != null) {
+                mLifecycleOwnerRef = new WeakReference<LifecycleOwner>(newOwner);
+            }
+        }
+
+        @Override
+        public WeakListener<LiveData<?>> getListener() {
+            return mListener;
+        }
+
+        @Override
+        public void addListener(LiveData<?> target) {
+            LifecycleOwner lifecycleOwner = getLifecycleOwner();
+            if (lifecycleOwner != null) {
+                target.observe(lifecycleOwner, this);
+            }
+        }
+
+        @Override
+        public void removeListener(LiveData<?> target) {
+            target.removeObserver(this);
+        }
+
+        @Override
+        public void onChanged(@Nullable Object o) {
+            ViewDataBinding binder = mListener.getBinder();
+            if (binder != null) {
+                binder.handleFieldChange(mListener.mLocalFieldId, mListener.getTarget(), 0);
+            }
+        }
+    }
+```
+
+分析：
+
+通过 target.observer 监听数据变化，当 onChanged 获取到数据变化之后再通知给 ViewDataBinding.handleFieldChange 字段发生改变 ，接下来查看 handleFiledChnage 方法
+
+```java
+    protected void handleFieldChange(int mLocalFieldId, Object object, int fieldId) {
+        if (mInLiveDataRegisterObserver || mInStateFlowRegisterObserver) {
+            return;
+        }
+        boolean result = onFieldChange(mLocalFieldId, object, fieldId);
+        if (result) {
+            requestRebind();
+        }
+    }
+
+    @Override
+    protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
+        switch (localFieldId) {
+            case 0 :
+                return onChangeViewModelTextObservable((androidx.databinding.ObservableField<java.lang.String>) object, fieldId);
+            case 1 :
+                return onChangeViewModelTextLiveData((androidx.lifecycle.MutableLiveData<java.lang.String>) object, fieldId);
+            case 2 :
+                return onChangeTextObservable((androidx.databinding.ObservableField<java.lang.String>) object, fieldId);
+            case 3 :
+                return onChangeTextLiveData((androidx.lifecycle.MutableLiveData<java.lang.String>) object, fieldId);
+        }
+        return false;
+    }
+
+
+    private boolean onChangeTextLiveData(androidx.lifecycle.MutableLiveData<java.lang.String> TextLiveData, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x8L;
+            }
+            return true;
+        }
+        return false;
+    }
+```
+分析：
+
+handleFieldChange 先调用 onFieldChange 再调用 onChangeTextLiveData 将 mDirtyFlags 中对应的 bit 位 置为已改变，然后调用 requestRebind 通知界面数据改变。requestRebind 上面已经做了分析，就不做重复分析了
 
