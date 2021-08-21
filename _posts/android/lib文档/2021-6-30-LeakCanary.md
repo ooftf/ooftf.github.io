@@ -19,7 +19,23 @@ dependencies {
 ## LeakCanary 有哪些功能
 * 检查 Activity 、Fragment 、 Fragment 的 view、ViewModel 、Dialog 的 RootView、 Service 的内存泄漏问题
 * com.squareup.leakcanary:plumber-android:2.7 这个库修复了一些系统内存泄漏问题
+* AndroidLeakFixes 这个类是 plumber 修复的一些问题
 
+## 系统级内存泄漏
+* MediaSessionLegacyHelper
+* TextLine
+* UserManager
+* HandlerThread
+* AccessibilityNodeInfo
+* ConnectivityManager
+* ClipboardUIManager
+* EditText
+* TextView
+* ActivityManager
+* ViewLocationHolder
+* InputMethodManager
+* ViewRootImpl
+* TextView
 ## LeakCanary 是如何做到初始化不用编写代码
 
 LeakCanary 添加了一个名字叫做 AppWatcherInstaller 的 ContentProvider，由于 ContentProvider 在App 启动的时候会被调用 onCreate 方法，所以在 AppWatcherInstaller.onCreate 做了 LeakCanary 的初始化工作
@@ -601,4 +617,6 @@ internal class ViewModelClearedWatcher(
     }
   }
 ```
+
+
 

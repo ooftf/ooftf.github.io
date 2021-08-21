@@ -119,3 +119,8 @@ PSS值可以通过Debug.MemoryInfo看到
     android:largeHeap="true">
 </application>
 ```
+
+### 未关闭、释放的资源
+
+FileOutputStream 未 close
+
