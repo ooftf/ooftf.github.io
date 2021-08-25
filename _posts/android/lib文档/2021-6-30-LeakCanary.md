@@ -36,6 +36,8 @@ dependencies {
 * InputMethodManager
 * ViewRootImpl
 * TextView
+
+
 ## LeakCanary 是如何做到初始化不用编写代码
 
 LeakCanary 添加了一个名字叫做 AppWatcherInstaller 的 ContentProvider，由于 ContentProvider 在App 启动的时候会被调用 onCreate 方法，所以在 AppWatcherInstaller.onCreate 做了 LeakCanary 的初始化工作

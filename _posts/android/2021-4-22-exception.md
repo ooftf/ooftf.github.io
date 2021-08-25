@@ -106,3 +106,14 @@ Querying the mapped value of property(org.gradle.api.file.RegularFile, property(
 解决方案：
 
 修改 gradle 为 7 一下就可以
+
+
+## reportSizeConfigurations: ActivityRecord not found for: Token{757a5d3 null}
+
+[bugly 地址](https://bugly.qq.com/v2/crash-reporting/crashes/b26659df48/266312?pid=1)
+
+[stackoverflow 相关讨论](https://stackoverflow.com/questions/46309428/android-activitythread-reportsizeconfigurations-causes-app-to-freeze-with-black)
+
+[可能有用的解决方案](https://my.oschina.net/dtqq/blog/4512858)
+
+[google 问题讨论](https://issuetracker.google.com/issues/62427912)
