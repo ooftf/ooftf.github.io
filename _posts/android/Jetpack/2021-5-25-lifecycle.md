@@ -228,14 +228,14 @@ OnLifecycleEvent 已经标记为 Deprecated，官方解释：应避免使用生�
         if (klass.getCanonicalName() == null) {
             return REFLECTIVE_CALLBACK;
         }
-
+        // 获取 Observer 对应的 Adapter 的构造方法，如果获取到的构造方法不为 null 表示存在生成代码 adapter ，返回 GENERATED_CALLBACK
         Constructor<? extends GeneratedAdapter> constructor = generatedConstructor(klass);
         if (constructor != null) {
             sClassToAdapters.put(klass, Collections
                     .<Constructor<? extends GeneratedAdapter>>singletonList(constructor));
             return GENERATED_CALLBACK;
         }
-
+        // 下面的逻辑是处理反射这种情况的
         @SuppressWarnings("deprecation")
         boolean hasLifecycleMethods = ClassesInfoCache.sInstance.hasLifecycleMethods(klass);
         if (hasLifecycleMethods) {
