@@ -149,6 +149,8 @@ ProcessLifecycle 使用的是 startup 方式 进行初始化所以不需要编�
 ```
 在 ProcessLifecycle 中 onStart 和 onResume 相同，onStop 和 onPause 相同
 
+## lifecycle 是如何感知组件的声明周期的
+TODO
 ## 为什么使用 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)  就可以监听到生命周期⌚️
 
 OnLifecycleEvent 已经标记为 Deprecated，官方解释：应避免使用生成代码或者反射，推荐使用 DefaultLifecycleObserver 或者 LifecycleEventObserver
