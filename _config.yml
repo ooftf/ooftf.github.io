@@ -1,10 +1,10 @@
 # Site settings
-title: ooftf Blog
-SEOTitle: ooftf的博客 | ooftf Blog
+title: OOFTF Blog
+SEOTitle: OOFTF 的博客 | OOFTF Blog
 header-img: img/home_banner.jpg
 email: 994749769@qq.com
-description: "ooftf Android 开发 | 李航的微博。"
-keyword: "ooftf Blog, 博客, 个人网站, 互联网, Web, JavaScript, Android"
+description: "OOFTF Android 开发 | 李航的微博。"
+keyword: "OOFTF Blog, 博客, 个人网站, 互联网, Web, JavaScript, Android"
 url: "https://ooftf.github.io"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 defaults:
