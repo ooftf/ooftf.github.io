@@ -33,6 +33,8 @@ dependencies {
 
         // optional - Test helpers for LiveData
         testImplementation "androidx.arch.core:core-testing:$arch_version"
+
+
     }
 ```
 ## 自定义 LifecycleOwner
@@ -149,6 +151,101 @@ ProcessLifecycle 使用的是 startup 方式 进行初始化所以不需要编�
 ```
 在 ProcessLifecycle 中 onStart 和 onResume 相同，onStop 和 onPause 相同
 
+## lifecycle 是如何感知组件的声明周期的
+```java
+    // 在基础类 ComponentActivity 调用 ReportFragment.injectIfNeededIn(this); 监听生命名周期
+    @SuppressLint("RestrictedApi")
+    @Override
+    protected void ComponentActivity.onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ReportFragment.injectIfNeededIn(this);
+    }
+
+
+    public static void ReportFragment.injectIfNeededIn(Activity activity) {
+        if (Build.VERSION.SDK_INT >= 29) {
+            // 如果构建版本大于等于 29 采用新api Activity.registerActivityLifecycleCallbacks 的方式监听 activity 的生命周期
+            LifecycleCallbacks.registerIn(activity);
+        }
+        // 先检查是否已经添加了 ReportFragment，如果没有添加那么向 activity 内添加 ReportFragment
+
+        if (manager.findFragmentByTag(REPORT_FRAGMENT_TAG) == null) {
+            manager.beginTransaction().add(new ReportFragment(), REPORT_FRAGMENT_TAG).commit();
+            // Hopefully, we are the first to make a transaction.
+            manager.executePendingTransactions();
+        }
+    }
+
+    // 在默认情况下（没有使用参数控制 Fragment 的声明周期），
+    //Activity 内 Fragment 的生命周期和 Activyt 的生命周期是同步的，
+    //因此在 ReportFragment 内监听 ReportFragment 的生命周期就可以间接监听所在 Actvity 的生命周期
+
+
+    @Override
+    public void ReportFragment.onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        dispatch(Lifecycle.Event.ON_CREATE);
+    }
+
+    @Override
+    public void ReportFragment.onStart() {
+        super.onStart();
+        dispatch(Lifecycle.Event.ON_START);
+    }
+
+    @Override
+    public void ReportFragment.onResume() {
+        super.onResume();
+        dispatch(Lifecycle.Event.ON_RESUME);
+    }
+
+    @Override
+    public void ReportFragment.onPause() {
+        super.onPause();
+        dispatch(Lifecycle.Event.ON_PAUSE);
+    }
+
+    @Override
+    public void ReportFragment.onStop() {
+        super.onStop();
+        dispatch(Lifecycle.Event.ON_STOP);
+    }
+
+    @Override
+    public void ReportFragment.onDestroy() {
+        super.onDestroy();
+        dispatch(Lifecycle.Event.ON_DESTROY);
+    }
+
+    private void ReportFragment.dispatch(@NonNull Lifecycle.Event event) {
+        if (Build.VERSION.SDK_INT < 29) {
+            // 上面已经解释过了当面 sdk 版本大于等于29的时候，采用是 
+            // Activity.registerActivityLifecycleCallbacks 的方式获取生命周期，
+            // 因此只有在 29 版本之前才调用 dispatch 通知
+            dispatch(getActivity(), event);
+        }
+    }
+
+    // 调用 LifecycleRegistry.handleLifecycleEvent 处理生命周期 
+    static void ReportFragment.dispatch(@NonNull Activity activity, @NonNull Lifecycle.Event event) {
+        if (activity instanceof LifecycleRegistryOwner) {
+            ((LifecycleRegistryOwner) activity).getLifecycle().handleLifecycleEvent(event);
+            return;
+        }
+
+        if (activity instanceof LifecycleOwner) {
+            Lifecycle lifecycle = ((LifecycleOwner) activity).getLifecycle();
+            if (lifecycle instanceof LifecycleRegistry) {
+                ((LifecycleRegistry) lifecycle).handleLifecycleEvent(event);
+            }
+        }
+    }
+
+    public void LifecycleRegistry.handleLifecycleEvent(@NonNull Lifecycle.Event event) {
+        moveToState(event.getTargetState());
+    }    
+
+```
 ## 为什么使用 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)  就可以监听到生命周期⌚️
 
 OnLifecycleEvent 已经标记为 Deprecated，官方解释：应避免使用生成代码或者反射，推荐使用 DefaultLifecycleObserver 或者 LifecycleEventObserver
