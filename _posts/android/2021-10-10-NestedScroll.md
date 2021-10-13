@@ -1,6 +1,14 @@
-NesedScroll 和 传统触摸事件分发处理有什么优势？
+## NesedScroll 和 传统触摸事件分发处理有什么优势？
 * 对滑动方向、fling、滑动距离、做了封装，处理起来更加方便。每个方法都有明确的意义
 * 传统事件分发，在处理 “一个触摸循环” 两个控件分别处理一部分事件时，非常难处理。而 NestedScroll 比较好处理。
+
+## 方法交互流程图
+
+![交互流程](https://raw.githubusercontent.com/ooftf/Material/master/img/blog/20211013211012.png)
+
+## 文章推荐
+* [Android NestedScrolling全面解析](https://www.jianshu.com/p/f09762df81a5)
+## NestedScrollingParent
 ```java
    /**
      * 有嵌套滑动到来了，判断父控件是否接受嵌套滑动
@@ -102,7 +110,7 @@ NesedScroll 和 传统触摸事件分发处理有什么优势？
 
 ```
 
-## 三个基本不用重写的方法
+### 三个基本不用重写的方法
 
 * getNestedScrollAxes
 * onStopNestedScroll
@@ -110,3 +118,15 @@ NesedScroll 和 传统触摸事件分发处理有什么优势？
 
 这三个方法如果没有需要，可以不重写，因为 ViewGroup 已经编写了部分逻辑：主要是用于判断当前控件正在向哪个方向滚动，具体逻辑为：
 onNestedScrollAccepted 记录滚动方向，onStopNestedScroll 重置为无方向，getNestedScrollAxes 获取当前滚动方向。
+
+## NestedScrollingChild
+### 相关方法
+* dispatchNestedPreFling
+* dispatchNestedFling
+* dispatchNestedPreScroll
+* dispatchNestedScroll
+* hasNestedScrollingParent
+* stopNestedScroll
+* startNestedScroll
+* isNestedScrollingEnabled
+* setNestedScrollingEnabled
