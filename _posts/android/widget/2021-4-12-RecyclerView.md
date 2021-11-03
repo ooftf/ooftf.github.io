@@ -491,3 +491,18 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ## 自定义 LayoutManager
 
 [自定义 LayoutManager](https://blog.csdn.net/u011387817/article/details/81875021)
+
+
+## 瀑布流加载网络图片的问题
+
+```kotlin
+        // 位置计算问题
+        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+
+        recyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                layoutManager.invalidateSpanAssignments() //防止第一行到顶部有空白区域
+            }
+        })
+```
