@@ -496,7 +496,7 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ## 瀑布流加载网络图片的问题
 
 ```kotlin
-        // 位置计算问题
+        //  item 大小计算错误问题
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
 
         recyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
@@ -506,3 +506,19 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
             }
         })
 ```
+
+
+## 粘性布局的实现方案
+### 完全手动实现
+在布局中添加一份 sticky 的拷贝布局，两个布局应该一样，监听布局的滑动，如果 sticky 还能完全显示。则不显示 sticky-copy，如果 sticky 开始被头部遮挡，那么 显示 sticky-copy。
+### 使用约束布局
+
+这个只要熟悉约束布局的性质就可以了。 利用  AppbarLayout 的 ScrollFlag 实现粘性布局
+
+### 借助 RecyclerView  的 ItemDecoration 实现
+
+需要熟悉自定义 ItemDecoration 的流程。有相关的库可以使用
+### 自定 RecyclerView 的 LayoutManager ，比如  vLayout
+
+实现起来可能会比较复杂，可以直接使用 vLayout。
+
