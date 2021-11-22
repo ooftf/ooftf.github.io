@@ -509,16 +509,35 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 
 
 ## 粘性布局的实现方案
-### 完全手动实现
+### 1. 完全手动实现
 在布局中添加一份 sticky 的拷贝布局，两个布局应该一样，监听布局的滑动，如果 sticky 还能完全显示。则不显示 sticky-copy，如果 sticky 开始被头部遮挡，那么 显示 sticky-copy。
-### 使用约束布局
+### 2. 使用协调布局
 
-这个只要熟悉约束布局的性质就可以了。 利用  AppbarLayout 的 ScrollFlag 实现粘性布局
+这个只要熟悉协调布局的性质就可以了。 利用  AppbarLayout 的 ScrollFlag 实现粘性布局
 
-### 借助 RecyclerView  的 ItemDecoration 实现
+### 3. 借助 RecyclerView  的 ItemDecoration 实现
 
-需要熟悉自定义 ItemDecoration 的流程。有相关的库可以使用
-### 自定 RecyclerView 的 LayoutManager ，比如  vLayout
+需要熟悉自定义 ItemDecoration 的流程。有相关的库可以使用,这种实现是将 sticky 进行“截图”挂在 ItemDecoration
+### 4. 自定 RecyclerView 的 LayoutManager ，比如  vLayout
 
 实现起来可能会比较复杂，可以直接使用 vLayout。
+
+### 5. 添加悬浮层
+在 recyclerView 上面覆盖一层 layout ，RecyclerView 中添加的是一个空白 View 真正的 View 添加到覆盖层，将两个 View 大小设置相同，通过监听 RecyclerView 的滚动，获取 空白 View 的位置，然后设置 真正 View 的位置；
+
+## 混排布局实现
+所谓的混排布局就是：有的每行有两个 item ， 有的每行有 一个 item ，总之就是每行 item 个数不同
+1. 如果 item 高度相同，可以使用 GridLayoutManager.setSpanSizeLookup 动态设置 item 所占 span 的大小
+2. 如果 item 高度不同，也是瀑布流的方式，可以使用  StaggeredGridLayoutManager 然后重写 adapter 的 onViewAttachedToWindow
+
+```kotlin
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        val lp = holder.itemView.layoutParams
+        if (lp is StaggeredGridLayoutManager.LayoutParams) {
+            lp.isFullSpan = true // 每行一个 item  false：每行多个 item
+        }
+    }
+```
+这种方式只能设置每行，1 个或者 n 个，并不能设置中间值。
 
