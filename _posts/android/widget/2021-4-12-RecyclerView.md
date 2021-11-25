@@ -541,3 +541,24 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 ```
 这种方式只能设置每行，1 个或者 n 个，并不能设置中间值。
 
+
+## RecyelrView 嵌套 RecyclerView ，内层 RecyclerView 不可滑动问题
+
+
+## !recyclerView.canScrollVertically(1)  =  RecyclerView 是否滑动到底部
+## !recyclerView.canScrollVertically(-1)  =  RecyclerView 是否滑动到顶部
+
+
+## 滚动相关的方法
+
+computeVerticalScrollOffset()：
+
+已经向下滚动的距离，为0时表示已处于顶部。
+
+computeVerticalScrollRange()：
+
+整体的高度，注意是整体，包括在显示区域之外的。
+
+computeVerticalScrollExtent()：
+
+显示区域的高度。
