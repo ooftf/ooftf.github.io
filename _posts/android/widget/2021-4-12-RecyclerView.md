@@ -562,3 +562,7 @@ computeVerticalScrollRange()：
 computeVerticalScrollExtent()：
 
 显示区域的高度。
+
+scrollBy 方法可以滚动 RecyclerView ，scrollTo 不能滚动 RecyclerView
+
+fling 滚动可以直接调用 RecyclerView.fling 方法；
