@@ -544,9 +544,20 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 
 ## RecyelrView 嵌套 RecyclerView ，内层 RecyclerView 不可滑动问题
 
+可以使用 NestScroll 机制解决这个滑动冲突问题，具体解决方案可以参考我的项目[github 项目](https://github.com/ooftf/layout-chain) 中的 demo3
 
-## !recyclerView.canScrollVertically(1)  =  RecyclerView 是否滑动到底部
-## !recyclerView.canScrollVertically(-1)  =  RecyclerView 是否滑动到顶部
+
+## RecyclerView 边界判断
+
+```java
+//RecyclerView 是否滑动到底部
+!recyclerView.canScrollVertically(1)  
+
+//RecyclerView 是否滑动到顶部 
+!recyclerView.canScrollVertically(-1)
+
+```
+
 
 
 ## 滚动相关的方法
