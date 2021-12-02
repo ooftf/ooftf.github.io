@@ -33,4 +33,5 @@ jobs:
           dst_key: ${{ secrets.GITEE }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
           static_list: ooftf.github.io # 默认同步全部库，可是使用 static_list 只同步指定库
+          mappings: ooftf.github.io=>ooftf
 
