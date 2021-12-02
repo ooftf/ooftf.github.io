@@ -385,6 +385,9 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 * mCachedViews 和 RecycledViewPool 不同的是 mCachedViews 还保留了位置信息，可以通过相同的 position 复用但是要重新 bind ,RecycledViewPool 已经变为一个"空白"ViewHodler
 * mAttachedScrap 和 mCachedViews 的区别是 mAttachedScrap 获取到的 ViewHolder 不需要重新 bind；
 * mChangedScrap 和 mAttachedScrap 的区别是  mChangedScrap 需要重新 bindview ;mAttachedScrap 不需要重新bind
+* layout 最终是 调用的 LayoutManager.layoutDecorated 方法进行 layout
+
+
 
 ### 实战探索
 #### LinearLayoutManager & wrap_content
@@ -579,3 +582,7 @@ scrollBy 方法可以滚动 RecyclerView ，scrollTo 不能滚动 RecyclerView
 fling 滚动可以直接调用 RecyclerView.fling 方法；
 
 ## 监听 item 可见 和 不可见
+
+如果已经确定 RecyclerView 是全部可见的，可以通过监听 Adapter 的 onViewAttachedToWindow 和 onViewDetachedFromWindow 来监听 View 的可见和不可见。因为，及时 ReyclerView 会预加载 item ，但是也仅仅只是调用 onBindViewHolder 预创建，但是attched 到RecyclerView 上面；
+
+但是如果 RecyclerView 外面还嵌套的一层滑动控件，也就是说 RecyclerView 本身有可能只是部分可见，那么上述方法，拿到的是 RecyclewrView 全部可见情况下的结果，具体解决方案可以参考 [github 项目](https://github.com/ooftf/layout-chain) 中的 demo3
