@@ -15,3 +15,5 @@
 * [阿里云图床](https://blog.csdn.net/tianyucxh/article/details/105350761)
 
 * [github 自动同步 gitee 方案](https://github.com/Yikun/hub-mirror-action)
+
+* gitee pages 无法像 github pages 自动更新，需要手动触发
