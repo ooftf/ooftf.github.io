@@ -1,8 +1,8 @@
 ## 网页访问地址
 
-* [github-pages](https://ooftf.github.io)
+* [github pages](https://ooftf.github.io)
 
-* [gitee-pages](http://ooftf.gitee.io)
+* [gitee pages](http://ooftf.gitee.io) 因为 gitee pages 无法自动更新，所以内容可能会延迟
 
 ## 搭建方案
 
