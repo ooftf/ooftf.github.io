@@ -419,6 +419,8 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 * 使用 DiffUtil 优化更新
 * 使用 DataBinding 可以在不使用 adapter.nofity 的情况下改变 ItemView 的子 View 的内容
 * RecyclerView 尽可能使用精确大小比如 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
+* Stable Ids
+* Prefetch 优化; // 默认是开启的  [Prefetch](https://blog.csdn.net/crazy_everyday_xrp/article/details/70344638)
 
 
 ## ViewHolder 的 FLAG  

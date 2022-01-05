@@ -35,6 +35,14 @@
 * 查看各个类的实例对象个数以及具体内容
 * 查看垃圾回收触发时间
 
+新版本dump内存的时候会有三个选项
+1. Capture heap dump
+2. Record native allocations
+3. Record Java/Kotlin allocations
+
+第三个和第一个相比，第三个无法查看类的引用关系，比如查看内存泄漏的时候，如果使用第三个选项只能查看当前类的对象在增长无法查看是哪个类在持有这个对象。这个时候就需要使用第一个选项来 dump 内存。也只有在第一个模式下才会有 Activity 泄漏警告
+
+
 ![MEMORY_LIST](https://raw.githubusercontent.com/ooftf/Material/master/img/blogprofiler_memory_first.png)
 * 蓝色区域为手动触发GC按钮
 * 绿色区域为内存占用图示
