@@ -6,6 +6,11 @@ title: RemoteView
 ---
 
 # RemoteView
+
+RemoteViews 并不是一个真正的 View 而是将一些常用的 View 操作通过跨进程封装，实现了远程控制 View。
+
+RemoteViews 并不是真的将一个进程的 View 传递给另一个进程。而是在“远端”进程创建 View，本地进程通过 RemoteViews 控制“远端” View。
+
 ## 用途
     在其它进程中显示并更新View
     主要用在通知栏和桌面小部件的开发过程中

@@ -416,13 +416,16 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 * 如果是多列布局比如 GridLayoutManager 可以设置最大缓存个数避免滑动过程中调用 onCreateViewHolder 
   - recyclerView.recycledViewPool.setMaxRecycledViews()  设置 RecyclerViewPool 指定ViewType 大小
   - recyclerView.setItemViewCacheSize 设置 mCachedViews 大小
+
 * 使用 DiffUtil 优化更新
 * 使用 DataBinding 可以在不使用 adapter.nofity 的情况下改变 ItemView 的子 View 的内容
-* RecyclerView 尽可能使用精确大小比如 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
+* RecyclerView 尽可能使用精确大小比或者 match_parent 而不是 wrap_content 可见减少 LayoutManager.onLayoutChildren 的调用次数
 * Stable Ids
 * Prefetch 优化; // 默认是开启的  [Prefetch](https://blog.csdn.net/crazy_everyday_xrp/article/details/70344638)
 
+recyclerView.setItemViewCacheSize 设置的是当 item 滚出屏幕后，保留的 item 个数，当有小于 CacheSize item 滚出RecyclerView 再滚回屏幕时，是不会再次 调用 onCreateViewHolder 和 onBIndViewHolder  的
 
+recyclerView.recycledViewPool.setMaxRecycledViews()  设置的是当 item 被回收后不被弃用的缓存大小， 当值为1是，设置合适值可以减少 onCreateViewHolder 调用次数，但不能减少 onBindViewHolder 的调用次数。
 ## ViewHolder 的 FLAG  
 有助于理解 ViewHolder 的状态，不是很重要
 ```java
@@ -616,3 +619,4 @@ fling 滚动可以直接调用 RecyclerView.fling 方法；
 如果已经确定 RecyclerView 是全部可见的，可以通过监听 Adapter 的 onViewAttachedToWindow 和 onViewDetachedFromWindow 来监听 View 的可见和不可见。因为，及时 ReyclerView 会预加载 item ，但是也仅仅只是调用 onBindViewHolder 预创建，但是attched 到RecyclerView 上面；
 
 但是如果 RecyclerView 外面还嵌套的一层滑动控件，也就是说 RecyclerView 本身有可能只是部分可见，那么上述方法，拿到的是 RecyclewrView 全部可见情况下的结果，具体解决方案可以参考 [github 项目](https://github.com/ooftf/layout-chain) 中的 demo3
+
