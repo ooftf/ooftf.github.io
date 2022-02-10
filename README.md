@@ -17,3 +17,5 @@
 * [github 自动同步 gitee 方案](https://github.com/Yikun/hub-mirror-action)
 
 * gitee pages 无法像 github pages 自动更新，需要手动触发
+
+## 欢迎大家指正和完善文章中的内容
