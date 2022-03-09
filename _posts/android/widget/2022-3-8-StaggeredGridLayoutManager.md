@@ -2,6 +2,7 @@
 layout: post
 author: "ooftf"
 tags: Android
+title: StaggeredGridLayoutManager
 top: true
 ---
 
