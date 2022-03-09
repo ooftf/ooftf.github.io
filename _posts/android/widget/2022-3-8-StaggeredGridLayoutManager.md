@@ -8,14 +8,14 @@ top: true
 
 # StaggeredGridLayoutManager 瀑布流头部空白和 item 漂移问题
 
-## 什么情况下会出现移位问题
+## 什么情况下会出现漂移问题
 
 ![](https://ooftf-blog-image.oss-cn-beijing.aliyuncs.com/img/1.png)
 
 
-如果当前布局情况如图所示左上角出现了一片空白区域，StaggeredGridLayoutManager  会根据当前的 GapStrategy 采取不同的处理
+如果当前布局情况如图所示左上角出现了一片空白区域，StaggeredGridLayoutManager  会根据当前的 GapStrategy 采取不同的方式调整布局，就会出现漂移
 
-1. GapStrategy 默认为 GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS   这种情况在 RecyclerView 滚动状态变为 SCROLL_STATE_IDLE 也就是不滚动状态时，会检查是否有空白如果有空白就会对布局通过动画进行调整
+1. GapStrategy 默认为 GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS   这种情况在 RecyclerView 滚动状态变为 SCROLL_STATE_IDLE 也就是不滚动状态时，会检查是否有空白如果有空白就会对布局通过动画进行调整，出现漂移
 2. GapStrategy 设置为 GAP_HANDLING_NONE 时，StaggeredGridLayoutManager 不会自动调整布局。如果想要触发调整布局需要主动调用 StaggeredGridLayoutManager.invalidateSpanAssignments 这时候就会导致 item 出现位移
 
 
