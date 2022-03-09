@@ -64,7 +64,7 @@ recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 * 第二种配置：偏移发生在 onScrollStateChanged ，漂移时没有动画。
 
 #### 第二点不同
-* 第一种配置，如果 item 大小不会发生改变是不会出现漂移现象的。
-* 第二种配置，在 item 大小不会发生改变的情况下也会出现漂移现象，具体原因可参考第三张图。
+* 第一种配置，如果 item 大小不发生改变是不会出现漂移现象的。
+* 第二种配置，在 item 大小不发生改变的情况下也会出现漂移现象，具体原因可参考第三张图。
 
 因为第一种配置在 滚动状态变为 SCROLL_STATE_IDLE 时会先调用 StaggeredGridLayoutManager.hasGapsToFix 检查是否需要重新布局，StaggeredGridLayoutManager.hasGapsToFix 的大概逻辑是判断 nextChild 的 top 要大于 child top，否则就有可能 hasGaps （当然还有一些其他的判断，比如是否 fullSpan、是否是从上到下布局，暂时就不做详细解析了，有兴趣的可以直接查看源码）。在 hasGapsToFix 返回为 false 的情况下是不会触发重布局的。而第二种配置，会直接调用重布局即使 item 大小没有发生变化。
