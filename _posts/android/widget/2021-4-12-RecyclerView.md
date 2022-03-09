@@ -501,49 +501,8 @@ static final int FLAG_APPEARED_IN_PRE_LAYOUT = 1 << 12;
 [自定义 LayoutManager](https://blog.csdn.net/u011387817/article/details/81875021)
 
 
-## 瀑布流加载网络图片的问题
-
-StaggeredGridLayoutManager.setGapStrategy()
-
-瀑布流布局可能会有一些“间隙”，可以通过这个方法设置“间隙”的处理方法，这个方法有两个参数可以选择
-
-* GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-* GAP_HANDLING_NONE
-
-GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS：当滑动空闲时，也就是 SCROLL_STATE_IDLE 这个状态下，会去检查 item 之间有没有间隙，如果有就调整 item 的位置，并使用动画的过度效果。
-
-GAP_HANDLING_NONE：不去处理这个间隙
-
-那么这个间隙具体是什么呢？如图所示，右上角空白处就是“间隙”
-
-![](https://ooftf-blog-image.oss-cn-beijing.aliyuncs.com/img/20211203113751.png)
-
-可以使用
-
-layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE)
-
-配合
-
-layoutManager.invalidateSpanAssignments()
-
-解决上述问题：
-
-
-```kotlin
-        //  item 大小计算错误问题
-        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-
-        recyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                layoutManager.invalidateSpanAssignments() //防止第一行到顶部有空白区域
-            }
-        })
-```
-
-虽然，跳动的情况好了一些，还是不理想，而且还会出现另一个问题，就是滑动到顶部会发现，顶部的 item 会有偏移的情况，然后拉到顶，就会刷新一下，调换位置了。。。。。
-
-解决思路：获取到图片列表之后，先下载图片，测量出宽高比，再将列表数据设置到 Adapter 列表中；
+## 瀑布流加载网络图片出现头部空白、item 漂移现象
+具体原因和解决办法可以参考我的另一篇文章 StaggeredGridLayoutManager
 ## 粘性布局的实现方案
 ### 1. 完全手动实现
 在布局中添加一份 sticky 的拷贝布局，两个布局应该一样，监听布局的滑动，如果 sticky 还能完全显示。则不显示 sticky-copy，如果 sticky 开始被头部遮挡，那么 显示 sticky-copy。
