@@ -117,3 +117,11 @@ Querying the mapped value of property(org.gradle.api.file.RegularFile, property(
 [可能有用的解决方案](https://my.oschina.net/dtqq/blog/4512858)
 
 [google 问题讨论](https://issuetracker.google.com/issues/62427912)
+
+
+## Explicit termination method 'destroy' not called
+```
+java.lang.Throwable: Explicit termination method 'destroy' not called
+	at dalvik.system.CloseGuard.open(CloseGuard.java:237)
+```
+这个错误长发生在 io 流没有 close，有些对象没有 destroy 之类的关闭操作。这些关闭动作需要放到 fianlly 才比较安全。
