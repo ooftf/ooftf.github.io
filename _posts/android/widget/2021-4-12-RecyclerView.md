@@ -11,6 +11,9 @@ tags: Android
 - 解决方案一： ScrollView的子viewGroup中增加android:descendantFocusability="blocksDescendants" 属性
 - 解决方案二： ScrollView的直接子view 上添加focusableInTouchMode=true
 
+### reyclerView 嵌套 recyhclerView 自动滚动
+[解决方案](https://blog.csdn.net/weixin_34020067/article/details/112833062)
+
 ### ScrollView 嵌套RecyclerView + GridLayoutManager 只显示一行或者不显示，需要滑动RecyclerView
 解决方案：将 ScrollView 替换为 NestScrollView
 ### RecyclerView 中EditText singleLine模式下，作为最后一个Item，输入换行崩溃，某些机型（华为）
