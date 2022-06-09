@@ -12,7 +12,7 @@ tags: Android
 - 解决方案二： ScrollView的直接子view 上添加focusableInTouchMode=true
 
 ### reyclerView 嵌套 recyhclerView 自动滚动
-[解决方案](https://blog.csdn.net/weixin_34020067/article/details/112833062)
+[解决方案](https://blog.csdn.net/u013270444/article/details/108522569)
 
 ### ScrollView 嵌套RecyclerView + GridLayoutManager 只显示一行或者不显示，需要滑动RecyclerView
 解决方案：将 ScrollView 替换为 NestScrollView
