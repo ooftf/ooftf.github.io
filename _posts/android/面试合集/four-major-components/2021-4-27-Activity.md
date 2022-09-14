@@ -567,7 +567,7 @@ startActivity(Intent(this,MainActivity2::class.java).apply {addFlags(Intent.FLAG
 ### Activity A跳转Activity B，再按返回键，生命周期执行的顺序
 当A跳转到B的时候
 
-A先执行onPause，然后居然是B再执行onCreate -> onStart -> onResume，最后才执行A的onStop
+A先执行onPause，然后居然是B再执行 onCreate -> onStart -> onResume，最后才执行A的onStop
 
 当B按下返回键
 

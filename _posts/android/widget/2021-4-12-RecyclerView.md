@@ -84,6 +84,7 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
 
 ## LinearSnapHelper、PagerSnapHelper
 ## DiffUtil
+[DiffUtil 官方指南](https://developer.android.google.cn/codelabs/kotlin-android-training-diffutil-databinding?hl=zh_cn#0)
 ```kotlin
    val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize(): Int {
@@ -93,11 +94,11 @@ java.lang.IllegalStateException: focus search returned a view that wasn't able t
             }
 
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                // 数据的ID是否相同
+                // 数据的ID是否相同，用于判断 item 的 添加删除移动。
             }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                // 数据的内容是否相同
+                // 影响界面展示的数据的内容是否相同，用于计算 item 视图更新
             }
 
         }, true)
@@ -581,4 +582,22 @@ fling 滚动可以直接调用 RecyclerView.fling 方法；
 如果已经确定 RecyclerView 是全部可见的，可以通过监听 Adapter 的 onViewAttachedToWindow 和 onViewDetachedFromWindow 来监听 View 的可见和不可见。因为，及时 ReyclerView 会预加载 item ，但是也仅仅只是调用 onBindViewHolder 预创建，但是attched 到RecyclerView 上面；
 
 但是如果 RecyclerView 外面还嵌套的一层滑动控件，也就是说 RecyclerView 本身有可能只是部分可见，那么上述方法，拿到的是 RecyclewrView 全部可见情况下的结果，具体解决方案可以参考 [github 项目](https://github.com/ooftf/layout-chain) 中的 demo3
+
+
+## ViewHolder.setIsRecyclable
+* 在滑动出屏幕时不会参与与原来位置不同的复用：例如 ViewHolder = 3，当滚动出屏幕后，当position = 4 需要 ViewHolder 时，原来 ViewHolder = 3 的这个不会参与服用，ViewHolder = 3 滚动回屏幕时，也不会调用 onBindViewHolder（待确认）？
+* 但是当 adapter.notifyDataSetChanged 的时候，这个ViewHolder 也不会参数复用，而是创建一个新的
+
+
+## recyclerView.smoothScrollToPosition(0)
+如果 item 的高度大于 RecyclerView，那么调用 recyclerView.smoothScrollToPosition(0) 不一定是回到顶部，分两种情况
+
+1. 已经在顶部：会滚动到 recyclerView底部和 item0 底部对齐的位置；
+2. 不在顶部：回滚动到顶部
+
+可以使用 canScrollVertically 线判断是否一定到顶部，在调用 smoothScrollToPosition
+
+## recyclerView.getChildCount()  layoutManager.getChildCount()
+
+这两个数值并不一定是想等的，比如在添加删除动化期间就有可能不同
 
