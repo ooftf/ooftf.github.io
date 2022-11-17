@@ -4,6 +4,9 @@ author: "ooftf"
 tags: Android
 ---
 
+
+* 滚动 RecyclerView item 不出屏幕不会触发 addOnLayoutChangeListener 和 getViewTreeObserver().addOnGlobalLayoutListener 事件
+* 滚动 RecyclerView item 出屏幕再回来会触发 addOnLayoutChangeListener 但是不会触发 getViewTreeObserver().addOnGlobalLayoutListener
 ### ScrollView嵌套RecyclerView自动滚动
 
 [相关文章](https://blog.csdn.net/beibaokongming/article/details/79581232)
@@ -381,6 +384,30 @@ RecycerView 中用来管理缓存的类是 Recycler ，缓存相关逻辑都在 
 * notifyDataSetChanged 会将所有 ViewHolder 通过 recycler.recycleViewHolderInternal 加入到 mCachedViews 和 RecycledViewPool 中
 * notifyItemRemoved 会将所有 ViewHolder 缓存到 mAttachedScrap 中
 * 查看 RecyclerViewDataObserver 可知事件变化监听都是通过调用 requestLayout 触发重新布局来实现的(也就是会触发 回收所有View 重新布局)，不同的是：不同的事件会将不同的 ViewHolder 置为不同的 FLAG 因此会添加到不同的缓存中
+
+##### nofityDataSetChange
+```log
+onBindViewHolder: AdapterPosition:0 ,OldPosition:-1 ,LayoutPosition:0 ,lastPosition:6
+onBindViewHolder: AdapterPosition:1 ,OldPosition:-1 ,LayoutPosition:1 ,lastPosition:7
+onBindViewHolder: AdapterPosition:2 ,OldPosition:-1 ,LayoutPosition:2 ,lastPosition:8
+onBindViewHolder: AdapterPosition:3 ,OldPosition:-1 ,LayoutPosition:3 ,lastPosition:9
+onBindViewHolder: AdapterPosition:4 ,OldPosition:-1 ,LayoutPosition:4 ,lastPosition:10
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:5 ,OldPosition:-1 ,LayoutPosition:5 ,lastPosition:null
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:6 ,OldPosition:-1 ,LayoutPosition:6 ,lastPosition:null
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:7 ,OldPosition:-1 ,LayoutPosition:7 ,lastPosition:null
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:8 ,OldPosition:-1 ,LayoutPosition:8 ,lastPosition:null
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:9 ,OldPosition:-1 ,LayoutPosition:9 ,lastPosition:null
+onCreateViewHolder: onCreateViewHolder
+onBindViewHolder: AdapterPosition:10 ,OldPosition:-1 ,LayoutPosition:10 ,lastPosition:null
+```
+从日志可以看出来，只有 5 个 ViewHolder 复用了其他都是重新创建的，而且5个ViewHolder 的位置也发生了变化。
+有5个服用是因为 RecyclerView.RecycledViewPool.DEFAULT_MAX_SCRAP = 5
+如果想改动可以使用 recyclerView.getRecycledViewPool().setMaxRecycledViews() 修改
 #### 相关知识点
 * 缓存 viewHolder 的入口为 LayoutManager.scrapOrRecycleView
 * 放入 mAttachedScrap 和 mAttachedScrap 时，移除View 的方式是 detachView；而放入 mCachedViews 和 RecycledViewPool 时，移除 View 的方式是 removeView
@@ -585,8 +612,9 @@ fling 滚动可以直接调用 RecyclerView.fling 方法；
 
 
 ## ViewHolder.setIsRecyclable
-* 在滑动出屏幕时不会参与与原来位置不同的复用：例如 ViewHolder = 3，当滚动出屏幕后，当position = 4 需要 ViewHolder 时，原来 ViewHolder = 3 的这个不会参与服用，ViewHolder = 3 滚动回屏幕时，也不会调用 onBindViewHolder（待确认）？
-* 但是当 adapter.notifyDataSetChanged 的时候，这个ViewHolder 也不会参数复用，而是创建一个新的
+* 如果设置为 false 在滑动出屏幕时不会参与与原来位置不同的复用：例如 ViewHolder = 3，当滚动出屏幕后，当position = 4 需要 ViewHolder 时，原来 ViewHolder = 3 的这个不会参与复用，
+* item 滚出屏幕再回到屏幕都会重新创建ViewHolder，因为一半不要设置成 false
+* 如果设置为 false 但是当 adapter.notifyDataSetChanged 的时候，这个ViewHolder 也不会参数复用，而是创建一个新的
 
 
 ## recyclerView.smoothScrollToPosition(0)
@@ -600,4 +628,12 @@ fling 滚动可以直接调用 RecyclerView.fling 方法；
 ## recyclerView.getChildCount()  layoutManager.getChildCount()
 
 这两个数值并不一定是想等的，比如在添加删除动化期间就有可能不同
+
+
+
+
+## 动画 
+
+* 原理详解 https://www.jianshu.com/p/65523b2ce15b
+* holder.setIsRecyclable(false) 再调用 notifyItemRemoved 会导致 item 重叠
 
